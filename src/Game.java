@@ -1,6 +1,6 @@
 
 public class Game {
     public static void main(String[] args) {
-        System.out.println("Hello.\nWelcome to the game.\n");
+        System.out.println("Hello. Welcome to the game.");
     }
 }
