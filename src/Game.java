@@ -5,5 +5,6 @@ public class Game {
         System.out.println("This is Grizzly survival.");
         System.out.println("It is a Zombie game.");
         System.out.println("This is for Software Development 1");
+        System.out.println("We hope you have a lot of fun playing!");
     }
 }
