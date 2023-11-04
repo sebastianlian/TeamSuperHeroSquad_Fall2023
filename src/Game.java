@@ -43,20 +43,29 @@ public class Game {
         for (Object item : items) {
             Map<Object, Object> mapping = (Map<Object, Object>)item;
 
-            int index = (int)mapping.get("index");
+         // Extract all fields for Item
+            int itemID = (int)mapping.get("id");
+            String itemName = (String)mapping.get("name");
+            String itemType = (String)mapping.get("type");
+            String itemEffect = (String)mapping.get("effect");
+            int quantity = (int)mapping.get("quantity");
+
             Item itemInstance = new Item(
-                    index,
-                    (String)mapping.get("name"),
-                    (String)mapping.get("description")
+            itemID,
+            itemName,
+            itemType,
+            itemEffect,
+            quantity
             );
 
-            itemIndex.put(index, itemInstance);
-        }
+            itemIndex.put(itemID, itemInstance);
+            }
 
-        return itemIndex;
-    }
+            return itemIndex;
+            }
 
-    public static HashMap<Room, int[]> parseRooms() throws Exception {
+
+public static HashMap<Room, int[]> parseRooms() throws Exception {
         // List of rooms.
         HashMap<Room, int[]> rooms = new HashMap<>();
 
