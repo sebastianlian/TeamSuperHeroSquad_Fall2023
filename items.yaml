@@ -36,19 +36,19 @@ items:
     number: 1
 
   - item id: 70
-    type: equipable
+    type: equippable
     name: Calculator
     description: A calculator that permanently adds 15 HP to your stats.
     number: 1
 
   - item id: 80
-    type: equipable
+    type: equippable
     name: Backpack
     description: A backpack that permanently adds 15 ATK to your stats.
     number: 1
 
   - item id: 90
-    type: equipable
+    type: equippable
     name: Laptop
     description: A laptop that permanently adds 15 ATK to your stats.
     number: 1
