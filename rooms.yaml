@@ -1,0 +1,134 @@
+rooms:
+  - number: 0
+    name: Bedroom
+    description: |
+      You are standing in the middle of the master bedroom, next to the bed.
+      The clock on the nightstand emits enough light to show the door in front of you.
+      You hear soft music coming from the partially shaded hallway.
+    outlets:
+      north: 1
+    items:
+      - 7
+
+  - number: 1
+    name: Hallway
+    description: >
+      You are entering the dimly lit hallway. To the north, a small lamp reveals a variety of books and stationery on the
+      desk and a bookcase behind it. You notice a soft melody that seems to be coming from this room.
+      To the east, the hallway opens up to a better-lit, open space. Strangely, you hear a soft, consistent tapping and smell
+      a mildly sweet aroma. To the south lies the master bedroom, a dark room with a big bed in the middle.
+      The only source of light is the clock on the nightstand. The thick curtains in the window are preventing any light
+      from coming inside. To the west, you observe a door to another bedroom illuminated by a large-screen TV. You are
+      surprised that there is no sound coming from it.
+    outlets:
+      north: 3
+      east: 6
+      south: 0
+      west: 2
+    items:
+
+  - number: 2
+    name: Guest Bedroom
+    description: >
+      You are at the door of the guest bedroom. The light from the large-screen TV on the dresser gives away the simplicity
+      of the room. The ruffled bed covering indicates that someone had recently watched TV in quiet.
+    outlets:
+      east: 1
+    items:
+
+  - number: 3
+    name: Office
+    description: >
+      You are entering the office. The small lamp allows you to see several crumpled pieces of paper and a broken
+      pencil next to the books on the desk. The soft music sound is louder, but you find that it is not originating from
+      this room. To the east there is a closed door which seems to lead to the source of the music and more light. To the
+      south, there is an open door which leads to a dimly lit hallway.
+    outlets:
+      east: 4
+      south: 1
+    items:
+      - 5
+      - 1
+
+  - number: 4
+    name: Living Room
+    description: >
+      You are at the entrance to the living room. An elegant chandelier lights up the room and a small speaker is
+      playing soft, relaxing music. To the north, there is an opening that leads to an entrance area with a large black
+      coat rack and an umbrella holder. To the south, there is another opening leading to a well-lit room from which the
+      tapping and sweet smell was heard, along with a soft voice. To the west, a door provides entrance to a partially lit
+      room where a small lamp reveals a variety of books and stationery on the desk and the bookcase behind it.
+    outlets:
+      north: 5
+      south: 6
+      west: 3
+    items:
+      - 2
+
+  - number: 5
+    name: Foyer
+    description: >
+      You reach the foyer area, the entrance of the house. You notice that the red umbrella and the black rainy coat
+      are missing.
+    outlets:
+      south: 4
+    items:
+      - 3
+
+  - number: 6
+    name: Kitchen
+    description: >
+      You are entering the kitchen area. You are pleasantly surprised to notice a stack of pancakes on a plate and a half-full
+      bottle of maple syrup on the kitchen's counter. There are a few other food items next to the plate including freshly
+      sliced strawberries, whipped cream, and a cup of milk. Your wife's phone is on the counter, softly playing a cooking
+      show on YouTube. To the north, an opening leads you to a quaint area with a welcoming ambiance. An elegant
+      chandelier envelops the room with light and a small speaker is playing calming music while two comfortable sofas
+      invite you to relax. To the east, there is a door that leads to an unknown place. To the south, there is a sliding
+      door with darkly tinted glass that seems to lead outside. To the west, there is the entrance to a dimly lit hallway.
+    outlets:
+      north: 4
+      east: 9
+      south: 7
+      west: 1
+    items:
+      - 4
+
+  - number: 7
+    name: Backyard
+    description: >
+      You are standing in front of your backyard. You immediately feel a cold, damp breeze on your body and see numerous
+      puddles in the grass. The sky was grey, the clouds still drizzling. To the north, the tinted sliding door offers
+      relief to the warm kitchen and delicious pancakes. To the west, you see the entrance to your workshop.
+    outlets:
+      north: 6
+      west: 8
+    items:
+
+  - number: 8
+    name: Workshop
+    description: >
+      As you enter the workshop, you feel saddened looking at your unfinished motorcycle. Your tools are still on the floor
+      waiting for you to return, but the strong smell of gasoline interrupts your thoughts.
+    outlets:
+      east: 7
+    items:
+      - 8
+
+  - number: 9
+    name: Garage
+    description: >
+      While entering the garage, you observe that your dog's bowl is empty. The light coming through the window made you
+      aware of the unopened boxes yet to be organized. To the west, you see your shiny black pickup truck.
+    outlets:
+      north: 10
+      west: 6
+    items:
+      - 6
+
+  - number: 10
+    name: Toyota Tundra
+    description: >
+      You entered your 2021 Toyota Tundra. You have reached the end of the game, congratulations!
+    outlets:
+      south: 9
+    items:

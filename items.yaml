@@ -1,0 +1,32 @@
+items:
+  - index: 1
+    name: Old Floppy Disk
+    description: An old floppy disk.
+
+  - index: 2
+    name: Key Card
+    description: An dirty old plastic key card.
+
+  - index: 3
+    name: Weird Key
+    description: A weird key that looks like a lever lock key from a century ago.
+
+  - index: 4
+    name: Satellite Phone
+    description: A bulky satellite phone.
+
+  - index: 5
+    name: Small note
+    description: A small, folded up piece of paper.
+
+  - index: 6
+    name: Flashlight
+    description: A small but powerful LED flashlight.
+
+  - index: 7
+    name: Watch
+    description: A working but cracked silver watch with cardinal directions embedded.
+
+  - index: 8
+    name: Truck Key
+    description: A small rectangular wireless car key.
