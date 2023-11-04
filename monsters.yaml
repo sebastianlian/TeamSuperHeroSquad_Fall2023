@@ -1,0 +1,89 @@
+monsters:
+  - monster id: Z01
+    name: Zombie Scholar (History Zombie)
+    description: very high hp, very low defense, low attack
+    hp: 80
+    def: 5
+    atk: 15
+    innate:
+    location: L4
+
+  - monster id: Z02
+    name: Zombie Librarian (English Zombie)
+    description: very low hp, high defense, high attack
+    hp: 10
+    def: 20
+    atk: 30
+    innate: If two questions are answered wrong, double enemy damage to 60
+    location: L5
+
+  - monster id: Z03
+    name: Square Z (Math Zombie)
+    description: low hp, mid defense, very high attack
+    hp: 20
+    def: 15
+    atk: 40
+    innate:
+    location: S3
+
+  - monster id: Z04
+    name: ZTX (IT Zombie)
+    description: mid hp, low defense, mid attack
+    hp: 50
+    def: 10
+    atk: 20
+    innate: Ignores Defense
+    location: S4
+
+
+  - monster id: Z05
+    name: Professor Z (Science Lab Zombie)
+    description: low hp, very high defense, mid attack
+    hp: 20
+    def: 30
+    atk: 20
+    innate: Poison. Deal set hp damage for x turns if hit
+    location: S5
+
+  - monster id: Z06
+    name: Dr. Frankizom (Health Zombie)
+    description: standard hp, defense, and attack. innate low hp regeneration
+    hp: 50
+    def: 15
+    atk: 20
+    innate: >
+      energy regenerates x hp every turn/question. 
+      If you miss too many, not only do you take damage, but the enemy gets more health, 
+      making the fight longer.
+    location: B4
+
+  - monster id: Z07
+    name: Grizzly the Zombie Bear
+    description: high hp and defense value. very low attack
+    hp: 65
+    def: 20
+    atk: 10
+    innate:
+    location: B5
+
+  - monster id: Z08
+    name: Chief Le Brains
+    description: very high hp, mid defense
+    hp: 70
+    def: 25
+    atk: 40
+    innate:
+    location: D2
+
+  - monster id: Z09
+    name: Dean Zombie (final boss)
+    description: >
+      highest overall stats and all passives.
+      a combination of all other zombie types including passives/innates
+    hp: 100
+    def: 50
+    atk: 50
+    innate: everything except ignpre defense
+    location: D5
+
+
