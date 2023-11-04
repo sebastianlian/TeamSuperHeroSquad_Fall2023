@@ -1,32 +1,60 @@
 items:
-  - index: 1
-    name: Old Floppy Disk
-    description: An old floppy disk.
+  - item id: 10
+    type: usable
+    name: Apple
+    description: A delicious apple that can be consumed to heal 10 HP.
+    number: 4
 
-  - index: 2
-    name: Key Card
-    description: An dirty old plastic key card.
+  - item id: 20
+    type: usable
+    name: Coffee
+    description: A warm cup of coffee that can be consumed to heal 30 HP.
+    number: 3
 
-  - index: 3
-    name: Weird Key
-    description: A weird key that looks like a lever lock key from a century ago.
+  - item id: 30
+    type: usable
+    name: Pizza
+    description: A tasty slice of pizza that can be consumed to heal 50 HP.
+    number: 1
 
-  - index: 4
-    name: Satellite Phone
-    description: A bulky satellite phone.
+  - item id: 40
+    type: usable
+    name: Chemical
+    description: A chemical that immediately kills the mini monster or deals 50 damage to the boss.
+    number: 2
 
-  - index: 5
-    name: Small note
-    description: A small, folded up piece of paper.
+  - item id: 50
+    type: usable
+    name: Book
+    description: A book that can be used to skip a question.
+    number: 1
 
-  - index: 6
-    name: Flashlight
-    description: A small but powerful LED flashlight.
+  - item id: 60
+    type: usable
+    name: Syringe
+    description: A syringe that yields undying 1 time.
+    number: 1
 
-  - index: 7
-    name: Watch
-    description: A working but cracked silver watch with cardinal directions embedded.
+  - item id: 70
+    type: equipable
+    name: Calculator
+    description: A calculator that permanently adds 15 HP to your stats.
+    number: 1
 
-  - index: 8
-    name: Truck Key
-    description: A small rectangular wireless car key.
+  - item id: 80
+    type: equipable
+    name: Backpack
+    description: A backpack that permanently adds 15 ATK to your stats.
+    number: 1
+
+  - item id: 90
+    type: equipable
+    name: Laptop
+    description: A laptop that permanently adds 15 ATK to your stats.
+    number: 1
+
+  - item id: 100
+    type: collected
+    name: Key
+    description: A key that can be used to open the door and fight the boss.
+    number: 4
