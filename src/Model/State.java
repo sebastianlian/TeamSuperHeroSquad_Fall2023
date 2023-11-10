@@ -17,7 +17,7 @@ public class State {
     private HashMap<Integer, Item> indexedItems;
 
 
-    // Game State
+    // Controller.Game State
     private HashMap<Room, int[]> indexedRooms;
 
     private HashMap<Integer, Actor> indexedMonsters;
