@@ -1,136 +1,142 @@
 rooms:
-  - number: 0
-    name: Entrance
-    description: |
-      You just recently got accepted by Grizzly University and you're starting out your first semester as a Student. 
-      Then Suddenly a meteor hits, turning everyone into zombies around you. 
-      You try to escape and get hit by the debris of the meteor chunks. 
-      You suddenly wake up in what seems to be a destroyed library.
-
-outlets:
-      north: 1
-    items:
-      - 7
-
-  - number: 1
-    name: Hallway
-    description: >
-      You are entering the dimly lit hallway. To the north, a small lamp reveals a variety of books and stationery on the
-      desk and a bookcase behind it. You notice a soft melody that seems to be coming from this room.
-      To the east, the hallway opens up to a better-lit, open space. Strangely, you hear a soft, consistent tapping and smell
-      a mildly sweet aroma. To the south lies the master bedroom, a dark room with a big bed in the middle.
-      The only source of light is the clock on the nightstand. The thick curtains in the window are preventing any light
-      from coming inside. To the west, you observe a door to another bedroom illuminated by a large-screen TV. You are
-      surprised that there is no sound coming from it.
+  - room id: EN
+    room name: Entrance
+    description: You just recently got accepted by Grizzly University and you're starting out your first semester as a 
+      Student. Then Suddenly a meteor hits, turning everyone into zombies around you. You try to escape and get hit by 
+      the debris of the meteor chunks. You suddenly wake up in what seems to be a destroyed library.
     outlets:
-      north: 3
-      east: 6
-      south: 0
-      west: 2
-    items:
+      east: L1
+    item id:
 
-  - number: 2
-    name: Guest Bedroom
-    description: >
-      You are at the door of the guest bedroom. The light from the large-screen TV on the dresser gives away the simplicity
-      of the room. The ruffled bed covering indicates that someone had recently watched TV in quiet.
+  - room id: L1
+    room name: Library 1
+    description: The player enters the library's door on the first level, just as the student does.
+    explored: There, you find what seems to be the remains of a librarian... holding a sign that reads, "Overdue by 
+      300 years! Return your books on time!" But first let's fight this zombie blocking the path.
     outlets:
-      east: 1
-    items:
+      east: L5
+      west: EN
+    item id:
+      - 70
 
-  - number: 3
-    name: Office
-    description: >
-      You are entering the office. The small lamp allows you to see several crumpled pieces of paper and a broken
-      pencil next to the books on the desk. The soft music sound is louder, but you find that it is not originating from
-      this room. To the east there is a closed door which seems to lead to the source of the music and more light. To the
-      south, there is an open door which leads to a dimly lit hallway.
+  - room id: L2
+    room name: Library 2
+    description: The student enters the second level of the library, which seems to have had a slimy "glitter" party 
+      gone wrong - broken glass everywhere and shimmering slime on the floor.
+    explored: You chuckle at a sign that reads "Slime and Dine - Book Club Gone Wild!" as you begin your 
+      slippery search for clues to escape this quirky library.
     outlets:
-      east: 4
-      south: 1
-    items:
-      - 5
-      - 1
+      south: L5
+    item id:
 
-  - number: 4
-    name: Living Room
-    description: >
-      You are at the entrance to the living room. An elegant chandelier lights up the room and a small speaker is
-      playing soft, relaxing music. To the north, there is an opening that leads to an entrance area with a large black
-      coat rack and an umbrella holder. To the south, there is another opening leading to a well-lit room from which the
-      tapping and sweet smell was heard, along with a soft voice. To the west, a door provides entrance to a partially lit
-      room where a small lamp reveals a variety of books and stationery on the desk and the bookcase behind it.
+  - room id: L3
+    room name: Library 3
+    description: You enter the third level of the library and stumble upon what looks like the aftermath of a furniture 
+      uprising! The former study zone, where students used to hang out, now seems like ground zero for a pillow fort war. 
+      Tumbled bookshelves, tables turned on their sides, and chairs stacked in odd configurations give the place an air 
+      of mischievous rebellion.
+    explored: A sign dangles from a toppled lamp, proclaiming, "Fort Booktropolis - No Librarians Allowed!" You can't
+      help but chuckle as you navigate the playful barricade.
     outlets:
-      north: 5
-      south: 6
-      west: 3
-    items:
-      - 2
+      west: L5
+      south: L4
+    item id:
 
-  - number: 5
-    name: Foyer
-    description: >
-      You reach the foyer area, the entrance of the house. You notice that the red umbrella and the black rainy coat
-      are missing.
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
     outlets:
-      south: 4
-    items:
-      - 3
+      west:
+      south:
+    item id:
 
-  - number: 6
-    name: Kitchen
-    description: >
-      You are entering the kitchen area. You are pleasantly surprised to notice a stack of pancakes on a plate and a half-full
-      bottle of maple syrup on the kitchen's counter. There are a few other food items next to the plate including freshly
-      sliced strawberries, whipped cream, and a cup of milk. Your wife's phone is on the counter, softly playing a cooking
-      show on YouTube. To the north, an opening leads you to a quaint area with a welcoming ambiance. An elegant
-      chandelier envelops the room with light and a small speaker is playing calming music while two comfortable sofas
-      invite you to relax. To the east, there is a door that leads to an unknown place. To the south, there is a sliding
-      door with darkly tinted glass that seems to lead outside. To the west, there is the entrance to a dimly lit hallway.
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
     outlets:
-      north: 4
-      east: 9
-      south: 7
-      west: 1
-    items:
-      - 4
+      west:
+      south:
+    item id:
 
-  - number: 7
-    name: Backyard
-    description: >
-      You are standing in front of your backyard. You immediately feel a cold, damp breeze on your body and see numerous
-      puddles in the grass. The sky was grey, the clouds still drizzling. To the north, the tinted sliding door offers
-      relief to the warm kitchen and delicious pancakes. To the west, you see the entrance to your workshop.
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
     outlets:
-      north: 6
-      west: 8
-    items:
+      west:
+      south:
+    item id:
 
-  - number: 8
-    name: Workshop
-    description: >
-      As you enter the workshop, you feel saddened looking at your unfinished motorcycle. Your tools are still on the floor
-      waiting for you to return, but the strong smell of gasoline interrupts your thoughts.
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
     outlets:
-      east: 7
-    items:
-      - 8
+      west:
+      south:
+    item id:
 
-  - number: 9
-    name: Garage
-    description: >
-      While entering the garage, you observe that your dog's bowl is empty. The light coming through the window made you
-      aware of the unopened boxes yet to be organized. To the west, you see your shiny black pickup truck.
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
     outlets:
-      north: 10
-      west: 6
-    items:
-      - 6
+      west:
+      south:
+    item id:
 
-  - number: 10
-    name: Toyota Tundra
-    description: >
-      You entered your 2021 Toyota Tundra. You have reached the end of the game, congratulations!
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
     outlets:
-      south: 9
-    items:
+      west:
+      south:
+    item id:
+
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item id:
+
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item id:
+
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item id:
+
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item id:
+
+  - room id: L4
+    room name: Library 4
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item id:
