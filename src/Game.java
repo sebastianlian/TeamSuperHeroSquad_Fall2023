@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import Model.Actor;
 import org.yaml.snakeyaml.Yaml;
 
 import Model.Room;
@@ -19,7 +20,7 @@ public class Game {
         System.out.println("Developed by Camden Johnson <git@cosinami.com>.");
         System.out.println("All Rights Reserved.\n");
 
-        state = new State(Game::parseItems, Game::parseRooms);
+        state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
 
         System.out.println("Hello. Welcome to the game.");
         System.out.println("This is Grizzly survival.");
@@ -98,5 +99,45 @@ public static HashMap<Room, int[]> parseRooms() throws Exception {
 
         return rooms;
     }
+
+    public static HashMap<Integer, Actor> parseMonsters() throws Exception {
+        // List of monsters.
+        HashMap<Integer, Actor> monsters = new HashMap<>();
+
+        // Parses YAML file.
+        Yaml yaml = new Yaml();
+        String source = Files.readString(Paths.get("monsters.yaml"));
+        Map<String, Object> object = yaml.load(source);
+
+        // Creates monster (actor) instances from YAML data.
+        ArrayList<Object> objects = (ArrayList<Object>)object.get("monsters");
+        for (Object actor : objects) {
+            Map<Object, Object> mapping = (Map<Object, Object>)actor;
+
+            int id = (int)mapping.get("id");
+
+            Actor monsterInstance = new Actor(
+//                    (int)mapping.get("id"),
+                    (String)mapping.get("name"),
+                    (String)mapping.get("description"),
+                    (double)mapping.get("hp"),
+                    (double)mapping.get("def"),
+                    (double)mapping.get("atk"),
+                    (int)mapping.get("startingLocation")
+            );
+
+//            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
+//            int[] outlets = new int[] { -1, -1, -1, -1 };
+//            outlets[0] = outletMapping.getOrDefault("north", -1);
+//            outlets[1] = outletMapping.getOrDefault("east", -1);
+//            outlets[2] = outletMapping.getOrDefault("south", -1);
+//            outlets[3] = outletMapping.getOrDefault("west", -1);
+
+            monsters.put(id, monsterInstance);
+        }
+
+        return monsters;
+    }
+
 
 }
