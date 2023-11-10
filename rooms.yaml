@@ -1,11 +1,13 @@
 rooms:
   - number: 0
-    name: Bedroom
+    name: Entrance
     description: |
-      You are standing in the middle of the master bedroom, next to the bed.
-      The clock on the nightstand emits enough light to show the door in front of you.
-      You hear soft music coming from the partially shaded hallway.
-    outlets:
+      You just recently got accepted by Grizzly University and you're starting out your first semester as a Student. 
+      Then Suddenly a meteor hits, turning everyone into zombies around you. 
+      You try to escape and get hit by the debris of the meteor chunks. 
+      You suddenly wake up in what seems to be a destroyed library.
+
+outlets:
       north: 1
     items:
       - 7
