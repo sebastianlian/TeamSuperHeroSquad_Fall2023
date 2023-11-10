@@ -1,3 +1,5 @@
+package Controller;
+
 import java.util.EnumSet;
 
 public class Commands {
