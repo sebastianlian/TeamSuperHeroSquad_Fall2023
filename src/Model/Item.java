@@ -1,54 +1,54 @@
 package Model;
 
 public class Item {
-    private int itemID;
-    private String itemName;
-    private String itemType;
-    private String itemEffect;
+    private int id;
+    private String name;
+    private String type;
+    private String effect;
     private int quantity;
 
-    public Item(int itemID, String itemName, String itemType, String itemEffect, int quantity) {
-        this.itemID = itemID;
-        this.itemName = itemName;
-        this.itemType = itemType;
-        this.itemEffect = itemEffect;
+    public Item(int id, String name, String type, String effect, int quantity) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.effect = effect;
         this.quantity = quantity;
     }
 
-    public int getItemID() {
-        return itemID;
+    public int getID() {
+        return id;
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getName() {
+        return name;
     }
 
-    public String getItemType() {
-        return itemType;
+    public String getType() {
+        return type;
     }
 
-    public String getItemEffect() {
-        return itemEffect;
+    public String getEffect() {
+        return effect;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
+    public void setItemID(int id) {
+        this.id = id;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setItemEffect(String itemEffect) {
-        this.itemEffect = itemEffect;
+    public void setEffect(String effect) {
+        this.effect = effect;
     }
 
     public void setQuantity(int quantity) {
@@ -58,7 +58,7 @@ public class Item {
     // Method to list items (assumed functionality)
     public void listItems() {
         // Logic to list items (e.g., printing item details to the console)
-        System.out.println(itemID + ": " + itemName + " - " + itemEffect + " (Quantity: " + quantity + ")");
+        System.out.println(id + ": " + name + " - " + effect + " (Quantity: " + quantity + ")");
     }
 
     // Method to simulate picking up an item (increment quantity)
@@ -69,7 +69,7 @@ public class Item {
     // Method to simulate equipping an item (assumed functionality)
     public void equipItem() {
         // Logic to equip an item (details depend on how you want to handle item equipment)
-        System.out.println("Equipping: " + itemName);
+        System.out.println("Equipping: " + name);
     }
 
     // Method to simulate using an item (decrement quantity)
@@ -77,9 +77,9 @@ public class Item {
         if (quantity > 0) {
             quantity--;
             // Logic for the item's effect (details depend on the game mechanics)
-            System.out.println("Using: " + itemName);
+            System.out.println("Using: " + name);
         } else {
-            System.out.println("Cannot use " + itemName + ". No more left.");
+            System.out.println("Cannot use " + name + ". No more left.");
         }
     }
 
