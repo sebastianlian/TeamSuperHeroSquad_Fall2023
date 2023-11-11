@@ -1,36 +1,36 @@
 rooms:
-  - room id: EN
-    room name: Entrance
+  - id: 0
+    name: Entrance
     description: You just recently got accepted by Grizzly University and you're starting out your first semester as a 
       Student. Then Suddenly a meteor hits, turning everyone into zombies around you. You try to escape and get hit by 
       the debris of the meteor chunks. You suddenly wake up in what seems to be a destroyed library.
     outlets:
-      east: L1
-    item id:
+      east: 1
+    item:
 
-  - room id: L1
-    room name: Library 1
+  - id: 1
+    name: Library 1
     description: The player enters the library's door on the first level, just as the student does.
     explored: There, you find what seems to be the remains of a librarian... holding a sign that reads, "Overdue by 
       300 years! Return your books on time!" But first let's fight this zombie blocking the path.
     outlets:
-      east: L5
-      west: EN
-    item id:
+      east:
+      west:
+    item:
       - 70
 
-  - room id: L2
-    room name: Library 2
+  - id: 2
+    name: Library 2
     description: The student enters the second level of the library, which seems to have had a slimy "glitter" party 
       gone wrong - broken glass everywhere and shimmering slime on the floor.
     explored: You chuckle at a sign that reads "Slime and Dine - Book Club Gone Wild!" as you begin your 
       slippery search for clues to escape this quirky library.
     outlets:
-      south: L5
-    item id:
+      south:
+    item:
 
-  - room id: L3
-    room name: Library 3
+  - id: 3
+    name: Library 3
     description: You enter the third level of the library and stumble upon what looks like the aftermath of a furniture 
       uprising! The former study zone, where students used to hang out, now seems like ground zero for a pillow fort war. 
       Tumbled bookshelves, tables turned on their sides, and chairs stacked in odd configurations give the place an air 
@@ -38,105 +38,170 @@ rooms:
     explored: A sign dangles from a toppled lamp, proclaiming, "Fort Booktropolis - No Librarians Allowed!" You can't
       help but chuckle as you navigate the playful barricade.
     outlets:
-      west: L5
-      south: L4
-    item id:
+      west:
+      south:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 4
+    name: Library 4
+    description: You steps into the fourth level, which feels like a time warp. Ancient dusty tomes, some that
+      even history itself might've forgotten, litter the place. Before them stands a colossal, decaying door with an 
+      inscribed riddle.
+    explored: You chuckles nervously "Shoot, Mr. Zombie Scholar, hit me with your best shot!"
+    outlets:
+      west:
+      south:
+    item: 100
+
+  - id: 5
+    name: Library 5
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 6
+    name: Science Lab 1
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 7
+    name: Science Lab 2
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 8
+    name: Science Lab 3 (Square Z)
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 9
+    name: Science Lab 4 (ZTX
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 10
+    name: Science Boss (Professor Z)
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 11
+    name: Bear's Cafe 1
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 12
+    name: Bear's Cafe 2
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 13
+    name: Bear's Cafe 3
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 14
+    name: Bear's Cafe 4 (Dr. Frankizom)
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
 
-  - room id: L4
-    room name: Library 4
+  - id: 15
+    name: Cafe Boss (Grizzly the Zombie Bear)
     description:
     explored:
     outlets:
       west:
       south:
-    item id:
+    item:
+
+  - id: 16
+    name: Dean's Lair 1
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item:
+
+  - id: 17
+    name: Dean's Lair 2 (Chief Le Brains)
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item:
+
+  - id: 18
+    name: Dean's Lair 3
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item:
+
+  - id: 19
+    name: Dean's Lair 4
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item:
+
+  - id: 20
+    name: Dean (Dean Zombie)
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item:
+
+  - id: 21
+    name: Exit
+    description:
+    explored:
+    outlets:
+      west:
+      south:
+    item:
