@@ -35,9 +35,7 @@ public class Item {
         return quantity;
     }
 
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
-    }
+    public void setItemID(int itemID) { this.itemID = itemID;}
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
@@ -85,5 +83,3 @@ public class Item {
 
     // Additional methods for other interactions can be added here
 }
-
-//Practice test for branch

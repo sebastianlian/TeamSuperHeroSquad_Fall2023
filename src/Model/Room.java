@@ -3,36 +3,96 @@ package Model;
 import java.util.ArrayList;
 
 public class Room {
-    private String name;
-    private String description;
-    private int number;
-    private ArrayList<Integer> items;
+    private int roomID;
+    private String roomName;
+    private String roomDescription;
+    private boolean checkedRoom;
+    private String moveUp;
+    private String moveLeft;
+    private String moveDown;
+    private String moveRight;
+    private boolean isVisited;
+    private ArrayList<Item> items;
+    private int monsterInRoom;
 
-    private boolean isVisited = false;
-
-    public Room(int number, String name, String description) {
-        this.number = number;
-        this.name = name;
-        this.description = description;
+    public Room(int roomID, String roomName, String roomDescription) {
+        this.roomID = roomID;
+        this.roomName = roomName;
+        this.roomDescription = roomDescription;
+        this.checkedRoom = false;
+        this.isVisited = false;
         this.items = new ArrayList<>();
+        this.monsterInRoom = 0;
     }
 
-    public Room(int number, String name, String description, ArrayList<Integer> items) {
-        this.number = number;
-        this.name = name;
-        this.description = description;
+    public Room(int roomID, String roomName, String roomDescription, ArrayList<Item> items) {
+        this.roomID = roomID;
+        this.roomName = roomName; // Initialize roomName
+        this.roomDescription = roomDescription;
+        this.checkedRoom = false;
+        this.isVisited = false;
         this.items = items;
+        this.monsterInRoom = 0;
     }
 
-    public String getName() { return name; }
+    public int getRoomID() { return roomID; }
 
-    public String getDescription() { return description; }
+    public String getRoomName() { return roomName; }
 
-    public int getNumber() { return number; }
+    public String getRoomDescription() { return roomDescription; }
 
-    public ArrayList<Integer> getItems() { return items; }
+    public boolean isCheckedRoom() { return checkedRoom; }
 
-    public void setVisited(boolean value) {
-        this.isVisited = value;
+    public String getMoveUp() { return moveUp; }
+
+    public String getMoveLeft() { return moveLeft; }
+
+    public String getMoveDown() { return moveDown; }
+
+    public String getMoveRight() { return moveRight; }
+
+    public boolean isVisited() { return isVisited; }
+
+    public ArrayList<Item> getItems() { return items; }
+
+    public int getMonsterInRoom() { return monsterInRoom; }
+
+    public void setRoomID(int roomID) { this.roomID = roomID; }
+
+    public void setRoomName(String roomName) { this.roomName = roomName; }
+
+    public void setRoomDescription(String roomDescription) { this.roomDescription = roomDescription; }
+
+    public void setCheckedRoom(boolean checkedRoom) { this.checkedRoom = checkedRoom; }
+
+    public void setMoveUp(String moveUp) { this.moveUp = moveUp; }
+
+    public void setMoveLeft(String moveLeft) { this.moveLeft = moveLeft; }
+
+    public void setMoveDown(String moveDown) { this.moveDown = moveDown; }
+
+    public void setMoveRight(String moveRight) { this.moveRight = moveRight; }
+
+    public void setVisited(boolean visited) { isVisited = visited; }
+
+    public void setItems(ArrayList<Item> items) { this.items = items; }
+
+    public void setMonsterInRoom(int monsterInRoom) { this.monsterInRoom = monsterInRoom; }
+
+    // Other methods
+    public void explore() {
+        // Implementation for exploring the room
+        System.out.println("Room: " + roomName); // Display room name
+        System.out.println(roomDescription);
+        for (Item item : items) {
+            System.out.println(item.getItemType());
+        }
+        // Additional logic for monsters, checking the room, etc.
     }
+
+    // Additional methods to handle movements, items, and monster interactions can be added here
 }
+
+
+
+

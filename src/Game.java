@@ -84,7 +84,7 @@ public static HashMap<Room, int[]> parseRooms() throws Exception {
                     (int)mapping.get("number"),
                     (String)mapping.get("name"),
                     (String)mapping.get("description"),
-                    (ArrayList<Integer>)mapping.get("items")
+                    (ArrayList<Item>)mapping.get("items")
             );
 
             Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
