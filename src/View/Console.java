@@ -54,6 +54,5 @@ public class Console {
     public static void main(String[] args) throws InterruptedException {
         Console gameConsole = new Console();
         gameConsole.allPrints();
-        gameConsole.roomFormatPrint("The Dean's Lair");
     }
 }
