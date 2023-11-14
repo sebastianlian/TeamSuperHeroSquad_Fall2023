@@ -23,8 +23,8 @@ public class Item {
         return name;
     }
 
-    public String getType() {
-        return type;
+    public boolean getItemType() {
+        return itemType;
     }
 
     public String getEffect() {
@@ -41,8 +41,8 @@ public class Item {
         this.name = name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setItemType(boolean itemType) {
+        this.itemType = itemType;
     }
 
     public void setEffect(String effect) {

@@ -82,7 +82,7 @@ public class State {
         Room foundRoom = indexedRooms
                 .keySet()
                 .stream()
-                .filter(e -> e.getNumber() == roomNum)
+                .filter(e -> e.getRoomID() == roomNum)
                 .reduce((room, room2) -> {
                     throw new IllegalStateException("Multiple elements: " + room + ", " + room2);
                 })
