@@ -1,5 +1,5 @@
 monsters:
-  - monster id: 1
+  - id: 1
     name: Zombie Scholar (History Zombie)
     description: very high hp, very low defense, low attack
     stats:
@@ -9,7 +9,7 @@ monsters:
     innate:
     location: L4
 
-  - monster id: 2
+  - id: 2
     name: Zombie Librarian (English Zombie)
     description: very low hp, high defense, high attack
     stats: 
@@ -19,7 +19,7 @@ monsters:
     innateDesc: If two questions are answered wrong, double enemy damage to 60
     location: L5
 
-  - monster id: 3
+  - id: 3
     name: Square Z (Math Zombie)
     description: low hp, mid defense, very high attack
     stats:
@@ -29,7 +29,7 @@ monsters:
     innateDesc:
     location: S3
 
-  - monster id: 4
+  - id: 4
     name: ZTX (IT Zombie)
     description: mid hp, low defense, mid attack
     stats:
@@ -40,7 +40,7 @@ monsters:
     location: S4
 
 
-  - monster id: 5
+  - id: 5
     name: Professor Z (Science Lab Zombie)
     description: low hp, very high defense, mid attack
     stats:
@@ -50,7 +50,7 @@ monsters:
     innateDesc: Poison. Deal set hp damage for x turns if hit
     location: S5
 
-  - monster id: 6
+  - id: 6
     name: Dr. Frankizom (Health Zombie)
     description: standard hp, defense, and attack. innate low hp regeneration
     stats:
@@ -63,7 +63,7 @@ monsters:
       making the fight longer.
     location: B4
 
-  - monster id: 7
+  - id: 7
     name: Grizzly the Zombie Bear
     description: high hp and defense value. very low attack
     stats:
@@ -73,7 +73,7 @@ monsters:
     innateDesc:
     location: B5
 
-  - monster id: 8
+  - id: 8
     name: Chief Le Brains
     description: very high hp, mid defense
     stats:
@@ -83,7 +83,7 @@ monsters:
     innateDesc:
     location: D2
 
-  - monster id: 9
+  - id: 9
     name: Dean Zombie (final boss)
     description: >
       highest overall stats and all passives.

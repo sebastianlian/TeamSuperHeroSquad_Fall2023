@@ -1,9 +1,11 @@
 package Controller;
 
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import Model.Actor;
@@ -18,17 +20,11 @@ public class Game {
     static State state;
 
     public static void main(String[] args) throws Exception {
-        System.out.println("IA2, ver. 0.0.1.");
-        System.out.println("Developed by Camden Johnson <git@cosinami.com>.");
-        System.out.println("All Rights Reserved.\n");
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
 
-        System.out.println("Hello. Welcome to the game.");
-        System.out.println("This is Grizzly survival.");
-        System.out.println("It is a Zombie game.");
-        System.out.println("This is for Software Development 1");
-        System.out.println("We hope you have a lot of fun playing!");
+        //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
+//        parsePuzzle();
 
     }
 
@@ -42,33 +38,33 @@ public class Game {
         Map<String, Object> object = yaml.load(source);
 
         // Creates object mappings from YAML data.
-        ArrayList<Object> items = (ArrayList<Object>)object.get("items");
+        ArrayList<Object> items = (ArrayList<Object>) object.get("items");
         for (Object item : items) {
-            Map<Object, Object> mapping = (Map<Object, Object>)item;
+            Map<Object, Object> mapping = (Map<Object, Object>) item;
 
-         // Extract all fields for Item
-            int itemID = (int)mapping.get("id");
-            String itemName = (String)mapping.get("name");
-            String itemType = (String)mapping.get("type");
-            String itemEffect = (String)mapping.get("effect");
-            int quantity = (int)mapping.get("quantity");
+            // Extract all fields for Item
+            int itemID = (int) mapping.get("id");
+            String itemName = (String) mapping.get("name");
+            String itemType = (String) mapping.get("type");
+            String itemEffect = (String) mapping.get("effect");
+            int quantity = (int) mapping.get("quantity");
 
             Item itemInstance = new Item(
-            itemID,
-            itemName,
-            itemType,
-            itemEffect,
-            quantity
+                    itemID,
+                    itemName,
+                    itemType,
+                    itemEffect,
+                    quantity
             );
 
             itemIndex.put(itemID, itemInstance);
-            }
+        }
 
-            return itemIndex;
-            }
+        return itemIndex;
+    }
 
 
-public static HashMap<Room, int[]> parseRooms() throws Exception {
+    public static HashMap<Room, int[]> parseRooms() throws Exception {
         // List of rooms.
         HashMap<Room, int[]> rooms = new HashMap<>();
 
@@ -78,19 +74,19 @@ public static HashMap<Room, int[]> parseRooms() throws Exception {
         Map<String, Object> object = yaml.load(source);
 
         // Creates room instances and outlet mappings from YAML data.
-        ArrayList<Object> objects = (ArrayList<Object>)object.get("rooms");
+        ArrayList<Object> objects = (ArrayList<Object>) object.get("rooms");
         for (Object room : objects) {
-            Map<Object, Object> mapping = (Map<Object, Object>)room;
+            Map<Object, Object> mapping = (Map<Object, Object>) room;
 
             Room roomInstance = new Room(
-                    (int)mapping.get("number"),
-                    (String)mapping.get("name"),
-                    (String)mapping.get("description"),
-                    (ArrayList<Integer>)mapping.get("items")
+                    (int) mapping.get("number"),
+                    (String) mapping.get("name"),
+                    (String) mapping.get("description"),
+                    (ArrayList<Integer>) mapping.get("items")
             );
 
-            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
-            int[] outlets = new int[] { -1, -1, -1, -1 };
+            Map<Object, Integer> outletMapping = (Map<Object, Integer>) mapping.get("outlets");
+            int[] outlets = new int[]{-1, -1, -1, -1};
             outlets[0] = outletMapping.getOrDefault("north", -1);
             outlets[1] = outletMapping.getOrDefault("east", -1);
             outlets[2] = outletMapping.getOrDefault("south", -1);
@@ -112,20 +108,20 @@ public static HashMap<Room, int[]> parseRooms() throws Exception {
         Map<String, Object> object = yaml.load(source);
 
         // Creates monster (actor) instances from YAML data.
-        ArrayList<Object> objects = (ArrayList<Object>)object.get("monsters");
+        ArrayList<Object> objects = (ArrayList<Object>) object.get("monsters");
         for (Object actor : objects) {
-            Map<Object, Object> mapping = (Map<Object, Object>)actor;
+            Map<Object, Object> mapping = (Map<Object, Object>) actor;
 
-            int id = (int)mapping.get("id");
+            int id = (int) mapping.get("id");
 
             Actor monsterInstance = new Actor(
 //                    (int)mapping.get("id"),
-                    (String)mapping.get("name"),
-                    (String)mapping.get("description"),
-                    (double)mapping.get("hp"),
-                    (double)mapping.get("def"),
-                    (double)mapping.get("atk"),
-                    (int)mapping.get("startingLocation")
+                    (String) mapping.get("name"),
+                    (String) mapping.get("description"),
+                    (double) mapping.get("hp"),
+                    (double) mapping.get("def"),
+                    (double) mapping.get("atk"),
+                    (int) mapping.get("startingLocation")
             );
 
 //            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
@@ -141,5 +137,28 @@ public static HashMap<Room, int[]> parseRooms() throws Exception {
         return monsters;
     }
 
+    //TODO: implement parsePuzzle()
+    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
+        // List of monsters.
+        HashMap<Integer, Actor> puzzles = new HashMap<>();
 
+        // Parses YAML file.
+        Yaml yaml = new Yaml();
+        String source = Files.readString(Paths.get("puzzles.yaml"));
+        Map<String, Object> object = yaml.load(source);
+
+        // Creates monster (actor) instances from YAML data.
+        LinkedHashMap<Object, ArrayList<Object>> objects = (LinkedHashMap<Object, ArrayList<Object>>) object.get("Puzzles");
+        System.out.println(objects.size());
+
+        //First layer objects in puzzle are topics, second layer objects are question, answer
+        for (Map.Entry<Object, ArrayList<Object>> entry : objects.entrySet()) {
+            for (Object puzzle :
+                    entry.getValue()) {
+                System.out.println("Prompt of all puzzles: ");
+                System.out.println(puzzle);
+            }
+        }
+        return puzzles;
+    }
 }
