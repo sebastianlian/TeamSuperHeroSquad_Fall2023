@@ -12,7 +12,7 @@ public class Room {
     private String moveDown;
     private String moveRight;
     private boolean isVisited;
-    private ArrayList<Item> items;
+    private ArrayList<Integer> items;
     private int monsterInRoom;
 
     public Room(int roomID, String roomName, String roomDescription) {
@@ -22,10 +22,11 @@ public class Room {
         this.checkedRoom = false;
         this.isVisited = false;
         this.items = new ArrayList<>();
+        //TODO: add ArrayList for monsters/ actors
         this.monsterInRoom = 0;
     }
 
-    public Room(int roomID, String roomName, String roomDescription, ArrayList<Item> items) {
+    public Room(int roomID, String roomName, String roomDescription, ArrayList<Integer> items ) {
         this.roomID = roomID;
         this.roomName = roomName; // Initialize roomName
         this.roomDescription = roomDescription;
@@ -53,7 +54,9 @@ public class Room {
 
     public boolean isVisited() { return isVisited; }
 
-    public ArrayList<Item> getItems() { return items; }
+    public ArrayList<Integer> getItems() {
+        return items;
+    }
 
     public int getMonsterInRoom() { return monsterInRoom; }
 
@@ -75,7 +78,9 @@ public class Room {
 
     public void setVisited(boolean visited) { isVisited = visited; }
 
-    public void setItems(ArrayList<Item> items) { this.items = items; }
+    public void setItems(ArrayList<Integer> items) {
+        this.items = items;
+    }
 
     public void setMonsterInRoom(int monsterInRoom) { this.monsterInRoom = monsterInRoom; }
 
@@ -84,8 +89,8 @@ public class Room {
         // Implementation for exploring the room
         System.out.println("Room: " + roomName); // Display room name
         System.out.println(roomDescription);
-        for (Item item : items) {
-            System.out.println(item.getItemType());
+        for (Integer item : items) {
+            //Meant for printing items
         }
         // Additional logic for monsters, checking the room, etc.
     }

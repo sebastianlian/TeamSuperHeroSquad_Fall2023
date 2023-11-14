@@ -1,3 +1,4 @@
+#numbers for stats will be expected as int
 monsters:
   - id: 1
     name: Zombie Scholar (History Zombie)
