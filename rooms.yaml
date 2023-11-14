@@ -6,7 +6,6 @@ rooms:
       Then Suddenly a meteor hits, turning everyone into zombies around you. 
       You try to escape and get hit by the debris of the meteor chunks. 
       You suddenly wake up in what seems to be a destroyed library.
-
     outlets:
       north: 1
     items:

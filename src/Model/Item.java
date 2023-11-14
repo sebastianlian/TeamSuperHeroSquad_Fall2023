@@ -3,16 +3,17 @@ package Model;
 public class Item {
     private int itemID;
     private String itemName;
-    private String itemType;
+    private boolean itemType;
     private String itemEffect;
     private int quantity;
 
-    public Item(int itemID, String itemName, String itemType, String itemEffect, int quantity) {
+    //TODO: changed itemType to boolean based on equability, redefine and refactor
+    public Item(int itemID, String itemName, boolean itemType, String itemEffect) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.itemType = itemType;
         this.itemEffect = itemEffect;
-        this.quantity = quantity;
+//        this.quantity = quantity;
     }
 
     public int getItemID() {
@@ -23,7 +24,7 @@ public class Item {
         return itemName;
     }
 
-    public String getItemType() {
+    public boolean getItemType() {
         return itemType;
     }
 
@@ -35,15 +36,13 @@ public class Item {
         return quantity;
     }
 
-    public void setItemID(int itemID) {
-        this.itemID = itemID;
-    }
+    public void setItemID(int itemID) { this.itemID = itemID;}
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
-    public void setItemType(String itemType) {
+    public void setItemType(boolean itemType) {
         this.itemType = itemType;
     }
 
