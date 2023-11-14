@@ -6,7 +6,7 @@ monsters:
       hp: 80
       def: 5
       atk: 15
-    innate:
+    innateDesc:
     location: L4
 
   - monster id: 2
