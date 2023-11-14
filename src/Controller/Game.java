@@ -45,16 +45,15 @@ public class Game {
             // Extract all fields for Item
             int itemID = (int) mapping.get("id");
             String itemName = (String) mapping.get("name");
-            String itemType = (String) mapping.get("type");
+            boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
             String itemEffect = (String) mapping.get("effect");
-            int quantity = (int) mapping.get("quantity");
+//            int quantity = (int) mapping.get("quantity");
 
             Item itemInstance = new Item(
                     itemID,
                     itemName,
                     itemType,
-                    itemEffect,
-                    quantity
+                    itemEffect
             );
 
             itemIndex.put(itemID, itemInstance);
@@ -118,10 +117,10 @@ public class Game {
 //                    (int)mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
-                    (double) mapping.get("hp"),
-                    (double) mapping.get("def"),
-                    (double) mapping.get("atk"),
-                    (int) mapping.get("startingLocation")
+                    Double.valueOf((int)mapping.getOrDefault("hp", 0)),
+                    Double.valueOf((int)mapping.getOrDefault("def", 0)),
+                    Double.valueOf((int)mapping.getOrDefault("atk", 0)),
+                    (int) mapping.get("id") //setting monster location using the room id NOT THE startingLocation value
             );
 
 //            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
