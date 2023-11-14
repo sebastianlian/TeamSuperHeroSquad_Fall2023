@@ -1,5 +1,5 @@
 rooms:
-  - number: 0
+  - id: 0
     name: Entrance
     description: |
       You just recently got accepted by Grizzly University and you're starting out your first semester as a Student. 
@@ -11,7 +11,7 @@ rooms:
     items:
       - 7
 
-  - number: 1
+  - id: 1
     name: Hallway
     description: >
       You are entering the dimly lit hallway. To the north, a small lamp reveals a variety of books and stationery on the
@@ -28,108 +28,357 @@ rooms:
       west: 2
     items:
 
-  - number: 2
+  - id: 2
     name: Guest Bedroom
     description: >
       You are at the door of the guest bedroom. The light from the large-screen TV on the dresser gives away the simplicity
       of the room. The ruffled bed covering indicates that someone had recently watched TV in quiet.
     outlets:
       east: 1
-    items:
+    item:
 
-  - number: 3
-    name: Office
-    description: >
-      You are entering the office. The small lamp allows you to see several crumpled pieces of paper and a broken
-      pencil next to the books on the desk. The soft music sound is louder, but you find that it is not originating from
-      this room. To the east there is a closed door which seems to lead to the source of the music and more light. To the
-      south, there is an open door which leads to a dimly lit hallway.
+  - id: 1
+    name: Library 1
+    description: The player enters the library's door on the first level, just as you do.
+    explored: There, you find what seems to be the remains of a librarian... holding a sign that reads, "Overdue by
+      300 years! Return your books on time!" But first let's fight this zombie blocking the path.
     outlets:
-      east: 4
-      south: 1
-    items:
-      - 5
-      - 1
+      east: 5
+      west: 0
+    item:
+      - 70
 
-  - number: 4
-    name: Living Room
-    description: >
-      You are at the entrance to the living room. An elegant chandelier lights up the room and a small speaker is
-      playing soft, relaxing music. To the north, there is an opening that leads to an entrance area with a large black
-      coat rack and an umbrella holder. To the south, there is another opening leading to a well-lit room from which the
-      tapping and sweet smell was heard, along with a soft voice. To the west, a door provides entrance to a partially lit
-      room where a small lamp reveals a variety of books and stationery on the desk and the bookcase behind it.
+  - id: 2
+    name: Library 2
+    description: You enter the second level of the library, which seems to have had a slimy "glitter" party
+      gone wrong - broken glass everywhere and shimmering slime on the floor.
+    explored: You chuckle at a sign that reads "Slime and Dine - Book Club Gone Wild!" as you begin your
+      slippery search for clues to escape this quirky library.
     outlets:
-      north: 5
-      south: 6
-      west: 3
-    items:
-      - 2
+      south: 5
+    item:
 
-  - number: 5
-    name: Foyer
-    description: >
-      You reach the foyer area, the entrance of the house. You notice that the red umbrella and the black rainy coat
-      are missing.
+  - id: 3
+    name: Library 3
+    description: You enter the third level of the library and stumble upon what looks like the aftermath of a furniture
+      uprising! The former study zone, where students used to hang out, now seems like ground zero for a pillow fort war.
+      Tumbled bookshelves, tables turned on their sides, and chairs stacked in odd configurations give the place an air
+      of mischievous rebellion.
+    explored: A sign dangles from a toppled lamp, proclaiming, "Fort Booktropolis - No Librarians Allowed!" You can't
+      help but chuckle as you navigate the playful barricade.
     outlets:
       south: 4
-    items:
-      - 3
+    item:
 
-  - number: 6
-    name: Kitchen
-    description: >
-      You are entering the kitchen area. You are pleasantly surprised to notice a stack of pancakes on a plate and a half-full
-      bottle of maple syrup on the kitchen's counter. There are a few other food items next to the plate including freshly
-      sliced strawberries, whipped cream, and a cup of milk. Your wife's phone is on the counter, softly playing a cooking
-      show on YouTube. To the north, an opening leads you to a quaint area with a welcoming ambiance. An elegant
-      chandelier envelops the room with light and a small speaker is playing calming music while two comfortable sofas
-      invite you to relax. To the east, there is a door that leads to an unknown place. To the south, there is a sliding
-      door with darkly tinted glass that seems to lead outside. To the west, there is the entrance to a dimly lit hallway.
+  - id: 4
+    name: Library 4
+    description: You step into the fourth level, which feels like a time warp. Ancient dusty tomes, some that
+      even history itself might've forgotten, litter the place. Before them stands a colossal, decaying door with an
+      inscribed riddle.
+    explored: You chuckles nervously "Shoot, Mr. Zombie Scholar, hit me with your best shot!"
     outlets:
-      north: 4
-      east: 9
-      south: 7
+      north: 3
+    item: 100
+
+  - id: 5
+    name: Library 5 (Zombie Librarian)
+    description: You stumble into the final area, and just when you thought you had seen it all, out shuffles
+      a gargantuan zombified librarian, her once neat bun now haphazardly falling apart, glasses skewed. With an ominous
+      (yet slightly comedic) creak, she points a bony finger at you.
+    explored: "Shhhhhhhhhhhhhhh..." she draws out with a dramatic flair, her voice echoing across the vast hall.
+                
+      "Late returns?" she asks, her eyes twitching.
+                
+      You try to contain your laughter, and respond, "I swear, I always return my books on time!"
+                
+      The librarian narrows her eyes, then unexpectedly whips out an oversized due-date stamp, ready to mark you overdue.
+      "Prepare to be... STAMPED!"
+    outlets:
+      north: 2
+      east: 3
       west: 1
-    items:
-      - 4
+      south: 6
+    item: 70
 
-  - number: 7
-    name: Backyard
-    description: >
-      You are standing in front of your backyard. You immediately feel a cold, damp breeze on your body and see numerous
-      puddles in the grass. The sky was grey, the clouds still drizzling. To the north, the tinted sliding door offers
-      relief to the warm kitchen and delicious pancakes. To the west, you see the entrance to your workshop.
+  - id: 6
+    name: Science Lab 1
+    description: You cautiously enter the first section of the science lab at Grizzly University. Green ooze is
+      everywhere, making the floor sticky and the counter tops shine in an oddly festive manner. The poisonous odor in the
+      air tickles the nose, reminding you weirdly of Aunt Mabel's failed broccoli casserole experiments.
+    explored: On a nearby  counter, a robot cleaner seems to have gone rogue, skating in the ooze and making "Weee!"noises,
+      creating even more chaos.
+      
+      It's clear that Grizzly University's science department has had a day to remember... or forget. You can't help but
+      wonder, "Do I really want to know what's in section two?"
+      
+      A sign, half submerged in the ooze, reads - "Chem 101 'Glow-in-the-dark' slime experiment - Results...unexpected.
+      Do not eat!"
     outlets:
-      north: 6
-      west: 8
-    items:
+      west: 7
+    item:
 
-  - number: 8
-    name: Workshop
-    description: >
-      As you enter the workshop, you feel saddened looking at your unfinished motorcycle. Your tools are still on the floor
-      waiting for you to return, but the strong smell of gasoline interrupts your thoughts.
+  - id: 7
+    name: Science Lab 2
+    description: You tiptoe into the second section of the science lab. Everywhere you look, there are plants
+      that appear to have gone to the dark side. Some of the plants have oddly suspicious-looking grins, while others
+      seem to be flexing their leaves menacingly.
+    explored:
     outlets:
-      east: 7
-    items:
-      - 8
+      east: 6
+      south: 8
+    item:
 
-  - number: 9
-    name: Garage
-    description: >
-      While entering the garage, you observe that your dog's bowl is empty. The light coming through the window made you
-      aware of the unopened boxes yet to be organized. To the west, you see your shiny black pickup truck.
+  - id: 8
+    name: Science Lab 3 (Square Z)
+    description: As you step into the third section of the science lab, the atmosphere changes from botanical mayhem to
+      mathematical madness. The chalkboards are filled with complex equations, some of which seem to question the very
+      nature of reality. One equation concludes with "= 42,"followed by a question mark.
+    explored: From the back of the room, there's a muttering sound. Approaching cautiously, you discover a zombie
+      hunched over a desk, scribbling furiously with a piece of chalk. It's wearing tattered professor's robes and a name
+      tag that reads, "Professor Square Z."
+      
+      Seeing you, the zombie groans and points at an equation. "Ugh...Can't... solve...Pythagorean theorem... Need...
+      BRAAAAINS... or maybe a calculator."
     outlets:
-      north: 10
-      west: 6
-    items:
-      - 6
-
-  - number: 10
-    name: Toyota Tundra
-    description: >
-      You entered your 2021 Toyota Tundra. You have reached the end of the game, congratulations!
-    outlets:
+      east: 10
       south: 9
-    items:
+    item:
+
+  - id: 9
+    name: Science Lab 4 (ZTX
+    description: You enter the fourth section of the lab it is a dimly lit room filled with computers, and at the center
+      of the chaos sits alone computer with a black screen. Suddenly, a pair of glowing green eyes flicker to life on the
+      screen, and a gravelly voice emanates from the computer's speakers.
+    explored: "I am ZTX, the IT Zombie," it croaks in a robotic tone, its fingers clattering over the keyboard.
+                
+      "I've been trying to troubleshoot this cursed machine for eons. Perhaps you can help me decipher the cryptic error code 
+      of doom?"
+    outlets:
+      north: 8
+    item: 100
+
+  - id: 10
+    name: Science Boss (Professor Z)
+    description: You're eager to leave the quirky science lab behind, strides confidently towards the exit, daydreaming
+      about a hot drink from the Bear's Cafe. However, the sight ahead jolts you back to reality. There, blocking the path,
+      is a zombie donning a disheveled scientist coat, scribbling equations furiously on a clipboard.
+    explored: He looked up, adjusting the half-broken glasses on his nose. "Ah, a fresh mind! Call me Professor Z," he
+      croaked, motioning to his name tag which was just a piece of masking tape with "Prof. Z" written in wobbly handwriting.
+      
+      "I've been attempting to perfect the ultimate latte formula for the Bear's Cafe. Before you exit, you must help me
+      solve this complex caffeinated equation. Only then will you be granted passage... and perhaps, a sample of the perfect latte."
+      
+      You sigh. Only at Grizzly University would one be quizzed by a zombified professor on the intricacies of coffee chemistry.
+    outlets:
+      east: 11
+      west: 8
+    item: 80
+
+  - id: 11
+    name: Bear's Cafe 1
+    description: With a sigh of relief, you step into the first area of the Bear's Cafe hoping for a much-needed
+      break from the chaos. however, the cafe is a far cry from the cozy nook you remembered.
+    explored: The pungent aroma of decaying food  assaults their nostrils, making you crinkle your nose in disgust.
+      Tattered banners hang limply from the ceiling, depicting a once-proud bear mascot, now smeared with unidentified grime
+      and with googly eyes unceremoniously stuck onto them, giving the mascot a comically startled look.
+    outlets:
+      east: 15
+      west: 10
+    item:
+
+  - id: 12
+    name: Bear's Cafe 2
+    description: The creaky stairs lead you to the second floor of the Bear's Cafe. As you set foot on the upper level,
+      the scene is like a bizarre mix of a school spirit store post-Black Friday madness.
+    explored: Rows of shelves that once proudly displayed Grizzly University merchandise are toppled over. T-shirts with slogans
+      like "Grizzly Pride" and "Bear with Us" are strewn around, some of them fashioned into zombie-chic outfits displayed
+      on eerily still mannequins. A collection of mugs lay shattered on the floor, forming a ceramic mosaic of the university emblem.
+    outlets:
+      east: 13
+      south: 15
+    item:
+
+  - id: 13
+    name: Bear's Cafe 3
+    description: The moment you step into the third section, a chilly gust of wind greets you, making you shiver. It's like
+      stepping into a different world altogether. The cafe, known for its warm and cozy ambiance, is now blanketed in a thick
+      layer of frost and snow.
+    explored: Icicles hang from the overhead lamps, twinkling like Christmas decorations. Chairs and tables are buried under
+      mounds of snow, with only the tops visible, making them look like little snowy hillocks. Frozen coffee cups sit abandoned on
+      counter tops, their contents now solidified mid-spill, creating beautiful coffee-colored ice sculptures.
+    outlets:
+      north: 14
+    item: 100
+
+  - id: 14
+    name: Bear's Cafe 4 (Dr. Frankizom)
+    description: Upon entering the fourth level, the sudden temperature shift is palpable. Gone are the wintry chills of
+      the third level; this area is sweltering. Sweat immediately beads on your forehead as you try to fan yourself, but
+      the stifling heat makes it difficult to even catch a breath.
+    explored: In the midst of this inferno-like setting, they spot an oddly enthusiastic zombie giving what appears to be a
+      passionate lecture, a name tag pinned to its tattered lab coat reading "Dr. Frankizom."
+      
+      "...And that's why it's essential to stay hydrated in such conditions," Dr. Frankizom exclaims, pointing at a chart
+      that’s slowly wilting from the heat. Beside him, a table is set up with what looks like samples of... brain-infused
+      energy drinks? The label boasts, "Heatwave Hydration - For the discerning zombie athlete!"
+      
+      Another sign beside the stand reads - "Today's special - Heat endurance tips! Next week - Brain food –
+      is it keto?"
+    outlets:
+      south: 13
+    item: 100
+
+  - id: 15
+    name: Cafe Boss (Grizzly the Zombie Bear)
+    description: The final floor is in sight, and you feel a rush of hope. All you need to do is cross this last threshold
+      to freedom. But as you step onto the floor, a deep, earth-shaking growl fills the room.
+    explored: Emerging from the shadows is a massive, decaying version of the school's beloved mascot, Grizzly. His
+      once-plush fur is now mottled with patches of exposed skeletal structure, and one eye hangs a little looser than
+      the other. Yet, surprisingly, this zombified bear doesn't look menacing. Instead, he holds a basket filled with...
+      vegetables?
+      
+      "Ah, a fresh face!" Grizzy booms, in a voice that's a mix of growl and enthusiasm. "You know, it's important
+      to have a balanced diet. Brains are all good and fun, but have you tried kale? It’s a superfood, you know."
+      
+      Around the room, there are posters showcasing the benefits of various veggies with slogans like
+      
+      "Beets - the real heart-healthy choice!" and "Carrots - see the benefits!"
+      
+      You blink, taken aback by the surreal sight of a giant zombie bear advocating for healthy eating. "So, if I munch
+      on some broccoli, will you let me pass?"
+      
+      With a sigh, you realize you’re about to negotiate your escape with dietary choices. Only at Grizzly University
+      would the climax involve veggies and a health-conscious zombie bear.
+    outlets:
+      north: 12
+      west: 11
+      south: 16
+    item: 90
+
+  - id: 16
+    name: Dean's Lair 1
+    description: The ambiance of the Dean's Lair is strikingly different from the rest of the university. The elegant wooden
+      panels, plush carpeting, and well-maintained decor seem untouched, a stark contrast to the chaos outside. The dim
+      chandeliers overhead cast a warm glow over the room, but there's an eerie silence.
+      
+      As you tread carefully, a tantalizing aroma wafts through the air, growing stronger with each step. Following
+      their nose, they come upon a large, ornate door with the title "Dean's Dining Room" engraved in golden lettering.
+    explored: Pushing the door open, they're met with an unexpected sight, a grand dining table is laid out with a
+      sumptuous spread, complete with sparkling silverware and crystal goblets. The food, however, isn't what one might
+      expect at a dean's dinner. Among the dishes, there's a platter of finger foods (which are, alarmingly, actual fingers),
+      brain pâté, and what looks to be a risotto with chunks of... something unidentifiable.
+      
+      At the head of the table, a chef's hat bobs up and down. As it turns, you sees a zombie chef, diligently tasting
+      a broth, then adding a sprinkle of what looks to be "Ghoul's Salt." The zombie chef, upon noticing you, straightens up,
+      clearly proud.
+      
+      "Ah! An audience! Have you come to taste Dean's Delight?" you gulp, wondering how you'll navigate this culinary
+      escapade in the heart of the Dean's Lair.
+    outlets:
+      east: 18
+      west: 17
+    item:
+
+  - id: 17
+    name: Dean's Lair 2 (Chief Le Brains)
+    description: The second floor is a stark contrast to the elegance of the first. Here, the dimly lit hallways echo with
+      an ominous hum. The walls, adorned with old portraits of past Deans, seem to watch your every move, their
+      eyes almost shifting with every step you take.
+    explored: Suddenly, a grand double door at the end of the corridor bursts open, revealing a vast, torch-lit chamber.
+      At its center stands a figure with a towering chef's hat, holding a spatula like a warrior would wield a sword.
+      His apron, stained with mysterious splatters, bears the name "Chief le Brains."
+      
+      "Ah, the main course has arrived," he says with a sinister grin, pointing the spatula at you.
+      
+      You gulp, realizing that this isn't just a battle of brawn but also one of wits. "I heard your culinary skills are unmatched,
+      Chief le Brains," the student begins, trying to buy some time and strategize. "But can you handle the heat of competition?"
+      
+      Chief le Brains laughs, "You wish to challenge me in culinary combat? Very well. But be warned, the stakes are high."
+      
+      The room transforms, revealing a kitchen battleground complete with sizzling grills, boiling pots, and an array of ingredients.
+      
+      "Prepare for the ultimate cook-off," Chief le Brains declares. "And may the best chef... survive."
+    outlets:
+      east: 16
+      south: 19
+    item:
+
+  - id: 18
+    name: Dean's Lair 3
+    description: Upon reaching the third floor, the ambiance takes another unexpected turn. The floor has a distinctly
+      modern vibe, almost like a posh penthouse. Clean lines, polished surfaces, a sleek mini kitchen, and an impressive
+      bar stocked with an array of beverages, both non-alcoholic and otherwise, greet you. Neon lights subtly backlight
+      the shelves, giving a chill lounge feel.
+      
+      There are plush sofas surrounding a fireplace, and above it, a massive portrait of the dean, looking sophisticated
+      and mysteriously smug. However, the odd juxtaposition of the chic environment amidst the chaos of the rest of the
+      university makes you wary.
+      
+      Settling on a barstool, you survey the room. Suddenly, the sound of ice clinking against glass breaks the
+      silence. From behind the bar emerges a zombie bartender, immaculately dressed, stirring a crimson concoction.
+    explored: "Greetings," it rasps, presenting the drink with a flourish. "I call it 'Bloody Brains'. Care for a taste?"
+                
+      You raise an eyebrow, "I think I'll pass, given the recent... menu options I've encountered."
+                
+      The bartender chuckles, "Understandable. But know that every floor has its challenges. While Chief le Brains wanted
+      to feed you, here, it's all about choices. Choose wisely, and you might just reach the Dean."
+    outlets:
+      west: 16
+      south: 20
+    item:
+
+  - id: 19
+    name: Dean's Lair 4
+    description: As you step onto the fourth floor, the air grows palpably colder. Gone are the neon lights and
+      modernity; instead, the atmosphere drips with foreboding. Long shadows stretch across the walls, and a thick layer of
+      fog obscures the ground. Faint, ghostly whispers echo through the chamber, recounting tales of past students who dared
+      challenge the Dean.
+      
+      You tighten your grip on your bag, mentally reviewing your inventory. The vial of antidote from the science lab, the
+      knowledge of the math riddles, the veggie from Grizzy's cafe, and a token from Chief le Brains's culinary duel. Each
+      item, a testament to the your journey and resolve.
+      
+      Ahead, a massive ornate door stands closed, and above it, an inscription reads - "To those who seek the Dean, prove
+      you have learned and gathered from each domain."
+    explored: Four pedestals surround the door, each corresponding to a floor they've traversed. With determination, the
+      student places each item on its respective pedestal. As the final token settles, a resonating click echoes through the
+      chamber, and the massive door starts to creak open.
+      
+      Beyond lies the Dean's sanctum. As you cautiously proceeds, the weight of your journey and the challenge ahead bears
+      down on you. The final confrontation is near, and with everything you've gained, you feel ready to face the Dean of
+      Grizzly University.
+    outlets:
+      north: 17
+    item: 100
+
+  - id: 20
+    name: Dean (Dean Zombie)
+    description: The sanctum is vast and grand, decorated with ancient artifacts and illuminated by a massive chandelier
+      that casts dancing shadows on the walls. At the far end, behind an intricately carved wooden desk, stands a figure both
+      familiar and imposing.
+    explored: The Dean of Grizzly University, now transformed with pale, mottled skin, glowing eyes, and an air of malevolent authority.
+                
+      "Ah, the intrepid student," the Dean rasps, his voice echoing through the chamber. "You've navigated the treacherous
+      floors of my lair. Impressive. But did you truly think it would be that easy to confront me?"
+    outlets:
+      east: 21
+    item:
+
+  - id: 21
+    name: Exit
+    description: As the final question is answered, the Dean's malevolent aura diminishes. He lets out an agonizing roar
+      as the dark energy surrounding him dissipates, and the sanctum starts to rumble. Walls shake, and the chandelier sways
+      precariously.
+      
+      You dash towards the exit as the room collapses, escaping just in the nick of time. As you emerge into the
+      sunlight outside, the university grounds slowly return to normal. Students, no longer zombified, look around in confusion,
+      their memories of the ordeal hazy.
+      
+      Grizzly University is saved, and tales of the brave student who outwitted the Dean will become legends whispered in the
+      corridors for generations to come.
+      
+      You successfully defeated the Dean! Thanks for playing!
+    explored:
+    outlets:
+      west: 21
+    item:

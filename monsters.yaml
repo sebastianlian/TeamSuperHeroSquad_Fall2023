@@ -7,8 +7,8 @@ monsters:
       hp: 80
       def: 5
       atk: 15
-    innateDesc:
-    location: L4
+    innate:
+    location: 4
 
   - id: 2
     name: Zombie Librarian (English Zombie)
@@ -18,7 +18,7 @@ monsters:
       def: 20
       atk: 30
     innateDesc: If two questions are answered wrong, double enemy damage to 60
-    location: L5
+    location: 5
 
   - id: 3
     name: Square Z (Math Zombie)
@@ -28,7 +28,7 @@ monsters:
       def: 15
       atk: 40
     innateDesc:
-    location: S3
+    location: 8
 
   - id: 4
     name: ZTX (IT Zombie)
@@ -38,7 +38,7 @@ monsters:
       def: 10
       atk: 20
     innateDesc: Ignores Defense
-    location: S4
+    location: 9
 
 
   - id: 5
@@ -49,7 +49,7 @@ monsters:
       def: 30
       atk: 20
     innateDesc: Poison. Deal set hp damage for x turns if hit
-    location: S5
+    location: 10
 
   - id: 6
     name: Dr. Frankizom (Health Zombie)
@@ -62,7 +62,7 @@ monsters:
       energy regenerates x hp every turn/question. 
       If you miss too many, not only do you take damage, but the enemy gets more health, 
       making the fight longer.
-    location: B4
+    location: 14
 
   - id: 7
     name: Grizzly the Zombie Bear
@@ -72,7 +72,7 @@ monsters:
       def: 20
       atk: 10
     innateDesc:
-    location: B5
+    location: 15
 
   - id: 8
     name: Chief Le Brains
@@ -82,7 +82,7 @@ monsters:
       def: 25
       atk: 40
     innateDesc:
-    location: D2
+    location: 17
 
   - id: 9
     name: Dean Zombie (final boss)
@@ -94,6 +94,4 @@ monsters:
       def: 50
       atk: 50
     innateDesc: everything except ignore defense
-    location: D5
-
-
+    location: 20
