@@ -1,5 +1,6 @@
 items:
   - id: 10
+    type: usable
     name: Apple
     type: 0
     description: A delicious apple that can be consumed to heal 10 HP.
@@ -8,6 +9,7 @@ items:
       hp: 10
 
   - id: 20
+    type: usable
     name: Coffee
     type: 0
     description: A warm cup of coffee that can be consumed to heal 30 HP.
@@ -16,6 +18,7 @@ items:
       hp: 30
 
   - id: 30
+    type: usable
     name: Pizza
     type: 0
     description: A tasty slice of pizza that can be consumed to heal 50 HP.
@@ -24,24 +27,28 @@ items:
       hp: 50
 
   - id: 40
+    type: usable
     name: Chemical
     type: 0
     description: A chemical that immediately kills the mini monster or deals 50 damage to the boss.
     number: 2
 
   - id: 50
+    type: usable
     name: Book
     type: 0
     description: A book that can be used to skip a question.
     number: 1
 
   - id: 60
+    type: usable
     name: Syringe
     type: 0
     description: A syringe that yields undying 1 time.
     number: 1
 
   - id: 70
+    type: equippable
     name: Calculator
     type: 1
     description: A calculator that permanently adds 15 HP to your stats.
@@ -50,6 +57,7 @@ items:
       hp: 15
 
   - id: 80
+    type: equippable
     name: Backpack
     type: 1
     description: A backpack that permanently adds 15 ATK to your stats.
@@ -57,8 +65,8 @@ items:
     stats:
       atk: 15
 
-
   - id: 90
+    type: equippable
     name: Laptop
     type: 1
     description: A laptop that permanently adds 15 ATK to your stats.
@@ -67,6 +75,7 @@ items:
       atk: 15
 
   - id: 100
+    type: collected
     name: Key
     type: 1
     description: A key that can be used to open the door and fight the boss.
