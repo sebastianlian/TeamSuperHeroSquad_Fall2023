@@ -1,6 +1,7 @@
 package Controller;
 
 import java.util.EnumSet;
+import java.util.Scanner;
 
 public class Commands {
     public enum ValidCommand {
@@ -28,24 +29,22 @@ public class Commands {
         }
     }
 
-    ValidCommand input;
-    EnumSet<ValidCommand> validCommandSet = EnumSet.allOf(ValidCommand.class);
-    public void validatingCommands(){
 
-        switch(input){
-            case MOVE -> {}
-            case SHOW_STATS ->{}
-            case OPEN_INVENTORY -> {}
-            case ACCESS_MAP -> {}
-            case ACCESS_HELP -> {}
-            case QUIT -> {}
-            case SAVE -> {}
-            case LIST_ITEM -> {}
-            case PICKUP_ITEM -> {}
-            case USE_ITEM -> {}
-            case EQUIP_ITEM -> {}
-            case EXPLORE -> {}
-            case LIST_MONSTER -> {}
+    private final static EnumSet<ValidCommand> validCommandSet = EnumSet.allOf(ValidCommand.class);
+
+
+    public void validatingCommands(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter a command: ");
+        String user = scan.nextLine().toUpperCase();
+
+        try{
+        ValidCommand input = ValidCommand.valueOf(user);
+            if (validCommandSet.contains(input)){
+                System.out.println("You performed " + input); // TEMP: Checks if the input is holding the command
+            }
+        } catch(IllegalArgumentException e) {
+            System.out.println("Invalid output.Please Enter a Valid command");
         }
     }
 }
