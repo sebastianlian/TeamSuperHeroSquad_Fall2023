@@ -12,32 +12,6 @@ rooms:
       - 7
 
   - id: 1
-    name: Hallway
-    description: >
-      You are entering the dimly lit hallway. To the north, a small lamp reveals a variety of books and stationery on the
-      desk and a bookcase behind it. You notice a soft melody that seems to be coming from this room.
-      To the east, the hallway opens up to a better-lit, open space. Strangely, you hear a soft, consistent tapping and smell
-      a mildly sweet aroma. To the south lies the master bedroom, a dark room with a big bed in the middle.
-      The only source of light is the clock on the nightstand. The thick curtains in the window are preventing any light
-      from coming inside. To the west, you observe a door to another bedroom illuminated by a large-screen TV. You are
-      surprised that there is no sound coming from it.
-    outlets:
-      north: 3
-      east: 6
-      south: 0
-      west: 2
-    items:
-
-  - id: 2
-    name: Guest Bedroom
-    description: >
-      You are at the door of the guest bedroom. The light from the large-screen TV on the dresser gives away the simplicity
-      of the room. The ruffled bed covering indicates that someone had recently watched TV in quiet.
-    outlets:
-      east: 1
-    item:
-
-  - id: 1
     name: Library 1
     description: The player enters the library's door on the first level, just as you do.
     explored: There, you find what seems to be the remains of a librarian... holding a sign that reads, "Overdue by
