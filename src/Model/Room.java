@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 public class Room {
-    private int roomID;
+    private int id;
     private String roomName;
     private String roomDescription;
     private boolean checkedRoom;
@@ -15,8 +15,8 @@ public class Room {
     private ArrayList<Integer> items;
     private int monsterInRoom;
 
-    public Room(int roomID, String roomName, String roomDescription) {
-        this.roomID = roomID;
+    public Room(int id, String roomName, String roomDescription) {
+        this.id = id;
         this.roomName = roomName;
         this.roomDescription = roomDescription;
         this.checkedRoom = false;
@@ -26,8 +26,8 @@ public class Room {
         this.monsterInRoom = 0;
     }
 
-    public Room(int roomID, String roomName, String roomDescription, ArrayList<Integer> items ) {
-        this.roomID = roomID;
+    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items ) {
+        this.id = id;
         this.roomName = roomName; // Initialize roomName
         this.roomDescription = roomDescription;
         this.checkedRoom = false;
@@ -36,7 +36,7 @@ public class Room {
         this.monsterInRoom = 0;
     }
 
-    public int getRoomID() { return roomID; }
+    public int getRoomID() { return id; }
 
     public String getRoomName() { return roomName; }
 
@@ -60,7 +60,7 @@ public class Room {
 
     public int getMonsterInRoom() { return monsterInRoom; }
 
-    public void setRoomID(int roomID) { this.roomID = roomID; }
+    public void setid(int id) { this.id = id; }
 
     public void setRoomName(String roomName) { this.roomName = roomName; }
 
@@ -76,7 +76,7 @@ public class Room {
 
     public void setMoveRight(String moveRight) { this.moveRight = moveRight; }
 
-    public void setVisited(boolean visited) { isVisited = visited; }
+    public void setVisited() { isVisited = true; }
 
     public void setItems(ArrayList<Integer> items) {
         this.items = items;

@@ -1,12 +1,8 @@
 package Controller;
 
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 import Model.Actor;
 import org.yaml.snakeyaml.Yaml;
@@ -18,14 +14,56 @@ import Model.Item;
 public class Game {
 
     static State state;
+    static CommandManager commandManager;
 
     public static void main(String[] args) throws Exception {
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
+        commandManager = new CommandManager();
 
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();
 
+        while(state.isRunning()) {
+            //TODO: user setup for the game
+            Scanner scan = new Scanner(System.in);
+
+
+            //TODO: initial prompt
+            System.out.println("Enter a command: ");
+
+            String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
+            String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
+
+            Room currentRoom = state.getCurrentRoom(); //TODO: why not make currentRoom and outlets protected within state?
+            int[] currentRoomOutlets = state.getCurrentOutlets();
+
+            //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
+            switch (console) {
+                case "N", "NORTH", "UP":
+                    commandManager.move(0);
+//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
+
+                    break;
+                case "W", "WEST", "LEFT":
+                    commandManager.move(3);
+//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
+
+                    break;
+                case "E", "EAST", "RIGHT":
+                    commandManager.move(1);
+//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
+
+                    break;
+                case "S", "SOUTH", "DOWN":
+                    commandManager.move(2);
+//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
+
+                    break;
+                default:
+                    commandManager.validateCommand(console, cmdAttr);
+            }
+        }
     }
 
     public static HashMap<Integer, Item> parseItems() throws Exception {
@@ -78,7 +116,7 @@ public class Game {
             Map<Object, Object> mapping = (Map<Object, Object>) room;
 
             Room roomInstance = new Room(
-                    (int) mapping.get("number"),
+                    (int) mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
                     (ArrayList<Integer>) mapping.get("items")

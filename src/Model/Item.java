@@ -3,16 +3,16 @@ package Model;
 public class Item {
     private int id;
     private String name;
-    private String type;
+    private boolean type;
     private String effect;
     private int quantity;
 
-    public Item(int id, String name, String type, String effect, int quantity) {
+    public Item(int id, String name, boolean type, String effect) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.effect = effect;
-        this.quantity = quantity;
+//        this.quantity = quantity;
     }
 
     public int getID() {
@@ -23,35 +23,6 @@ public class Item {
         return name;
     }
 
-    public boolean getItemType() {
-        return itemType;
-    }
-
-    public String getEffect() {
-        return effect;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setItemID(int itemID) { this.itemID = itemID;}
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setItemType(boolean itemType) {
-        this.itemType = itemType;
-    }
-
-    public void setEffect(String effect) {
-        this.effect = effect;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
     // Method to list items (assumed functionality)
     public void listItems() {

@@ -3,7 +3,7 @@ package Model;
 public class Puzzle {
 
     public enum topic{
-        CHEM, HIST, HEALTH,MATH, IT, ENGL, BUSN, NURS, FINAL
+        CHEM, HIST, HEALTH, MATH, IT, ENGL, BUSN, NURS, FINAL
     }
     private topic puzzletopic;
     private String question;

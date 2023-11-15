@@ -12,32 +12,6 @@ rooms:
       - 7
 
   - id: 1
-    name: Hallway
-    description: >
-      You are entering the dimly lit hallway. To the north, a small lamp reveals a variety of books and stationery on the
-      desk and a bookcase behind it. You notice a soft melody that seems to be coming from this room.
-      To the east, the hallway opens up to a better-lit, open space. Strangely, you hear a soft, consistent tapping and smell
-      a mildly sweet aroma. To the south lies the master bedroom, a dark room with a big bed in the middle.
-      The only source of light is the clock on the nightstand. The thick curtains in the window are preventing any light
-      from coming inside. To the west, you observe a door to another bedroom illuminated by a large-screen TV. You are
-      surprised that there is no sound coming from it.
-    outlets:
-      north: 3
-      east: 6
-      south: 0
-      west: 2
-    items:
-
-  - id: 2
-    name: Guest Bedroom
-    description: >
-      You are at the door of the guest bedroom. The light from the large-screen TV on the dresser gives away the simplicity
-      of the room. The ruffled bed covering indicates that someone had recently watched TV in quiet.
-    outlets:
-      east: 1
-    item:
-
-  - id: 1
     name: Library 1
     description: The player enters the library's door on the first level, just as you do.
     explored: There, you find what seems to be the remains of a librarian... holding a sign that reads, "Overdue by
@@ -85,7 +59,9 @@ rooms:
     description: You stumble into the final area, and just when you thought you had seen it all, out shuffles
       a gargantuan zombified librarian, her once neat bun now haphazardly falling apart, glasses skewed. With an ominous
       (yet slightly comedic) creak, she points a bony finger at you.
-    explored: "Shhhhhhhhhhhhhhh..." she draws out with a dramatic flair, her voice echoing across the vast hall.
+    explored: |
+    
+      "Shhhhhhhhhhhhhhh..." she draws out with a dramatic flair, her voice echoing across the vast hall.
                 
       "Late returns?" she asks, her eyes twitching.
                 
@@ -149,7 +125,9 @@ rooms:
     description: You enter the fourth section of the lab it is a dimly lit room filled with computers, and at the center
       of the chaos sits alone computer with a black screen. Suddenly, a pair of glowing green eyes flicker to life on the
       screen, and a gravelly voice emanates from the computer's speakers.
-    explored: "I am ZTX, the IT Zombie," it croaks in a robotic tone, its fingers clattering over the keyboard.
+    explored: |
+    
+      "I am ZTX, the IT Zombie," it croaks in a robotic tone, its fingers clattering over the keyboard.
                 
       "I've been trying to troubleshoot this cursed machine for eons. Perhaps you can help me decipher the cryptic error code 
       of doom?"
@@ -316,7 +294,9 @@ rooms:
       
       Settling on a barstool, you survey the room. Suddenly, the sound of ice clinking against glass breaks the
       silence. From behind the bar emerges a zombie bartender, immaculately dressed, stirring a crimson concoction.
-    explored: "Greetings," it rasps, presenting the drink with a flourish. "I call it 'Bloody Brains'. Care for a taste?"
+    explored: |
+      
+      "Greetings," it rasps, presenting the drink with a flourish. "I call it 'Bloody Brains'. Care for a taste?"
                 
       You raise an eyebrow, "I think I'll pass, given the recent... menu options I've encountered."
                 
