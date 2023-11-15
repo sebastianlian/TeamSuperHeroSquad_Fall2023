@@ -59,7 +59,9 @@ rooms:
     description: You stumble into the final area, and just when you thought you had seen it all, out shuffles
       a gargantuan zombified librarian, her once neat bun now haphazardly falling apart, glasses skewed. With an ominous
       (yet slightly comedic) creak, she points a bony finger at you.
-    explored: "Shhhhhhhhhhhhhhh..." she draws out with a dramatic flair, her voice echoing across the vast hall.
+    explored: |
+    
+      "Shhhhhhhhhhhhhhh..." she draws out with a dramatic flair, her voice echoing across the vast hall.
                 
       "Late returns?" she asks, her eyes twitching.
                 
@@ -123,7 +125,9 @@ rooms:
     description: You enter the fourth section of the lab it is a dimly lit room filled with computers, and at the center
       of the chaos sits alone computer with a black screen. Suddenly, a pair of glowing green eyes flicker to life on the
       screen, and a gravelly voice emanates from the computer's speakers.
-    explored: "I am ZTX, the IT Zombie," it croaks in a robotic tone, its fingers clattering over the keyboard.
+    explored: |
+    
+      "I am ZTX, the IT Zombie," it croaks in a robotic tone, its fingers clattering over the keyboard.
                 
       "I've been trying to troubleshoot this cursed machine for eons. Perhaps you can help me decipher the cryptic error code 
       of doom?"
@@ -290,7 +294,9 @@ rooms:
       
       Settling on a barstool, you survey the room. Suddenly, the sound of ice clinking against glass breaks the
       silence. From behind the bar emerges a zombie bartender, immaculately dressed, stirring a crimson concoction.
-    explored: "Greetings," it rasps, presenting the drink with a flourish. "I call it 'Bloody Brains'. Care for a taste?"
+    explored: |
+      
+      "Greetings," it rasps, presenting the drink with a flourish. "I call it 'Bloody Brains'. Care for a taste?"
                 
       You raise an eyebrow, "I think I'll pass, given the recent... menu options I've encountered."
                 
