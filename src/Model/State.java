@@ -24,7 +24,7 @@ public class State {
     private boolean running;
     private MODE gameMode;
 //    protected MonsterReference currentMonster = null;
-    private Room currentRoom;
+    protected Room currentRoom;
 
 
     // Player Variables
@@ -41,6 +41,9 @@ public class State {
 
 
     public State(Callable<HashMap<Integer, Item>> populateItemIndex, Callable<HashMap<Room, int[]>> populateRooms, Callable<HashMap<Integer, Actor>> populateMonsters) throws Exception {
+        running = true;
+        gameMode = MODE.PLAY;
+
         inventory = new ArrayList<>();
 
         indexedItems = populateItemIndex.call();
@@ -91,7 +94,19 @@ public class State {
         return foundRoom;
     }
 
-    //FIXME:FORLATER
+    public boolean isRunning() {
+        return running;
+    }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    public int[] getCurrentOutlets() {
+        return indexedRooms.get(currentRoom);
+    }
+
+//FIXME:FORLATER
 
 //    public void beginBattle(MonsterReference monsterReference) {
 //        setGameMode(MODE.BATTLE);
@@ -110,4 +125,34 @@ public class State {
 //        monsters.add(monRef);
 //        selectRoom.referredMonsters.put(monsterId, monRef);
 //    }
+
+    //TODO: refactor these
+    //Getters and setters
+    public double getHitPoints() {
+        return hitPoints;
+    }
+
+    public double getDefense() {
+        return defense;
+    }
+
+    public double getAttack() {
+        return attack;
+    }
+
+    public ArrayList<ItemReference> getInventory() {
+        return inventory;
+    }
+
+
+    //TODO: all my homies hate getters and setters, so we'll GET rid of these below
+
+
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+    public void setCurrentRoom(int roomNumber) {
+        this.currentRoom = getRoom(roomNumber);
+    }
+
 }

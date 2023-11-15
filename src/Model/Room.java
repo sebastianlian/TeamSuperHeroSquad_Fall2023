@@ -76,7 +76,7 @@ public class Room {
 
     public void setMoveRight(String moveRight) { this.moveRight = moveRight; }
 
-    public void setVisited(boolean visited) { isVisited = visited; }
+    public void setVisited() { isVisited = true; }
 
     public void setItems(ArrayList<Integer> items) {
         this.items = items;
