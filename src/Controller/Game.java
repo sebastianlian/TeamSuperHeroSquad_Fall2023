@@ -116,7 +116,7 @@ public class Game {
             Map<Object, Object> mapping = (Map<Object, Object>) room;
 
             Room roomInstance = new Room(
-                    (int) mapping.get("number"),
+                    (int) mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
                     (ArrayList<Integer>) mapping.get("items")
