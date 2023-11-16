@@ -175,4 +175,16 @@ public void moveFromInventory(ItemReference itemRef) {
         this.currentRoom = getRoom(roomNumber);
     }
 
+    public void displayInventory() {
+        if (inventory.isEmpty()) {
+            System.out.println("Inventory is empty.");
+        } else {
+            System.out.println("Inventory contains:");
+            for (ItemReference itemRef : inventory) {
+                Item item = itemRef.getItem();
+                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription() + ", Quantity: " + item.getQuantity());
+            }
+        }
+    }
+
 }
