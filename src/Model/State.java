@@ -66,11 +66,9 @@ public class State {
         attack = 100;
 
         Iterator<Actor> monsterIterator = indexedMonsters.values().iterator();
-        for (Room room :
-                indexedRooms.keySet()) {
-
-//            //TODO: replace foreach with iterators and create references for each object related to rooms
-//            room.getItems().forEach((itemInput) -> createItemRefInstance(itemInput, room));
+        for (Room room : indexedRooms.keySet()) {
+            //TODO: replace foreach with iterators and create references for each object related to rooms
+            room.getItems().forEach((itemInput) -> createItemRefInstance(itemInput, room));
 //            room.getMonsters().forEach((monsterInput) -> createMonsterRefInstance(monsterInput, room, indexedMonsters.values().stream().filter(e -> e.getId() == monsterInput).reduce((mon, mon2) -> {
 //                throw new IllegalStateException("Multiple elements: " + mon + ", " + mon2);
 //            }).get()));
@@ -113,11 +111,10 @@ public class State {
 //        currentMonster = monsterReference;
 //    }
 
-//    private void createItemRefInstance(int itemId, Room selectRoom) {
-//        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getNumber());
-//        items.add(itemRef);
-//        selectRoom.referredItems.put(itemId, itemRef);
-//    }
+    private void createItemRefInstance(int itemId, Room selectRoom) {
+        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID());
+        selectRoom.referredItems.put(itemId, itemRef);
+    }
 //
 //    private void createMonsterRefInstance(int monsterId, Room selectRoom, Actor monster) {
 //        MonsterReference monRef = new MonsterReference(monsterId, indexedMonsters.get(monsterId).getName(), selectRoom.getNumber(), monster);
@@ -125,6 +122,29 @@ public class State {
 //        monsters.add(monRef);
 //        selectRoom.referredMonsters.put(monsterId, monRef);
 //    }
+public void moveFromInventory(ItemReference itemRef) {
+    //Remove item from player inventory and add item to room
+
+    if (itemRef == null) {
+        //TODO: move fail message?
+        System.out.println(itemRef + " failed to be moved from inventory");
+    } else {
+        currentRoom.referredItems.put(itemRef.getIndex(), itemRef);
+        inventory.remove(itemRef);
+    }
+}
+
+    public void moveIntoInventory(ItemReference itemRef) {
+        //Remove item from room and add item to player inventory
+
+        if (itemRef == null) {
+            System.out.println(itemRef + " failed to be moved into inventory");
+        } else {
+            inventory.add(itemRef);
+            currentRoom.referredItems.remove(itemRef.getIndex());
+
+        }
+    }
 
     //TODO: refactor these
     //Getters and setters
