@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Room {
     private int id;
@@ -13,6 +14,7 @@ public class Room {
     private String moveRight;
     private boolean isVisited;
     private ArrayList<Integer> items;
+    protected HashMap<Integer, ItemReference> referredItems = new HashMap<>(); //Integer stands for the item id and the ItemReference refers to the actual item
     private int monsterInRoom;
 
     public Room(int id, String roomName, String roomDescription) {
@@ -32,8 +34,16 @@ public class Room {
         this.roomDescription = roomDescription;
         this.checkedRoom = false;
         this.isVisited = false;
-        this.items = items;
+        this.items = (items == null) ? new ArrayList<>() : items;
         this.monsterInRoom = 0;
+    }
+
+    public HashMap<Integer, ItemReference> getReferredItems() {
+        return referredItems;
+    }
+
+    public void setReferredItems(HashMap<Integer, ItemReference> referredItems) {
+        this.referredItems = referredItems;
     }
 
     public int getRoomID() { return id; }
@@ -81,6 +91,7 @@ public class Room {
     public void setItems(ArrayList<Integer> items) {
         this.items = items;
     }
+
 
     public void setMonsterInRoom(int monsterInRoom) { this.monsterInRoom = monsterInRoom; }
 
