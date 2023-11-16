@@ -4,8 +4,8 @@ import Model.ItemReference;
 
 import java.lang.reflect.Method;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static Controller.Game.state;
@@ -135,7 +135,7 @@ public class CommandManager {
 
     }
     public void pickup_item() {
-
+        
     }
     public void use_item() {
 
@@ -144,10 +144,13 @@ public class CommandManager {
 
     }
     public void explore() {
-//        List itemNames = state.getCurrentRoom().referredItems.values().stream().map(ItemReference::getName).collect(Collectors.toList());
-//        System.out.println("Items: " + ((itemNames.isEmpty()) ? "None" : itemNames));
-//        List monsterNames = state.getCurrentRoom().referredMonsters.values().stream().map(MonsterReference::getName).collect(Collectors.toList());
-//        System.out.println("Monsters: " + ((monsterNames.isEmpty()) ? "None" : monsterNames));
+        List itemsInRoom = state.getCurrentRoom()
+                .getReferredItems()
+                .values()
+                .stream()
+                .map(ItemReference::getName)
+                .collect(Collectors.toList());
+        System.out.println("Items in the Room: " + itemsInRoom);
 
     }
     public void list_monster() {

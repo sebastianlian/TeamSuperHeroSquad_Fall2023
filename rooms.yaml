@@ -9,7 +9,7 @@ rooms:
     outlets:
       north: 1
     items:
-      - 7
+      - 70
 
   - id: 1
     name: Library 1
@@ -19,8 +19,8 @@ rooms:
     outlets:
       east: 5
       west: 0
-    item:
-      - 70
+    items:
+      - 80
 
   - id: 2
     name: Library 2
@@ -30,7 +30,7 @@ rooms:
       slippery search for clues to escape this quirky library.
     outlets:
       south: 5
-    item:
+    items:
 
   - id: 3
     name: Library 3
@@ -42,7 +42,7 @@ rooms:
       help but chuckle as you navigate the playful barricade.
     outlets:
       south: 4
-    item:
+    items:
 
   - id: 4
     name: Library 4
@@ -52,7 +52,8 @@ rooms:
     explored: You chuckles nervously "Shoot, Mr. Zombie Scholar, hit me with your best shot!"
     outlets:
       north: 3
-    item: 100
+    items:
+      - 100
 
   - id: 5
     name: Library 5 (Zombie Librarian)
@@ -74,7 +75,8 @@ rooms:
       east: 3
       west: 1
       south: 6
-    item: 70
+    items:
+      - 70
 
   - id: 6
     name: Science Lab 1
@@ -91,7 +93,7 @@ rooms:
       Do not eat!"
     outlets:
       west: 7
-    item:
+    items:
 
   - id: 7
     name: Science Lab 2
@@ -102,7 +104,7 @@ rooms:
     outlets:
       east: 6
       south: 8
-    item:
+    items:
 
   - id: 8
     name: Science Lab 3 (Square Z)
@@ -118,7 +120,7 @@ rooms:
     outlets:
       east: 10
       south: 9
-    item:
+    items:
 
   - id: 9
     name: Science Lab 4 (ZTX
@@ -133,7 +135,8 @@ rooms:
       of doom?"
     outlets:
       north: 8
-    item: 100
+    items:
+      - 100
 
   - id: 10
     name: Science Boss (Professor Z)
@@ -150,7 +153,8 @@ rooms:
     outlets:
       east: 11
       west: 8
-    item: 80
+    items:
+      - 80
 
   - id: 11
     name: Bear's Cafe 1
@@ -162,7 +166,7 @@ rooms:
     outlets:
       east: 15
       west: 10
-    item:
+    items:
 
   - id: 12
     name: Bear's Cafe 2
@@ -174,7 +178,7 @@ rooms:
     outlets:
       east: 13
       south: 15
-    item:
+    items:
 
   - id: 13
     name: Bear's Cafe 3
@@ -186,7 +190,8 @@ rooms:
       counter tops, their contents now solidified mid-spill, creating beautiful coffee-colored ice sculptures.
     outlets:
       north: 14
-    item: 100
+    items:
+      - 100
 
   - id: 14
     name: Bear's Cafe 4 (Dr. Frankizom)
@@ -204,7 +209,8 @@ rooms:
       is it keto?"
     outlets:
       south: 13
-    item: 100
+    items:
+      - 100
 
   - id: 15
     name: Cafe Boss (Grizzly the Zombie Bear)
@@ -231,7 +237,8 @@ rooms:
       north: 12
       west: 11
       south: 16
-    item: 90
+    items:
+      - 90
 
   - id: 16
     name: Dean's Lair 1
@@ -255,7 +262,7 @@ rooms:
     outlets:
       east: 18
       west: 17
-    item:
+    items:
 
   - id: 17
     name: Dean's Lair 2 (Chief Le Brains)
@@ -279,7 +286,7 @@ rooms:
     outlets:
       east: 16
       south: 19
-    item:
+    items:
 
   - id: 18
     name: Dean's Lair 3
@@ -305,7 +312,7 @@ rooms:
     outlets:
       west: 16
       south: 20
-    item:
+    items:
 
   - id: 19
     name: Dean's Lair 4
@@ -329,7 +336,8 @@ rooms:
       Grizzly University.
     outlets:
       north: 17
-    item: 100
+    items:
+      - 100
 
   - id: 20
     name: Dean (Dean Zombie)
@@ -342,7 +350,7 @@ rooms:
       floors of my lair. Impressive. But did you truly think it would be that easy to confront me?"
     outlets:
       east: 21
-    item:
+    items:
 
   - id: 21
     name: Exit
@@ -361,4 +369,4 @@ rooms:
     explored:
     outlets:
       west: 21
-    item:
+    items:
