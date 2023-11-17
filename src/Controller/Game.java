@@ -23,10 +23,13 @@ public class Game {
 
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();
-
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your character's name: ");
+        String playerName = scan.nextLine();
+        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
         while(state.isRunning()) {
             //TODO: user setup for the game
-            Scanner scan = new Scanner(System.in);
+
 
 
             //TODO: initial prompt

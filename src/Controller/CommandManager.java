@@ -1,11 +1,12 @@
 package Controller;
 
+import Model.Item;
 import Model.ItemReference;
 
 import java.lang.reflect.Method;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static Controller.Game.state;
@@ -58,8 +59,8 @@ public class CommandManager {
 //        String userInput = scan.nextLine().toUpperCase();
 
         try{
-        ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
-        //stream.map not working: TODO: test to see if necessary
+            ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
+            //stream.map not working: TODO: test to see if necessary
             if (validCommandSet.contains(input) || validCommandSet.stream().map(ValidCommand::getCommandInput).anyMatch(cmdName -> cmdName.equalsIgnoreCase(expectedCommandInput))){
                 System.out.println("You performed " + input); // TEMP: Checks if the input is holding the command
 
@@ -77,7 +78,7 @@ public class CommandManager {
     }
 
 //    public void instCommandCall(String input) {
-//        Callable callable = 
+//        Callable callable =
 //    }
 
     public void runCommand(String command) throws Exception {
@@ -131,23 +132,60 @@ public class CommandManager {
 
     }
 
+    //TODO for SEB: implement list_item()
     public void list_item() {
-
+        System.out.println("List of Items:");
+        for (ItemReference itemRef : state.getInventory()) {
+            Item item = state.indexedItems.get(itemRef.getIndex());
+            System.out.println("ID: " + item.getID());
+            System.out.println("Name: " + item.getName());
+            System.out.println("Effect: " + item.getEffect());
+            System.out.println("Description: " + item.getDescription()); // You might need to add getDescription() method in Item class if it's missing
+            System.out.println("------------");
+        }
     }
+
     public void pickup_item() {
 
-    }
-    public void use_item() {
 
     }
+
+    //TODO for SEB: implement use_item()
+    public void use_item() {
+        ItemReference foundItem = null;
+        for (ItemReference itemRef : state.getInventory()) {
+            if (itemRef.getName().equalsIgnoreCase(itemRef.getName())) {
+                foundItem = itemRef;
+                break;
+            }
+        }
+
+        Item item = null;
+        if (foundItem != null) {
+            // Check if the item is available
+            item = state.indexedItems.get(foundItem.getIndex());
+            if (item.getQuantity() > 0) {
+                item.useItem();
+                item.pickUp();
+            } else {
+                System.out.println("You don't have any more " + item.getName() + ".");
+            }
+        } else {
+            System.out.println("You don't have " + item.getName() + " in your inventory.");
+        }
+    }
+
     public void equip_item() {
 
     }
     public void explore() {
-//        List itemNames = state.getCurrentRoom().referredItems.values().stream().map(ItemReference::getName).collect(Collectors.toList());
-//        System.out.println("Items: " + ((itemNames.isEmpty()) ? "None" : itemNames));
-//        List monsterNames = state.getCurrentRoom().referredMonsters.values().stream().map(MonsterReference::getName).collect(Collectors.toList());
-//        System.out.println("Monsters: " + ((monsterNames.isEmpty()) ? "None" : monsterNames));
+        List itemsInRoom = state.getCurrentRoom()
+                .getReferredItems()
+                .values()
+                .stream()
+                .map(ItemReference::getName)
+                .collect(Collectors.toList());
+        System.out.println("Items in the Room: " + itemsInRoom);
 
     }
     public void list_monster() {

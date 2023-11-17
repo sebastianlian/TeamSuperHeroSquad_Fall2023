@@ -12,6 +12,7 @@ public class Console {
         //Add starting prompts here
         startingPrompts.add("Welcome to the Grizzly University Adventure!");
         startingPrompts.add("Navigate the treacherous floors and defeat the Dean to save the university.");
+
     }
 
     public void initialTestPrint() throws InterruptedException {

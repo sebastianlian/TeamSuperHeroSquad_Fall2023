@@ -14,7 +14,7 @@ enum MODE {
 
 public class State {
     // Statics
-    private HashMap<Integer, Item> indexedItems;
+    public HashMap<Integer, Item> indexedItems;
 
 
     // Controller.Game State
