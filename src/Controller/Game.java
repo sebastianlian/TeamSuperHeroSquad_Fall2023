@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import Model.Actor;
+import View.Console; // Import the Console class
 import org.yaml.snakeyaml.Yaml;
 
 import Model.Room;
@@ -15,57 +16,52 @@ public class Game {
 
     static State state;
     static CommandManager commandManager;
+    static Console gameConsole = new Console(); // Create an instance of Console
 
     public static void main(String[] args) throws Exception {
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
         commandManager = new CommandManager();
 
-        //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
-//        parsePuzzle();
+        gameConsole.initialGamePrint(); // Print initial game state
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your character's name: ");
+        String playerName = scan.nextLine();
+        gameConsole.roomFormatPrint("Starting room description"); // Print room description
+        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
 
         while(state.isRunning()) {
-            //TODO: user setup for the game
-            Scanner scan = new Scanner(System.in);
-
-
-            //TODO: initial prompt
             System.out.println("Enter a command: ");
 
-            String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
-            String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
+            String console = scan.next().toUpperCase();
+            String cmdAttr = scan.nextLine().replaceFirst("^\\s+", "");
 
-            Room currentRoom = state.getCurrentRoom(); //TODO: why not make currentRoom and outlets protected within state?
+            Room currentRoom = state.getCurrentRoom();
             int[] currentRoomOutlets = state.getCurrentOutlets();
 
-            //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
             switch (console) {
                 case "N", "NORTH", "UP":
                     commandManager.move(0);
-//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
+                    gameConsole.dotdotdot("Moving to a new room", "Arrived within the room", 10, 3);
                     break;
                 case "W", "WEST", "LEFT":
                     commandManager.move(3);
-//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
+                    gameConsole.dotdotdot("Moving to a new room", "Arrived within the room", 10, 3);
                     break;
                 case "E", "EAST", "RIGHT":
                     commandManager.move(1);
-//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
+                    gameConsole.dotdotdot("Moving to a new room", "Arrived within the room", 10, 3);
                     break;
                 case "S", "SOUTH", "DOWN":
                     commandManager.move(2);
-//                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
+                    gameConsole.dotdotdot("Moving to a new room", "Arrived within the room", 10, 3);
                     break;
                 default:
                     commandManager.validateCommand(console, cmdAttr);
             }
         }
     }
-
     public static HashMap<Integer, Item> parseItems() throws Exception {
         // Index of items.
         HashMap<Integer, Item> itemIndex = new HashMap<>();
@@ -99,7 +95,6 @@ public class Game {
 
         return itemIndex;
     }
-
 
     public static HashMap<Room, int[]> parseRooms() throws Exception {
         // List of rooms.
