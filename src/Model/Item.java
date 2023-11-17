@@ -2,17 +2,28 @@ package Model;
 
 public class Item {
     private int id;
-    private String name;
+    private String name, effect, description;
     private boolean type;
-    private String effect;
     private int quantity;
+    protected Stats stats;
 
+
+    //TODO: get rid of this constructor when parsing method is corrected
     public Item(int id, String name, boolean type, String effect) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.effect = effect;
 //        this.quantity = quantity;
+    }
+
+    public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
+        this.id = id;
+        this.name = name;
+        this.effect = effect;
+        this.description = description;
+        this.type = type;
+        this.stats = stats;
     }
 
     public int getID() {
@@ -53,4 +64,30 @@ public class Item {
     }
 
     // Additional methods for other interactions can be added here
+
+
+    public static class Stats {
+        //Assumes non-dynamic item stats
+        protected final double hp;
+        protected final double def;
+        protected final double atk;
+
+        public Stats(double hp, double def, double atk) {
+            this.hp = hp;
+            this.def = def;
+            this.atk = atk;
+        }
+
+        public double getHp() {
+            return hp;
+        }
+
+        public double getDef() {
+            return def;
+        }
+
+        public double getAtk() {
+            return atk;
+        }
+    }
 }
