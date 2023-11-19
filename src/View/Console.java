@@ -32,6 +32,8 @@ public class Console {
     public void allPrints() throws InterruptedException {
         initialTestPrint();
         initialGamePrint();
+        //Add more prints as needed
+        //Additional prints for different game phases or events
         exitGamePrint();
     }
 
@@ -49,8 +51,8 @@ public class Console {
         TimeUnit.MILLISECONDS.sleep(100 * time);
     }
 
-//    public static void main(String[] args) throws InterruptedException {
-//        Console gameConsole = new Console();
-//        gameConsole.allPrints();
-//    }
+    public static void main(String[] args) throws InterruptedException {
+        Console gameConsole = new Console();
+        gameConsole.allPrints();
+    }
 }

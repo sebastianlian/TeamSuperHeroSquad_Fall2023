@@ -13,7 +13,7 @@ monsters:
   - id: 2
     name: Zombie Librarian (English Zombie)
     description: very low hp, high defense, high attack
-    stats: 
+    stats:
       hp: 10
       def: 20
       atk: 30

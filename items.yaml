@@ -2,7 +2,6 @@ items:
   - id: 10
     name: Apple
     type: 0
-    effect: Heal 10 HP
     description: A delicious apple that can be consumed to heal 10 HP.
     number: 4
     stats:
@@ -11,7 +10,6 @@ items:
   - id: 20
     name: Coffee
     type: 0
-    effect: Heal 30 HP
     description: A warm cup of coffee that can be consumed to heal 30 HP.
     number: 3
     stats:
@@ -20,7 +18,6 @@ items:
   - id: 30
     name: Pizza
     type: 0
-    effect: Heal 50 HP
     description: A tasty slice of pizza that can be consumed to heal 50 HP.
     number: 1
     stats:
@@ -29,28 +26,24 @@ items:
   - id: 40
     name: Chemical
     type: 0
-    effect: Kill the mini monster or deal 50 damage to the boss
     description: A chemical that immediately kills the mini monster or deals 50 damage to the boss.
     number: 2
 
   - id: 50
     name: Book
     type: 0
-    effect: Skip a question
     description: A book that can be used to skip a question.
     number: 1
 
   - id: 60
     name: Syringe
     type: 0
-    effect: Undying 1 time
     description: A syringe that yields undying 1 time.
     number: 1
 
   - id: 70
     name: Calculator
     type: 1
-    effect: Add 15 HP to your stats
     description: A calculator that permanently adds 15 HP to your stats.
     number: 1
     stats:
@@ -59,7 +52,6 @@ items:
   - id: 80
     name: Backpack
     type: 1
-    effect: Add 15 ATK to your stats
     description: A backpack that permanently adds 15 ATK to your stats.
     number: 1
     stats:
@@ -68,7 +60,6 @@ items:
   - id: 90
     name: Laptop
     type: 1
-    effect: Add 15 ATK to your stats
     description: A laptop that permanently adds 15 ATK to your stats.
     number: 1
     stats:
@@ -77,6 +68,5 @@ items:
   - id: 100
     name: Key
     type: 1
-    effect: Open the door and fight the boss
     description: A key that can be used to open the door and fight the boss.
     number: 4

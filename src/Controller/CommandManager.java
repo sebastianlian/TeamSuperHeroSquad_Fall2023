@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Item;
 import Model.ItemReference;
 
 import java.lang.reflect.Method;
@@ -116,10 +115,28 @@ public class CommandManager {
     }
     public void open_inventory() {
         //Print inventory if not empty - Print "You didn’t pickup any items yet" if empty
-        List itemInventory = state.getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
-        System.out.println("Items: " + ((itemInventory.isEmpty()) ? "You have no items in your inventory" : itemInventory));
+        //List itemInventory = state.getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
+        //System.out.println("Items: " + ((itemInventory.isEmpty()) ? "You have no items in your inventory" : itemInventory));
+        state.displayInventory();
     }
     public void access_map() {
+//        state.accessMap();
+        int[] directions = new int[]{0,1,2,3};
+        // 0 = north, 3 = west, 2 =down , 1 = east
+
+        HashMap<Integer, String> map = new HashMap<>();
+
+        map.put(0,"North");
+        map.put(1,"East");
+        map.put(2,"South");
+        map.put(3,"West");
+
+        for(int direct: map.keySet()){
+            if(state.getCurrentOutlets()[direct] != -1){
+                System.out.println(state.getRoom(state.getCurrentOutlets()[direct]).getRoomName());
+                System.out.println(map.get(direct));
+            }
+        }
 
     }
     public void access_help() {
@@ -132,47 +149,15 @@ public class CommandManager {
 
     }
 
-    //TODO: seb implement  list_item() method
     public void list_item() {
-        HashMap<Integer, Item> items = state.getItems();
 
-        if (items.isEmpty()) {
-            System.out.println("No items found.");
-            return;
-        }
-
-        System.out.println("List of items:");
-
-        for (Item item : items.values()) {
-            System.out.println("ID: " + item.getID());
-            System.out.println("Name: " + item.getName());
-            System.out.println("Description: " + item.getDescription());
-            System.out.println("Effect: " + item.getEffect());
-            System.out.println("Type: " + (item.getType()));
-            System.out.println("Quantity: " + item.getQuantity());
-
-            // Check if the item has stats
-            if (item.getStats() != null) {
-                System.out.println("Stats:");
-                System.out.println("  HP: " + item.getStats().getHp());
-                System.out.println("  ATK: " + item.getStats().getAtk());
-                System.out.println("  DEF: " + item.getStats().getDef());
-            }
-
-            // If you have any other attributes to display, add them here
-
-            System.out.println(); // Empty line between items
-        }
     }
     public void pickup_item() {
 
     }
-
-    //TODO: seb implement use_item() method
     public void use_item() {
 
     }
-
     public void equip_item() {
 
     }
