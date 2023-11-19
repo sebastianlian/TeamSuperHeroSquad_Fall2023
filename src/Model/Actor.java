@@ -24,7 +24,7 @@ public class Actor {
         this.startingPosition = startingPosition = currentPosition;
     }
 
-    public void takeDamage(double damageTaken) {
+    public void takeDamge(double damageTaken) {
         hitPoints -= damageTaken;
     }
 

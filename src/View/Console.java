@@ -12,7 +12,6 @@ public class Console {
         //Add starting prompts here
         startingPrompts.add("Welcome to the Grizzly University Adventure!");
         startingPrompts.add("Navigate the treacherous floors and defeat the Dean to save the university.");
-
     }
 
     public void initialTestPrint() throws InterruptedException {
@@ -33,8 +32,6 @@ public class Console {
     public void allPrints() throws InterruptedException {
         initialTestPrint();
         initialGamePrint();
-        //Add more prints as needed
-        //Additional prints for different game phases or events
         exitGamePrint();
     }
 
@@ -52,8 +49,8 @@ public class Console {
         TimeUnit.MILLISECONDS.sleep(100 * time);
     }
 
-    public static void main(String[] args) throws InterruptedException {
-        Console gameConsole = new Console();
-        gameConsole.allPrints();
-    }
+//    public static void main(String[] args) throws InterruptedException {
+//        Console gameConsole = new Console();
+//        gameConsole.allPrints();
+//    }
 }

@@ -50,6 +50,11 @@ public class Item {
         return quantity;
     }
 
+    public Stats getStats() {
+        return stats;
+    }
+
+
 
     // Method to list items (assumed functionality)
     public void listItems() {
@@ -78,6 +83,8 @@ public class Item {
             System.out.println("Cannot use " + name + ". No more left.");
         }
     }
+
+
 
     // Additional methods for other interactions can be added here
 

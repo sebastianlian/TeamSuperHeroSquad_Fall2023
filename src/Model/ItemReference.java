@@ -16,15 +16,12 @@ public class ItemReference {
         this.position = position;
     }
 
-    public int getIndex() {
-        return index;
-    }
+
+    public int getIndex() { return index; }
 
     public String getName() {
         return name;
     }
 
-    public int getPosition() {
-        return position;
-    }
+    public int getPosition() { return position; }
 }

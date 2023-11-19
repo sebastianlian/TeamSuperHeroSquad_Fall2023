@@ -132,47 +132,45 @@ public class CommandManager {
 
     }
 
-    //TODO for SEB: implement list_item()
+    //TODO: seb implement  list_item() method
     public void list_item() {
-        System.out.println("List of Items:");
-        for (ItemReference itemRef : state.getInventory()) {
-            Item item = state.indexedItems.get(itemRef.getIndex());
+        HashMap<Integer, Item> items = state.getItems();
+
+        if (items.isEmpty()) {
+            System.out.println("No items found.");
+            return;
+        }
+
+        System.out.println("List of items:");
+
+        for (Item item : items.values()) {
             System.out.println("ID: " + item.getID());
             System.out.println("Name: " + item.getName());
+            System.out.println("Description: " + item.getDescription());
             System.out.println("Effect: " + item.getEffect());
-            System.out.println("Description: " + item.getDescription()); // You might need to add getDescription() method in Item class if it's missing
-            System.out.println("------------");
+            System.out.println("Type: " + (item.getType()));
+            System.out.println("Quantity: " + item.getQuantity());
+
+            // Check if the item has stats
+            if (item.getStats() != null) {
+                System.out.println("Stats:");
+                System.out.println("  HP: " + item.getStats().getHp());
+                System.out.println("  ATK: " + item.getStats().getAtk());
+                System.out.println("  DEF: " + item.getStats().getDef());
+            }
+
+            // If you have any other attributes to display, add them here
+
+            System.out.println(); // Empty line between items
         }
     }
-
     public void pickup_item() {
 
-
     }
 
-    //TODO for SEB: implement use_item()
+    //TODO: seb implement use_item() method
     public void use_item() {
-        ItemReference foundItem = null;
-        for (ItemReference itemRef : state.getInventory()) {
-            if (itemRef.getName().equalsIgnoreCase(itemRef.getName())) {
-                foundItem = itemRef;
-                break;
-            }
-        }
 
-        Item item = null;
-        if (foundItem != null) {
-            // Check if the item is available
-            item = state.indexedItems.get(foundItem.getIndex());
-            if (item.getQuantity() > 0) {
-                item.useItem();
-                item.pickUp();
-            } else {
-                System.out.println("You don't have any more " + item.getName() + ".");
-            }
-        } else {
-            System.out.println("You don't have " + item.getName() + " in your inventory.");
-        }
     }
 
     public void equip_item() {
