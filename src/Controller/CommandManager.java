@@ -115,8 +115,9 @@ public class CommandManager {
     }
     public void open_inventory() {
         //Print inventory if not empty - Print "You didn’t pickup any items yet" if empty
-        List itemInventory = state.getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
-        System.out.println("Items: " + ((itemInventory.isEmpty()) ? "You have no items in your inventory" : itemInventory));
+        //List itemInventory = state.getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
+        //System.out.println("Items: " + ((itemInventory.isEmpty()) ? "You have no items in your inventory" : itemInventory));
+        state.displayInventory();
     }
     public void access_map() {
 
