@@ -23,7 +23,7 @@ public class State {
     private HashMap<Integer, Actor> indexedMonsters;
     private boolean running;
     private MODE gameMode;
-//    protected MonsterReference currentMonster = null;
+    //    protected MonsterReference currentMonster = null;
     protected Room currentRoom;
 
 
@@ -115,24 +115,24 @@ public class State {
         ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID());
         selectRoom.referredItems.put(itemId, itemRef);
     }
-//
+    //
 //    private void createMonsterRefInstance(int monsterId, Room selectRoom, Actor monster) {
 //        MonsterReference monRef = new MonsterReference(monsterId, indexedMonsters.get(monsterId).getName(), selectRoom.getNumber(), monster);
 //
 //        monsters.add(monRef);
 //        selectRoom.referredMonsters.put(monsterId, monRef);
 //    }
-public void moveFromInventory(ItemReference itemRef) {
-    //Remove item from player inventory and add item to room
+    public void moveFromInventory(ItemReference itemRef) {
+        //Remove item from player inventory and add item to room
 
-    if (itemRef == null) {
-        //TODO: move fail message?
-        System.out.println(itemRef + " failed to be moved from inventory");
-    } else {
-        currentRoom.referredItems.put(itemRef.getIndex(), itemRef);
-        inventory.remove(itemRef);
+        if (itemRef == null) {
+            //TODO: move fail message?
+            System.out.println(itemRef + " failed to be moved from inventory");
+        } else {
+            currentRoom.referredItems.put(itemRef.getIndex(), itemRef);
+            inventory.remove(itemRef);
+        }
     }
-}
 
     public void moveIntoInventory(ItemReference itemRef) {
         //Remove item from room and add item to player inventory

@@ -58,8 +58,8 @@ public class CommandManager {
 //        String userInput = scan.nextLine().toUpperCase();
 
         try{
-        ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
-        //stream.map not working: TODO: test to see if necessary
+            ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
+            //stream.map not working: TODO: test to see if necessary
             if (validCommandSet.contains(input) || validCommandSet.stream().map(ValidCommand::getCommandInput).anyMatch(cmdName -> cmdName.equalsIgnoreCase(expectedCommandInput))){
                 System.out.println("You performed " + input); // TEMP: Checks if the input is holding the command
 
@@ -77,7 +77,7 @@ public class CommandManager {
     }
 
 //    public void instCommandCall(String input) {
-//        Callable callable = 
+//        Callable callable =
 //    }
 
     public void runCommand(String command) throws Exception {
@@ -153,7 +153,7 @@ public class CommandManager {
 
     }
     public void pickup_item() {
-        
+
     }
     public void use_item() {
 
