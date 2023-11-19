@@ -187,4 +187,11 @@ public void moveFromInventory(ItemReference itemRef) {
         }
     }
 
+    public void accessMap(){
+        int[] test = indexedRooms.get(currentRoom);
+
+        System.out.println(test);
+
+    }
+
 }

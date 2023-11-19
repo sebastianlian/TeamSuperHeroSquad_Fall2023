@@ -120,6 +120,23 @@ public class CommandManager {
         state.displayInventory();
     }
     public void access_map() {
+//        state.accessMap();
+        int[] directions = new int[]{0,1,2,3};
+        // 0 = north, 3 = west, 2 =down , 1 = east
+
+        HashMap<Integer, String> map = new HashMap<>();
+
+        map.put(0,"North");
+        map.put(1,"East");
+        map.put(2,"South");
+        map.put(3,"West");
+
+        for(int direct: map.keySet()){
+            if(state.getCurrentOutlets()[direct] != -1){
+                System.out.println(state.getRoom(state.getCurrentOutlets()[direct]).getRoomName());
+                System.out.println(map.get(direct));
+            }
+        }
 
     }
     public void access_help() {
