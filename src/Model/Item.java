@@ -2,11 +2,13 @@ package Model;
 
 public class Item {
     private int id;
-    private String name;
+    private String name, effect, description;
     private boolean type;
-    private String description;
     private int quantity;
+    protected Stats stats;
 
+
+    //TODO: get rid of this constructor when parsing method is corrected
     public Item(int id, String name, boolean type, String description) {
         this.id = id;
         this.name = name;
@@ -15,45 +17,44 @@ public class Item {
       //  this.quantity = quantity;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
+    public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isType() {
-        return type;
-    }
-
-    public void setType(boolean type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
+        this.effect = effect;
         this.description = description;
+        this.type = type;
+        this.stats = stats;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public int getID() { return id; }
+  
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    public void setId(int id) { this.id = id; }
+  
+
+    public String getName() { return name; }
+
+  
+    public void setName(String name) { this.name = name; }
+
+  
+    public boolean isType() { return type; }
+
+  
+    public void setType(boolean type) { this.type = type; }
+
+  
+    public String getDescription() { return description; }
+
+  
+    public void setDescription(String description) { this.description = description; }
+
+  
+    public int getQuantity() { return quantity; }
+
+  
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
     // Method to list items (assumed functionality)
     public void listItems() {
@@ -85,4 +86,29 @@ public class Item {
 
     // Additional methods for other interactions can be added here
 
+
+    public static class Stats {
+        //Assumes non-dynamic item stats
+        protected final double hp;
+        protected final double def;
+        protected final double atk;
+
+        public Stats(double hp, double def, double atk) {
+            this.hp = hp;
+            this.def = def;
+            this.atk = atk;
+        }
+
+        public double getHp() {
+            return hp;
+        }
+
+        public double getDef() {
+            return def;
+        }
+
+        public double getAtk() {
+            return atk;
+        }
+    }
 }
