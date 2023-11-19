@@ -1,8 +1,12 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 enum MODE {
@@ -33,6 +37,7 @@ public class State {
     private int position = 0; // FIXME: There must be a 0th room.
     private int characterID; //FIXME: what is character id for?
     private double hitPoints, defense, attack;
+    private static List<Map<String, Object>> characters;
 
     //Aux player variables
     private ItemReference equippedItem = null;
@@ -129,7 +134,7 @@ public void moveFromInventory(ItemReference itemRef) {
         //TODO: move fail message?
         System.out.println(itemRef + " failed to be moved from inventory");
     } else {
-        currentRoom.referredItems.put(itemRef.getIndex(), itemRef);
+        currentRoom.referredItems.put(itemRef.getGlobalID(), itemRef);
         inventory.remove(itemRef);
     }
 }
@@ -138,12 +143,73 @@ public void moveFromInventory(ItemReference itemRef) {
         //Remove item from room and add item to player inventory
 
         if (itemRef == null) {
-            System.out.println(itemRef + " failed to be moved into inventory");
+            System.out.println("Error: Item reference is null. Failed to move into inventory.");
         } else {
             inventory.add(itemRef);
-            currentRoom.referredItems.remove(itemRef.getIndex());
+            currentRoom.referredItems.remove(itemRef.getGlobalID());
+            System.out.println("Item moved into inventory: " + itemRef.getName());
 
+        } // Check if item has HP replenishing abilities
+        double indexedItemHP = indexedItems.get(itemRef.getGlobalID()).stats.hp;
+        if(indexedItemHP != 0) {
+            replenishHP(indexedItemHP);
+            System.out.println("HP replenished by: " + indexedItemHP + "\nCurrent HP: " + hitPoints);
         }
+    }
+    public void replenishHP(double amount) {
+        // Ensuring that HP does not exceed the maximum value
+        hitPoints = Math.min(hitPoints + amount, 100);
+        System.out.println("HP replenished. Current HP: " + hitPoints);
+    }
+    public void replenishMaxHP() {
+        // Setting HP to the maximum value
+        replenishHP(100); //FIXME
+        System.out.println("Max HP replenished. Current HP: " + hitPoints);
+    }
+    public void takePlayerDamage(double damage) {
+        // Ensure that the player's HP doesn't go below 0
+        hitPoints = Math.max(hitPoints - damage, 0);
+        System.out.println("Player took " + damage + " damage. Current HP: " + hitPoints);
+
+        // Check if the player has run out of HP
+        if (hitPoints == 0) {
+            running = false; // Game over
+            System.out.println("Game Over. Player has run out of HP.");
+        }
+    }
+    private void loadCharacterData() {
+        Yaml yaml = new Yaml();
+        Path path = Paths.get("character.yaml");
+        try (InputStream inputStream = Files.newInputStream(path)) {
+            Map<String, List<Map<String, Object>>> data = yaml.load(inputStream);
+            characters = data.get("characters");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public int selectCharacter() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose your character:");
+        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+
+        for (Map<String, Object> character : characters) {
+            System.out.println(character.get("id") + ". " + character.get("name"));
+        }
+
+        int selectedId = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        return selectedId;
+    }
+    public Map<String, Object> getSelectedCharacter(int characterId) {
+        for (Map<String, Object> character : characters) {
+            if ((int) character.get("id") == characterId) {
+                return character;
+            }
+        }
+        return null; // Character not found
     }
 
     //TODO: refactor these
