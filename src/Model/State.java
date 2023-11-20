@@ -6,6 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 enum MODE {
     //FIXME: Temp enum to discern mode until permanent way decided
@@ -27,6 +34,8 @@ public class State {
     private MODE gameMode;
     //    protected MonsterReference currentMonster = null;
     protected Room currentRoom;
+    private static List<Map<String, Object>> characters;
+
 
 
     // Player Variables
@@ -146,6 +155,61 @@ public class State {
             currentRoom.referredItems.remove(itemRef.getIndex());
 
         }
+    }
+    public void replenishHP(double amount) {
+        // Ensuring that HP does not exceed the maximum value
+        hitPoints = Math.min(hitPoints + amount, 100);
+        System.out.println("HP replenished. Current HP: " + hitPoints);
+    }
+    public void replenishMaxHP() {
+        // Setting HP to the maximum value
+        replenishHP(100); //FIXME
+        System.out.println("Max HP replenished. Current HP: " + hitPoints);
+    }
+    public void takePlayerDamage(double damage) {
+        // Ensure that the player's HP doesn't go below 0
+        hitPoints = Math.max(hitPoints - damage, 0);
+        System.out.println("Player took " + damage + " damage. Current HP: " + hitPoints);
+
+        // Check if the player has run out of HP
+        if (hitPoints == 0) {
+            running = false; // Game over
+            System.out.println("Game Over. Player has run out of HP.");
+        }
+    }
+    private void loadCharacterData() {
+        Yaml yaml = new Yaml();
+        Path path = Paths.get("character.yaml");
+        try (InputStream inputStream = Files.newInputStream(path)) {
+            Map<String, List<Map<String, Object>>> data = yaml.load(inputStream);
+            characters = data.get("characters");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public int selectCharacter() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose your character:");
+        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+
+        for (Map<String, Object> character : characters) {
+            System.out.println(character.get("id") + ". " + character.get("name"));
+        }
+
+        int selectedId = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        return selectedId;
+    }
+    public Map<String, Object> getSelectedCharacter(int characterId) {
+        for (Map<String, Object> character : characters) {
+            if ((int) character.get("id") == characterId) {
+                return character;
+            }
+        }
+        return null; // Character not found
     }
 
     //TODO: refactor these
