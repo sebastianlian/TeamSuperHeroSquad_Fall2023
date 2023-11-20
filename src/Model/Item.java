@@ -11,7 +11,7 @@ public class Item {
 
 
     //TODO: get rid of this constructor when parsing method is corrected
-    public Item(int id, String name, boolean type, String description, String effect) {
+    public Item(int id, String name, boolean type, String effect, String description) {
         this.id = id;
         this.name = name;
         this.type = type;
