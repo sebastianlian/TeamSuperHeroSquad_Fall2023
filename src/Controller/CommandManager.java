@@ -149,21 +149,21 @@ public class CommandManager {
     public void save() {
 
     }
-    //TODO: sebastian implement list_item() method
+    //TODO: Sebastian implement list_item() method
     public void list_item() {
         HashMap<Integer, Item> allItems = state.getItems();
 
         if (allItems.isEmpty()) {
             System.out.println("No items found.");
         } else {
+            System.out.println("__________________________________________________________");
             System.out.println("All items:");
             for (Item item : allItems.values()) {
                 System.out.println("Item ID: " + item.getId());
                 System.out.println("Name: " + item.getName());
-                System.out.println("Type: " + item.isType());
-                System.out.println("Description: " + item.getDescription());
                 System.out.println("Effect: " + item.getEffect());
-                System.out.println("Stats: " + item.getStats());
+                System.out.println("Description: " + item.getDescription());
+                System.out.println("__________________________________________________________");
             }
         }
     }
@@ -172,7 +172,7 @@ public class CommandManager {
 
     }
 
-    //TODO: sebastian implement use_item() method
+    //FIXME: Sebastian implement use_item() method
     public void use_item() {
         List itemsInInventory = state.getInventory()
                 .stream()
@@ -180,7 +180,7 @@ public class CommandManager {
                 .collect(Collectors.toList());
         if (itemsInInventory.isEmpty()) {
             System.out.println("You have no items in your inventory");
-           // return;
+            // return;
         } else {
             System.out.println("Items in your inventory: " + itemsInInventory);
         }

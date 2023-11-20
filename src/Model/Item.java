@@ -2,17 +2,20 @@ package Model;
 
 public class Item {
     private int id;
-    private String name, effect, description;
+    private String name;
     private boolean type;
+    private String effect;
+    private String description;
     private int quantity;
     protected Stats stats;
 
 
     //TODO: get rid of this constructor when parsing method is corrected
-    public Item(int id, String name, boolean type, String description) {
+    public Item(int id, String name, boolean type, String description, String effect) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.effect = effect;
         this.description = description;
 //        this.quantity = quantity;
     }
@@ -30,28 +33,27 @@ public class Item {
 
     public int getId() { return id; }
 
-
     public String getName() { return name; }
-
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getEffect() { return effect; }
-
+    public String getEffect() {
+        return effect;
+    }
 
     public String getDescription() { return description; }
-
 
     public void setDescription(String description) { this.description = description; }
 
     public boolean isType() {
+        if (type == true) {
+            System.out.println("Equippable");
+        } else {
+            System.out.println("Usable");
+        }
         return type;
-    }
-
-    public void setType(boolean type) {
-        this.type = type;
     }
 
     public int getQuantity() { return quantity; }
@@ -61,36 +63,6 @@ public class Item {
     public Stats getStats() {
         return stats;
     }
-
-//    // Method to list items (assumed functionality)
-//    public void listItems() {
-//        // Logic to list items (e.g., printing item details to the console)
-//        System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
-//    }
-//
-//    // Method to simulate picking up an item (increment quantity)
-//    public void pickUp() {
-//        quantity++;
-//    }
-//
-//    // Method to simulate equipping an item (assumed functionality)
-//    public void equipItem() {
-//        // Logic to equip an item (details depend on how you want to handle item equipment)
-//        System.out.println("Equipping: " + name);
-//    }
-//
-//    // Method to simulate using an item (decrement quantity)
-//    public void useItem() {
-//        if (quantity > 0) {
-//            quantity--;
-//            // Logic for the item's effect (details depend on the game mechanics)
-//            System.out.println("Using: " + name);
-//        } else {
-//            System.out.println("Cannot use " + name + ". No more left.");
-//        }
-//    }
-
-    // Additional methods for other interactions can be added here
 
     public static class Stats {
         //Assumes non-dynamic item stats

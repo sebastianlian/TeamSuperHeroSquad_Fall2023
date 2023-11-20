@@ -3,6 +3,7 @@ package View;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+//TODO: Sebastian write console class
 public class Console {
 
     private static ArrayList<String> startingPrompts;

@@ -53,11 +53,16 @@ public class Game {
                 case "E", "EAST", "RIGHT":
                     commandManager.move(1);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
                     break;
                 case "S", "SOUTH", "DOWN":
                     commandManager.move(2);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
+                    break;
+                case "LIST":
+                    commandManager.list_item();
+                    break;
+                case "USE ITEM":
+                    commandManager.use_item();;
                     break;
                 default:
                     commandManager.validateCommand(console, cmdAttr);
@@ -83,15 +88,16 @@ public class Game {
             int itemID = (int) mapping.get("id");
             String itemName = (String) mapping.get("name");
             boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
+            String itemEffect = (String) mapping.get("effect");
             String itemDescription = (String) mapping.get("description");
-//            int quantity = (int) mapping.get("quantity");
+            //int quantity = (int) mapping.get("quantity");
 
             Item itemInstance = new Item(
                     itemID,
                     itemName,
                     itemType,
+                    itemEffect,
                     itemDescription
-
             );
 
             itemIndex.put(itemID, itemInstance);
