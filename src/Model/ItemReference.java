@@ -1,28 +1,44 @@
 package Model;
 
 public class ItemReference {
-    // GlobalID in reference to id in items.yaml file
-    private int globalID;
+    private int index;
     private String name;
     private int position;
+    private Item item; // Reference to an Item object
 
-    public ItemReference(int globalID, int position) {
-        this.globalID = globalID;
+
+    public ItemReference(int index, int position) {
+        this.index = index;
         this.position = position;
     }
 
-    public ItemReference(int globalID, String name, int position) {
-        this.globalID = globalID;
+    public ItemReference(int index, String name, int position, Item item) {
+        this.index = index;
+        this.name = name;
+        this.position = position;
+        this.item = item;
+    }
+
+    public ItemReference(int index, String name, int position) {
+        this.index = index;
         this.name = name;
         this.position = position;
     }
 
 
-    public int getGlobalID() { return globalID; }
+    public int getIndex() { return index; }
 
     public String getName() {
         return name;
     }
 
     public int getPosition() { return position; }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
 }

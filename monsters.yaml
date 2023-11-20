@@ -13,11 +13,18 @@ monsters:
   - id: 2
     name: Zombie Librarian (English Zombie)
     description: very low hp, high defense, high attack
-    stats: 
+    stats:
       hp: 10
       def: 20
       atk: 30
-    innateDesc: If two questions are answered wrong, double enemy damage to 60
+    passive:
+      id: 100
+      name: Double Damage
+      battleEffect:
+        entityAffected: monster
+        amount: 2 #mutply the monster atk by 2
+        frequency: 1 #attack boost for that one turn
+        totality: false #doesn't last all battle only when activated
     location: 5
 
   - id: 3
@@ -37,7 +44,14 @@ monsters:
       hp: 50
       def: 10
       atk: 20
-    innateDesc: Ignores Defense
+    passive:
+      id: 101
+      name: Ignore Defense
+      battleEffect:
+        entityAffected: player
+        amount: 0 # set the player defense to 0
+        frequency: 0 # 0 being start at the beginning of battle
+        totality: true # last all battle
     location: 9
 
 
@@ -48,7 +62,14 @@ monsters:
       hp: 20
       def: 30
       atk: 20
-    innateDesc: Poison. Deal set hp damage for x turns if hit
+    passive:
+      id: 102
+      name: Poison on hit
+      battleEffect:
+        entityAffected: player
+        amount: 5 # the amount of damage the poison has
+        frequency: 2 # last 2 turn, only applied when the 2 turn run out
+        totality: false # doesn't last all battle
     location: 10
 
   - id: 6
@@ -58,10 +79,14 @@ monsters:
       hp: 50
       def: 15
       atk: 20
-    innateDesc: >
-      energy regenerates x hp every turn/question. 
-      If you miss too many, not only do you take damage, but the enemy gets more health, 
-      making the fight longer.
+    passive:
+      id: 103
+      name: Regeneration
+      battleEffect:
+        entityAffected: monster
+        amount: 10 # the amount of damage the poison has
+        frequency: 0 # last all turn when activated
+        totality: true # last all battle
     location: 14
 
   - id: 7
@@ -93,5 +118,5 @@ monsters:
       hp: 100
       def: 50
       atk: 50
-    innateDesc: everything except ignore defense
+    passive:
     location: 20
