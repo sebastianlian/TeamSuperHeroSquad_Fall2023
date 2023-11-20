@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Item;
 import Model.ItemReference;
 
 import java.lang.reflect.Method;
@@ -148,16 +149,43 @@ public class CommandManager {
     public void save() {
 
     }
-
+    //TODO: sebastian implement list_item() method
     public void list_item() {
+        HashMap<Integer, Item> allItems = state.getItems();
 
+        if (allItems.isEmpty()) {
+            System.out.println("No items found.");
+        } else {
+            System.out.println("All items:");
+            for (Item item : allItems.values()) {
+                System.out.println("Item ID: " + item.getId());
+                System.out.println("Name: " + item.getName());
+                System.out.println("Type: " + item.isType());
+                System.out.println("Description: " + item.getDescription());
+                System.out.println("Effect: " + item.getEffect());
+                System.out.println("Stats: " + item.getStats());
+            }
+        }
     }
+
     public void pickup_item() {
 
     }
-    public void use_item() {
 
+    //TODO: sebastian implement use_item() method
+    public void use_item() {
+        List itemsInInventory = state.getInventory()
+                .stream()
+                .map(ItemReference::getName)
+                .collect(Collectors.toList());
+        if (itemsInInventory.isEmpty()) {
+            System.out.println("You have no items in your inventory");
+           // return;
+        } else {
+            System.out.println("Items in your inventory: " + itemsInInventory);
+        }
     }
+
     public void equip_item() {
 
     }

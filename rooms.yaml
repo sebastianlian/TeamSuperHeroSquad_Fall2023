@@ -7,7 +7,7 @@ rooms:
       You try to escape and get hit by the debris of the meteor chunks. 
       You suddenly wake up in what seems to be a destroyed library.
     outlets:
-      north: 1
+      east: 1
     items:
       - 70
 

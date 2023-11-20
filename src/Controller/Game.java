@@ -4,12 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import Model.Actor;
+import Model.*;
 import org.yaml.snakeyaml.Yaml;
-
-import Model.Room;
-import Model.State;
-import Model.Item;
 
 public class Game {
 
@@ -20,6 +16,7 @@ public class Game {
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
         commandManager = new CommandManager();
+
 
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();

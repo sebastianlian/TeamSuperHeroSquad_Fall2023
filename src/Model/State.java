@@ -1,8 +1,6 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 enum MODE {
@@ -146,6 +144,23 @@ public class State {
         }
     }
 
+    public void populateRandomItem(ItemReference itemRef) {
+//        if (itemRef.getItem().getId() <= 60) {
+//            Random random = new Random();
+//            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
+//            int randomRoomIndex = random.nextInt(rooms.size());
+//            Room randomRoom = rooms.get(randomRoomIndex);
+//
+//            // Move the item to the randomly selected room
+//            currentRoom.referredItems.remove(itemRef.getIndex()); // Remove from current room
+//            randomRoom.referredItems.put(itemRef.getIndex(), itemRef); // Add to the random room
+//
+//            System.out.println("Item " + itemRef.getName() +
+//                    " (ID: " + itemRef.getIndex() + ") placed in room: "
+//                    + randomRoom.getRoomID());
+//        }
+    }
+
     //TODO: refactor these
     //Getters and setters
     public double getHitPoints() {
@@ -194,4 +209,7 @@ public class State {
 
     }
 
+    public HashMap<Integer, Item> getItems() {
+        return indexedItems;
+    }
 }
