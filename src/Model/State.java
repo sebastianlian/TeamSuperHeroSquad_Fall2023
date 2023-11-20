@@ -209,6 +209,7 @@ public class State {
 
     }
 
+    //TODO: Sebastian implement to list_item() method
     public HashMap<Integer, Item> getItems() {
         return indexedItems;
     }
