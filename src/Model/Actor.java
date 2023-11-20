@@ -5,9 +5,11 @@ public class Actor {
     String name, description;
 
     //Stats of actor
-    double hitPoints, defense, attack;
+    double maxHitPoints,hitPoints, defense, attack;
 
     //TODO: implement by declaration possible innates (special passives) for the application of each monster
+
+    //TODO: define best way to implement the innates either through setting a passive in the game that hold an idea
 
     int startingPosition, currentPosition;
 
@@ -23,6 +25,7 @@ public class Actor {
         this.attack = attack;
         this.startingPosition = startingPosition = currentPosition;
     }
+
 
     public void takeDamge(double damageTaken) {
         hitPoints -= damageTaken;
