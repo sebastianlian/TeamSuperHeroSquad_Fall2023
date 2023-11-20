@@ -43,12 +43,10 @@ public class Game {
                 case "N", "NORTH", "UP":
                     commandManager.move(0);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
                     break;
                 case "W", "WEST", "LEFT":
                     commandManager.move(3);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
                     break;
                 case "E", "EAST", "RIGHT":
                     commandManager.move(1);
@@ -57,6 +55,12 @@ public class Game {
                 case "S", "SOUTH", "DOWN":
                     commandManager.move(2);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
+                    break;
+                case "PICKUP":
+                    commandManager.pickup_item(cmdAttr);
+                    break;
+                case "DROP":
+                    commandManager.drop_item(cmdAttr);
                     break;
                 case "LIST":
                     commandManager.list_item();

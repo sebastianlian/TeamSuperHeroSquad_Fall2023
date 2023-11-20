@@ -168,8 +168,42 @@ public class CommandManager {
         }
     }
 
-    public void pickup_item() {
+    public void drop_item(String cmdAttr){
+        System.out.println("Attempting to drop item: " + cmdAttr);
 
+        ItemReference itemReference = state.getInventory()
+                .stream()
+                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
+                .findFirst()
+                .orElse(null);
+
+        if (itemReference != null) {
+            System.out.println("Found item: " + itemReference.getName());
+            state.moveFromInventory(itemReference);
+            System.out.println("You dropped " + itemReference.getName());
+        } else {
+            System.out.println("The item is not in your inventory.");
+        }
+    }
+
+    public void pickup_item(String cmdAttr) {
+        System.out.println("Attempting to pick up item: " + cmdAttr);
+
+        ItemReference itemReference = state.getCurrentRoom()
+                .getReferredItems()
+                .values()
+                .stream()
+                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
+                .findFirst()
+                .orElse(null);
+
+        if (itemReference != null) {
+            System.out.println("Found item: " + itemReference.getName());
+            state.moveIntoInventory(itemReference);
+            System.out.println("You picked up " + itemReference.getName());
+        } else {
+            System.out.println("The item is not in the current room.");
+        }
     }
 
     //FIXME: Sebastian implement use_item() method
@@ -183,6 +217,7 @@ public class CommandManager {
             // return;
         } else {
             System.out.println("Items in your inventory: " + itemsInInventory);
+
         }
     }
 
@@ -234,8 +269,8 @@ public class CommandManager {
             save();
         }
 
-        public void PICKUP() {
-            pickup_item();
+        public void PICKUP(String cmdAttr) {
+            pickup_item(cmdAttr);
         }
 
         public void USE() {
