@@ -1,10 +1,14 @@
 package Controller;
 
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import Model.Actor;
+import View.Console;
 import org.yaml.snakeyaml.Yaml;
 
 import Model.Room;
@@ -15,6 +19,45 @@ public class Game {
 
     static State state;
     static CommandManager commandManager;
+    private static ArrayList<String> startingPrompts;
+
+    //Moved code from console to Game class
+    public Game () {
+        startingPrompts = new ArrayList<>();
+        //Add starting prompts here
+        startingPrompts.add("-----------------------------------------");
+        startingPrompts.add("Welcome to Grizzly Survival!");
+        startingPrompts.add("-----------------------------------------");
+    }
+    public void  getPlayerName() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your character's name: ");
+        String playerName = scan.nextLine();
+        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
+    }
+
+
+    public void displayStartingPrompts() {
+        for (String prompt : startingPrompts) {
+            dotdotdot(prompt, 350, 1); // Adjust the duration and number of dots as needed
+        }
+    }
+    private void dotdotdot(String message, long delay, int repetitions) {
+        for (int i = 0; i < repetitions; i++) {
+            System.out.print(message);
+            try {
+                TimeUnit.MILLISECONDS.sleep(delay);
+                System.out.print(".");
+                TimeUnit.MILLISECONDS.sleep(delay);
+                System.out.print(".");
+                TimeUnit.MILLISECONDS.sleep(delay);
+                System.out.println(".");
+                TimeUnit.MILLISECONDS.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -23,13 +66,16 @@ public class Game {
 
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Please enter your character's name: ");
-        String playerName = scan.nextLine();
-        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
-        while(state.isRunning()) {
-            //TODO: user setup for the game
 
+
+        Game game = new Game();
+        game.displayStartingPrompts();
+        game.getPlayerName();
+
+
+        while (state.isRunning()) {
+            //TODO: user setup for the game
+            Scanner scan = new Scanner(System.in);
 
 
             //TODO: initial prompt
@@ -201,4 +247,6 @@ public class Game {
         }
         return puzzles;
     }
+
+
 }
