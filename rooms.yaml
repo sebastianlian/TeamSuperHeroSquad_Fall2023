@@ -42,6 +42,7 @@ rooms:
       help but chuckle as you navigate the playful barricade.
     outlets:
       south: 4
+      west: 5
     items:
 
   - id: 4
