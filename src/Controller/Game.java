@@ -62,6 +62,12 @@ public class Game {
                     commandManager.move(2);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
                     break;
+                case "PICKUP":
+                    commandManager.pickup_item(cmdAttr);
+                    break;
+                case "DROP":
+                    commandManager.drop_item(cmdAttr);
+                    break;
                 default:
                     commandManager.validateCommand(console, cmdAttr);
             }

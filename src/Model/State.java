@@ -3,7 +3,9 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
 
 enum MODE {
     //FIXME: Temp enum to discern mode until permanent way decided
@@ -176,14 +178,12 @@ public class State {
     }
 
     public void displayInventory() {
+        List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
         if (inventory.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
             System.out.println("Inventory contains:");
-            for (ItemReference itemRef : inventory) {
-                Item item = itemRef.getItem();
-                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription() + ", Quantity: " + item.getQuantity());
-            }
+            System.out.println(itemInInventory);
         }
     }
 
