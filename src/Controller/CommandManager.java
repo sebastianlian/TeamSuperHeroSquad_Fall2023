@@ -142,7 +142,7 @@ public class CommandManager {
         map.put(2,"South");
         map.put(3,"West");
 
-        for(int direct: map.keySet()){
+         for(int direct: map.keySet()){
             if(state.getCurrentOutlets()[direct] != -1){
                 System.out.println("Way to exit");
                 System.out.println("To go to room: " + state.getRoom(state.getCurrentOutlets()[direct]).getRoomName());
