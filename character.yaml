@@ -1,0 +1,25 @@
+characters:
+  - id: 1
+    name: IT Major
+    description: Attacker with a very strong attack but no defense
+    stats:
+      hp: 100
+      def: 0
+      atk: 60
+    bonus item: 40
+  - id: 2
+    name: Business Major
+    description: All rounder character with balanced stats
+    stats:
+      hp: 100
+      def: 10
+      atk: 50
+    bonus item: 50
+  - id: 3
+    name: Nurse Major
+    description: Survivor with a very high HP but low attack
+    stats:
+      hp: 150
+      def: 5
+      atk: 40
+    bonus item: 60
