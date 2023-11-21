@@ -9,7 +9,6 @@ rooms:
     outlets:
       east: 1
     items:
-      - 70
 
   - id: 1
     name: Library 1
@@ -20,7 +19,6 @@ rooms:
       east: 5
       west: 0
     items:
-      - 80
 
   - id: 2
     name: Library 2
@@ -195,7 +193,6 @@ rooms:
       north: 14
       west: 12
     items:
-      - 100
 
   - id: 14
     name: Bear's Cafe 4 (Dr. Frankizom)

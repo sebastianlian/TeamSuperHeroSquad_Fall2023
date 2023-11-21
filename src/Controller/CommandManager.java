@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import static Controller.Game.state;
@@ -79,7 +78,7 @@ public class CommandManager {
     }
 
 //    public void instCommandCall(String input) {
-//        Callable callable = 
+//        Callable callable =
 //    }
 
     public void runCommand(String command) throws Exception {
@@ -168,6 +167,7 @@ public class CommandManager {
             }
         }
     }
+
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
 
@@ -212,14 +212,14 @@ public class CommandManager {
                 .stream()
                 .map(ItemReference::getName)
                 .collect(Collectors.toList());
+
         if (itemsInInventory.isEmpty()) {
-            System.out.println("You have no items in your inventory");
+            System.out.println("You have no items in your inventory nothing can be used.");
             // return;
         } else {
-            System.out.println("Items in your inventory: " + itemsInInventory);
-
+            return;
+            }
         }
-    }
 
     public void equip_item() {
 
@@ -232,7 +232,6 @@ public class CommandManager {
                 .map(ItemReference::getName)
                 .collect(Collectors.toList());
         System.out.println("Items in the Room: " + itemsInRoom);
-
     }
     public void list_monster() {
 
@@ -267,10 +266,6 @@ public class CommandManager {
 
         public void SAVE() {
             save();
-        }
-
-        public void DROP(){
-
         }
 
         public void PICKUP(String cmdAttr) {

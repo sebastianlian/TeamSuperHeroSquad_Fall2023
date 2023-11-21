@@ -1,17 +1,7 @@
 package Model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
-import org.yaml.snakeyaml.Yaml;
-
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 enum MODE {
     //FIXME: Temp enum to discern mode until permanent way decided
@@ -26,15 +16,13 @@ public class State {
 
 
     // Controller.Game State
-    private HashMap<Room, int[]> indexedRooms;
+    public HashMap<Room, int[]> indexedRooms;
 
     private HashMap<Integer, Actor> indexedMonsters;
     private boolean running;
     private MODE gameMode;
-//    protected MonsterReference currentMonster = null;
+    //    protected MonsterReference currentMonster = null;
     protected Room currentRoom;
-    private static List<Map<String, Object>> characters;
-
 
 
     // Player Variables
@@ -76,11 +64,9 @@ public class State {
         attack = 100;
 
         Iterator<Actor> monsterIterator = indexedMonsters.values().iterator();
-        for (Room room :
-                indexedRooms.keySet()) {
-
-//            //TODO: replace foreach with iterators and create references for each object related to rooms
-//            room.getItems().forEach((itemInput) -> createItemRefInstance(itemInput, room));
+        for (Room room : indexedRooms.keySet()) {
+            //TODO: replace foreach with iterators and create references for each object related to rooms
+            room.getItems().forEach((itemInput) -> createItemRefInstance(itemInput, room));
 //            room.getMonsters().forEach((monsterInput) -> createMonsterRefInstance(monsterInput, room, indexedMonsters.values().stream().filter(e -> e.getId() == monsterInput).reduce((mon, mon2) -> {
 //                throw new IllegalStateException("Multiple elements: " + mon + ", " + mon2);
 //            }).get()));
@@ -123,12 +109,11 @@ public class State {
 //        currentMonster = monsterReference;
 //    }
 
-//    private void createItemRefInstance(int itemId, Room selectRoom) {
-//        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getNumber());
-//        items.add(itemRef);
-//        selectRoom.referredItems.put(itemId, itemRef);
-//    }
-//
+    private void createItemRefInstance(int itemId, Room selectRoom) {
+        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID());
+        selectRoom.referredItems.put(itemId, itemRef);
+    }
+    //
 //    private void createMonsterRefInstance(int monsterId, Room selectRoom, Actor monster) {
 //        MonsterReference monRef = new MonsterReference(monsterId, indexedMonsters.get(monsterId).getName(), selectRoom.getNumber(), monster);
 //
@@ -158,77 +143,30 @@ public class State {
 
         }
     }
-    public void replenishHP(double amount) {
-        // Ensuring that HP does not exceed the maximum value
-        hitPoints = Math.min(hitPoints + amount, 100);
-        System.out.println("HP replenished. Current HP: " + hitPoints);
-    }
-    public void replenishMaxHP() {
-        // Setting HP to the maximum value
-        replenishHP(100); //FIXME
-        System.out.println("Max HP replenished. Current HP: " + hitPoints);
-    }
-    public void takePlayerDamage(double damage) {
-        // Ensure that the player's HP doesn't go below 0
-        hitPoints = Math.max(hitPoints - damage, 0);
-        System.out.println("Player took " + damage + " damage. Current HP: " + hitPoints);
 
-        // Check if the player has run out of HP
-        if (hitPoints == 0) {
-            running = false; // Game over
-            System.out.println("Game Over. Player has run out of HP.");
-        }
-    }
-    private void loadCharacterData() {
-        Yaml yaml = new Yaml();
-        Path path = Paths.get("character.yaml");
-        try (InputStream inputStream = Files.newInputStream(path)) {
-            Map<String, List<Map<String, Object>>> data = yaml.load(inputStream);
-            characters = data.get("characters");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    //FIXME: Sebastian implement populateRandomItem
+    public void populateRandomItem(ItemReference itemRef) {
+        if (itemRef == null || itemRef.getItem() == null) {
+            // If itemRef or the item within it is null, place a random item in the room
+            Random random = new Random();
+            List<Item> allItems = new ArrayList<>(indexedItems.values());
+            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
 
-    }
-    public int selectCharacter() {
-        Scanner scanner = new Scanner(System.in);
+            // Select a random item and room
+            Item randomItem = allItems.get(random.nextInt(allItems.size()));
+            Room randomRoom = rooms.get(random.nextInt(rooms.size()));
 
-        System.out.println("Choose your character:");
-        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+            // Create a new ItemReference for the random item and add it to the random room
+            ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
+            randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
 
-        for (Map<String, Object> character : characters) {
-            System.out.println(character.get("id") + ". " + character.get("name"));
-        }
-
-        int selectedId = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
-
-        return selectedId;
-    }
-    public Map<String, Object> getSelectedCharacter(int characterId) {
-        for (Map<String, Object> character : characters) {
-            if ((int) character.get("id") == characterId) {
-                return character;
+            System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
+        } else {
+            // If the item is not null and its ID is less than or equal to 60, proceed as before
+            if (itemRef.getItem().getId() <= 60) {
+                // Rest of the code to place the specific item
             }
         }
-        return null; // Character not found
-    }
-
-    public void populateRandomItem(ItemReference itemRef) {
-//        if (itemRef.getItem().getId() <= 60) {
-//            Random random = new Random();
-//            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
-//            int randomRoomIndex = random.nextInt(rooms.size());
-//            Room randomRoom = rooms.get(randomRoomIndex);
-//
-//            // Move the item to the randomly selected room
-//            currentRoom.referredItems.remove(itemRef.getIndex()); // Remove from current room
-//            randomRoom.referredItems.put(itemRef.getIndex(), itemRef); // Add to the random room
-//
-//            System.out.println("Item " + itemRef.getName() +
-//                    " (ID: " + itemRef.getIndex() + ") placed in room: "
-//                    + randomRoom.getRoomID());
-//        }
     }
 
     //TODO: refactor these

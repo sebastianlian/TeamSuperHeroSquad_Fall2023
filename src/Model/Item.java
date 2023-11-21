@@ -56,6 +56,14 @@ public class Item {
         return type;
     }
 
+    public void getType(boolean type) {
+        this.type = type;
+    }
+
+    public void setType(boolean type) {
+        this.type = type;
+    }
+
     public int getQuantity() { return quantity; }
 
     public void setQuantity(int quantity) { this.quantity = quantity; }

@@ -4,35 +4,38 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-import Model.Actor;
+import Model.*;
 import org.yaml.snakeyaml.Yaml;
-
-import Model.Room;
-import Model.State;
-import Model.Item;
 
 public class Game {
 
     static State state;
     static CommandManager commandManager;
+    //static State populateRandomItem;
 
     public static void main(String[] args) throws Exception {
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
         commandManager = new CommandManager();
 
+        //FIXME: implement populateRandomItem
+        // Initialize randomization for specific items (assuming state.getItems() returns all items)
+        for (Item item : state.getItems().values()) {
+            if (item.getId() <= 60) {
+                ItemReference itemRef = new ItemReference(item.getId(), item.getName(), item.getId());
+                state.populateRandomItem(itemRef);
+            }
+        }
+
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();
-
-
-        Game game = new Game();
-        game.displayStartingPrompts();
-        game.getPlayerName();
-
-
-        while (state.isRunning()) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your character's name: ");
+        String playerName = scan.nextLine();
+        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
+        while(state.isRunning()) {
             //TODO: user setup for the game
-            Scanner scan = new Scanner(System.in);
+
 
 
             //TODO: initial prompt
@@ -49,17 +52,14 @@ public class Game {
                 case "N", "NORTH", "UP":
                     commandManager.move(0);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
                     break;
                 case "W", "WEST", "LEFT":
                     commandManager.move(3);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
                     break;
                 case "E", "EAST", "RIGHT":
                     commandManager.move(1);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
                     break;
                 case "S", "SOUTH", "DOWN":
                     commandManager.move(2);
@@ -74,8 +74,8 @@ public class Game {
                 case "LIST":
                     commandManager.list_item();
                     break;
-                case "USE ITEM":
-                    commandManager.use_item();;
+                case "USE":
+                    commandManager.use_item();
                     break;
                 default:
                     commandManager.validateCommand(console, cmdAttr);
