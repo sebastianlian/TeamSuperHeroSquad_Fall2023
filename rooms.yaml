@@ -7,7 +7,7 @@ rooms:
       You try to escape and get hit by the debris of the meteor chunks. 
       You suddenly wake up in what seems to be a destroyed library.
     outlets:
-      north: 1
+      east: 1
     items:
       - 70
 
@@ -123,7 +123,7 @@ rooms:
     items:
 
   - id: 9
-    name: Science Lab 4 (ZTX
+    name: Science Lab 4 (ZTX)
     description: You enter the fourth section of the lab it is a dimly lit room filled with computers, and at the center
       of the chaos sits alone computer with a black screen. Suddenly, a pair of glowing green eyes flicker to life on the
       screen, and a gravelly voice emanates from the computer's speakers.
@@ -139,7 +139,7 @@ rooms:
       - 100
 
   - id: 10
-    name: Science Boss (Professor Z)
+    name: Science Lab 5 Boss (Professor Z)
     description: You're eager to leave the quirky science lab behind, strides confidently towards the exit, daydreaming
       about a hot drink from the Bear's Cafe. However, the sight ahead jolts you back to reality. There, blocking the path,
       is a zombie donning a disheveled scientist coat, scribbling equations furiously on a clipboard.
@@ -213,7 +213,7 @@ rooms:
       - 100
 
   - id: 15
-    name: Cafe Boss (Grizzly the Zombie Bear)
+    name: Bear's Cafe 5 Boss (Grizzly the Zombie Bear)
     description: The final floor is in sight, and you feel a rush of hope. All you need to do is cross this last threshold
       to freedom. But as you step onto the floor, a deep, earth-shaking growl fills the room.
     explored: Emerging from the shadows is a massive, decaying version of the school's beloved mascot, Grizzly. His

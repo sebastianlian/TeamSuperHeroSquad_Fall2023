@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.ItemReference;
+import Model.Room;
 
 import java.lang.reflect.Method;
 import java.util.EnumSet;
@@ -99,11 +100,19 @@ public class CommandManager {
             System.out.println("You cant go that way!");
             return;
         }
-        System.out.print("Moving to a new room... ");
-//        TimeUnit.NANOSECONDS.sleep(1000);
-        System.out.println("Arrived within " + state.getRoom(state.getCurrentOutlets()[direction]).getRoomName()); // + ((state.getCurrentRoom().isVisited) ? ". Seems familiar..." : ""));
+//        System.out.print("Moving to a new room... ");
+////        TimeUnit.NANOSECONDS.sleep(1000);
+//        System.out.println("Arrived within " + state.getRoom(state.getCurrentOutlets()[direction]).getRoomName()); // + ((state.getCurrentRoom().isVisited) ? ". Seems familiar..." : ""));
+//        state.setCurrentRoom(state.getCurrentOutlets()[direction]);
 
+        // Update the player's location to the new room
         state.setCurrentRoom(state.getCurrentOutlets()[direction]);
+
+        // Now that the player's location is updated, get the current room
+        Room currentRoom = state.getCurrentRoom();
+        System.out.println("Moving to a new room... ");
+        System.out.println("Arrived within " + currentRoom.getRoomName());
+
         state.getCurrentRoom().setVisited();
         System.out.println(state.getCurrentRoom().getRoomDescription());
 
@@ -122,7 +131,7 @@ public class CommandManager {
     public void access_map() {
 //        state.accessMap();
         int[] directions = new int[]{0,1,2,3};
-        // 0 = north, 3 = west, 2 =down , 1 = east
+        // 0 = north, 3 = west, 2 = south , 1 = east
 
         HashMap<Integer, String> map = new HashMap<>();
 
@@ -133,8 +142,10 @@ public class CommandManager {
 
         for(int direct: map.keySet()){
             if(state.getCurrentOutlets()[direct] != -1){
-                System.out.println(state.getRoom(state.getCurrentOutlets()[direct]).getRoomName());
-                System.out.println(map.get(direct));
+                System.out.println("Way to exit");
+                System.out.println("To go to room: " + state.getRoom(state.getCurrentOutlets()[direct]).getRoomName());
+                System.out.println("Exit -> "+ map.get(direct));
+                System.out.println("----------");
             }
         }
 

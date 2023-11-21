@@ -171,7 +171,8 @@ public void moveFromInventory(ItemReference itemRef) {
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
-    public void setCurrentRoom(int roomNumber) {
+    public void setCurrentRoom(int roomNumber)
+    {
         this.currentRoom = getRoom(roomNumber);
     }
 

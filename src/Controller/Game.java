@@ -27,6 +27,7 @@ public class Game {
         System.out.println("Please enter your character's name: ");
         String playerName = scan.nextLine();
         System.out.println("Hello, " + playerName + "! Let's start your adventure.");
+        System.out.println("You start in " + state.getCurrentRoom().getRoomName());
         while(state.isRunning()) {
             //TODO: user setup for the game
 
