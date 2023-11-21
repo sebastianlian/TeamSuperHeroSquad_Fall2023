@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.Item;
 import Model.ItemReference;
 import Model.Room;
 
@@ -34,6 +35,7 @@ public class CommandManager {
         HELP("Help"),
         LIST("List item"),
         PICKUP("Pickup"),
+        DROP("Drop"),
         USE("Use"),
         EQUIP("Equip");
 //        LIST_MONSTER("List monster");
@@ -59,8 +61,8 @@ public class CommandManager {
 //        String userInput = scan.nextLine().toUpperCase();
 
         try{
-        ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
-        //stream.map not working: TODO: test to see if necessary
+            ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
+            //stream.map not working: TODO: test to see if necessary
             if (validCommandSet.contains(input) || validCommandSet.stream().map(ValidCommand::getCommandInput).anyMatch(cmdName -> cmdName.equalsIgnoreCase(expectedCommandInput))){
                 System.out.println("You performed " + input); // TEMP: Checks if the input is holding the command
 
@@ -78,7 +80,7 @@ public class CommandManager {
     }
 
 //    public void instCommandCall(String input) {
-//        Callable callable = 
+//        Callable callable =
 //    }
 
     public void runCommand(String command) throws Exception {
@@ -161,11 +163,46 @@ public class CommandManager {
     }
 
     public void list_item() {
-
-    }
-    public void pickup_item() {
         
     }
+    public void drop_item(String cmdAttr){
+        System.out.println("Attempting to drop item: " + cmdAttr);
+
+        ItemReference itemReference = state.getInventory()
+                .stream()
+                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
+                .findFirst()
+                .orElse(null);
+
+        if (itemReference != null) {
+            System.out.println("Found item: " + itemReference.getName());
+            state.moveFromInventory(itemReference);
+            System.out.println("You dropped " + itemReference.getName());
+        } else {
+            System.out.println("The item is not in your inventory.");
+        }
+    }
+
+    public void pickup_item(String cmdAttr) {
+            System.out.println("Attempting to pick up item: " + cmdAttr);
+
+            ItemReference itemReference = state.getCurrentRoom()
+                    .getReferredItems()
+                    .values()
+                    .stream()
+                    .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
+                    .findFirst()
+                    .orElse(null);
+
+            if (itemReference != null) {
+                System.out.println("Found item: " + itemReference.getName());
+                state.moveIntoInventory(itemReference);
+                System.out.println("You picked up " + itemReference.getName());
+            } else {
+                System.out.println("The item is not in the current room.");
+            }
+        }
+
     public void use_item() {
 
     }
@@ -217,8 +254,12 @@ public class CommandManager {
             save();
         }
 
-        public void PICKUP() {
-            pickup_item();
+        public void DROP(){
+
+        }
+
+        public void PICKUP(String cmdAttr) {
+            pickup_item(cmdAttr);
         }
 
         public void USE() {

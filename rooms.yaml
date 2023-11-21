@@ -61,13 +61,13 @@ rooms:
       a gargantuan zombified librarian, her once neat bun now haphazardly falling apart, glasses skewed. With an ominous
       (yet slightly comedic) creak, she points a bony finger at you.
     explored: |
-    
+      
       "Shhhhhhhhhhhhhhh..." she draws out with a dramatic flair, her voice echoing across the vast hall.
-                
+      
       "Late returns?" she asks, her eyes twitching.
-                
+      
       You try to contain your laughter, and respond, "I swear, I always return my books on time!"
-                
+      
       The librarian narrows her eyes, then unexpectedly whips out an oversized due-date stamp, ready to mark you overdue.
       "Prepare to be... STAMPED!"
     outlets:
@@ -128,9 +128,9 @@ rooms:
       of the chaos sits alone computer with a black screen. Suddenly, a pair of glowing green eyes flicker to life on the
       screen, and a gravelly voice emanates from the computer's speakers.
     explored: |
-    
+      
       "I am ZTX, the IT Zombie," it croaks in a robotic tone, its fingers clattering over the keyboard.
-                
+      
       "I've been trying to troubleshoot this cursed machine for eons. Perhaps you can help me decipher the cryptic error code 
       of doom?"
     outlets:
@@ -304,9 +304,9 @@ rooms:
     explored: |
       
       "Greetings," it rasps, presenting the drink with a flourish. "I call it 'Bloody Brains'. Care for a taste?"
-                
+      
       You raise an eyebrow, "I think I'll pass, given the recent... menu options I've encountered."
-                
+      
       The bartender chuckles, "Understandable. But know that every floor has its challenges. While Chief le Brains wanted
       to feed you, here, it's all about choices. Choose wisely, and you might just reach the Dean."
     outlets:
@@ -345,7 +345,7 @@ rooms:
       that casts dancing shadows on the walls. At the far end, behind an intricately carved wooden desk, stands a figure both
       familiar and imposing.
     explored: The Dean of Grizzly University, now transformed with pale, mottled skin, glowing eyes, and an air of malevolent authority.
-                
+      
       "Ah, the intrepid student," the Dean rasps, his voice echoing through the chamber. "You've navigated the treacherous
       floors of my lair. Impressive. But did you truly think it would be that easy to confront me?"
     outlets:
