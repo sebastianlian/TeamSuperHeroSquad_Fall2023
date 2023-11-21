@@ -2,7 +2,9 @@ package Model;
 
 public class Item {
     private int id;
-    private String name, effect, description;
+    private String name;
+    private String effect;
+    private String description;
     private boolean type;
     private int quantity;
     protected Stats stats;
@@ -37,6 +39,7 @@ public class Item {
 
 
     public void setName(String name) { this.name = name; }
+
 
 
     public boolean isType() { return type; }
@@ -84,6 +87,9 @@ public class Item {
         }
     }
 
+
+
+
     // Additional methods for other interactions can be added here
 
 
@@ -98,6 +104,8 @@ public class Item {
             this.def = def;
             this.atk = atk;
         }
+
+
 
         public double getHp() {
             return hp;

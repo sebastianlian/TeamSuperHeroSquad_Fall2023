@@ -9,7 +9,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static Controller.Game.state;
 
 public class CommandManager {
@@ -131,27 +130,31 @@ public class CommandManager {
         state.displayInventory();
     }
     public void access_map() {
-//        state.accessMap();
-        int[] directions = new int[]{0,1,2,3};
-        // 0 = north, 3 = west, 2 = south , 1 = east
+        Room currentRoom = state.getCurrentRoom();
+        int[] currentRoomOutlets = state.getCurrentOutlets();
 
-        HashMap<Integer, String> map = new HashMap<>();
+        // Displaying the current room
+        System.out.println("Current Room: " + currentRoom.getRoomName());
 
-        map.put(0,"North");
-        map.put(1,"East");
-        map.put(2,"South");
-        map.put(3,"West");
-
-         for(int direct: map.keySet()){
-            if(state.getCurrentOutlets()[direct] != -1){
-                System.out.println("Way to exit");
-                System.out.println("To go to room: " + state.getRoom(state.getCurrentOutlets()[direct]).getRoomName());
-                System.out.println("Exit -> "+ map.get(direct));
-                System.out.println("----------");
+        // Displaying available exits
+        System.out.println("Exits:");
+        String[] directions = {"North", "East", "South", "West"};
+        for (int i = 0; i < currentRoomOutlets.length; i++) {
+            if (currentRoomOutlets[i] != -1) {
+                Room nextRoom = state.getRoom(currentRoomOutlets[i]);
+                System.out.println(directions[i] + " -> " + nextRoom.getRoomName());
             }
         }
 
+        // Displaying visited rooms
+        System.out.println("Visited Rooms:");
+        for (Room room : state.getIndexedRooms().keySet()) {
+            if (room.isVisited()) {
+                System.out.println(room.getRoomName());
+            }
+        }
     }
+
     public void access_help() {
         System.out.println(validCommandSet);
     }
@@ -162,9 +165,7 @@ public class CommandManager {
 
     }
 
-    public void list_item() {
-        
-    }
+
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
 
@@ -274,9 +275,7 @@ public class CommandManager {
             explore();
         }
 
-        public void LIST() {
-            list_item();
-        }
+
 
     }
 }

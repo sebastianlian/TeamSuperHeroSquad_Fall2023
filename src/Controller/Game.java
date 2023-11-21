@@ -1,13 +1,11 @@
 package Controller;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import Model.Actor;
-import View.Console;
 import org.yaml.snakeyaml.Yaml;
 
 import Model.Room;
@@ -20,6 +18,7 @@ public class Game {
     static CommandManager commandManager;
     private static ArrayList<String> startingPrompts;
 
+
     //Moved code from console to Game class
     public Game () {
         startingPrompts = new ArrayList<>();
@@ -27,6 +26,10 @@ public class Game {
         startingPrompts.add("-----------------------------------------");
         startingPrompts.add("Welcome to Grizzly Survival!");
         startingPrompts.add("-----------------------------------------");
+        startingPrompts.add("You just recently got accepted by Grizzly University " +
+                "and you're starting out your first semester as a student. ");
+        startingPrompts.add("-----------------------------------------");
+
     }
     public void  getPlayerName() {
         Scanner scan = new Scanner(System.in);
@@ -38,7 +41,7 @@ public class Game {
 
     public void displayStartingPrompts() {
         for (String prompt : startingPrompts) {
-            dotdotdot(prompt, 350, 1); // Adjust the duration and number of dots as needed
+            dotdotdot(prompt, 300, 1); // Adjust the duration and number of dots as needed
         }
     }
     private void dotdotdot(String message, long delay, int repetitions) {
@@ -57,7 +60,19 @@ public class Game {
             }
         }
     }
+    // Call methods from State class
 
+    public void loadCharacterData() {
+        state.loadCharacterData();
+    }
+
+    public int selectCharacter() {
+        return state.selectCharacter();
+    }
+
+    public Map<String, Object> getSelectedCharacter(int characterId) {
+        return state.getSelectedCharacter(characterId);
+    }
     public static void main(String[] args) throws Exception {
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
@@ -70,6 +85,15 @@ public class Game {
         Game game = new Game();
         game.displayStartingPrompts();
         game.getPlayerName();
+        game.loadCharacterData();
+        int selectedCharacterId = game.selectCharacter();
+        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
+        if (selectedCharacter != null) {
+            System.out.println("You selected: " + selectedCharacter.get("name"));
+        } else {
+            System.out.println("Invalid character selection.");
+        }
+
 
 
         while (state.isRunning()) {
@@ -113,6 +137,8 @@ public class Game {
                 case "DROP":
                     commandManager.drop_item(cmdAttr);
                     break;
+
+
                 default:
                     commandManager.validateCommand(console, cmdAttr);
             }
