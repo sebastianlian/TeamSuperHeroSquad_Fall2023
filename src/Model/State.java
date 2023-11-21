@@ -177,7 +177,7 @@ public class State {
             System.out.println("Game Over. Player has run out of HP.");
         }
     }
-    private void loadCharacterData() {
+    public void loadCharacterData() {
         Yaml yaml = new Yaml();
         Path path = Paths.get("character.yaml");
         try (InputStream inputStream = Files.newInputStream(path)) {
@@ -229,7 +229,6 @@ public class State {
     public ArrayList<ItemReference> getInventory() {
         return inventory;
     }
-
 
     //TODO: all my homies hate getters and setters, so we'll GET rid of these below
 

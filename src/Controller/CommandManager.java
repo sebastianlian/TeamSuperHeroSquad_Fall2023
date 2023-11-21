@@ -8,7 +8,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import static Controller.Game.state;
 
 public class CommandManager {
@@ -151,9 +150,7 @@ public class CommandManager {
 
     }
 
-    public void list_item() {
-        
-    }
+
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
 
@@ -263,9 +260,7 @@ public class CommandManager {
             explore();
         }
 
-        public void LIST() {
-            list_item();
-        }
+
 
     }
 }
