@@ -70,7 +70,7 @@ public class State {
                 indexedMonsters.values()) {
         }
 
-        setInitalRoom();
+        setInitialRoom();
 
         hitPoints = 100;
         defense = 100;
@@ -86,7 +86,7 @@ public class State {
         }
     }
 
-    public void setInitalRoom() {
+    public void setInitialRoom() {
         this.currentRoom = getRoom(position);
     }
 
