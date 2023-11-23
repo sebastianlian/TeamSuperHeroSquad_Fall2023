@@ -36,5 +36,37 @@ public class Puzzle {
         return isSolved;
     }
 
+    public void randomizedPuzzle(){
+        int random = (int) (Math.random() * 9);
+        switch (random){
+            case 0:
+                this.puzzletopic = topic.CHEM;
+                break;
+            case 1:
+                this.puzzletopic = topic.HIST;
+                break;
+            case 2:
+                this.puzzletopic = topic.HEALTH;
+                break;
+            case 3:
+                this.puzzletopic = topic.MATH;
+                break;
+            case 4:
+                this.puzzletopic = topic.IT;
+                break;
+            case 5:
+                this.puzzletopic = topic.ENGL;
+                break;
+            case 6:
+                this.puzzletopic = topic.BUSN;
+                break;
+            case 7:
+                this.puzzletopic = topic.NURS;
+                break;
+            case 8:
+                this.puzzletopic = topic.FINAL;
+                break;
+        }
+    }
 
 }
