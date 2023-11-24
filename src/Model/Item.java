@@ -5,7 +5,7 @@ public class Item {
     private String name, effect, description;
     private boolean type;
     private int quantity;
-    protected Stats stats;
+    public Stats stats;
 
 
     //TODO: get rid of this constructor when parsing method is corrected
@@ -34,6 +34,9 @@ public class Item {
         return name;
     }
 
+    public boolean isType() {
+        return type;
+    }
 
     // Method to list items (assumed functionality)
     public void listItems() {
@@ -64,8 +67,6 @@ public class Item {
     }
 
     // Additional methods for other interactions can be added here
-
-
     public static class Stats {
         //Assumes non-dynamic item stats
         protected final double hp;

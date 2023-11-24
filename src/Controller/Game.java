@@ -3,19 +3,72 @@ package Controller;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-import Model.Actor;
+import Model.*;
 import org.yaml.snakeyaml.Yaml;
-
-import Model.Room;
-import Model.State;
-import Model.Item;
 
 public class Game {
 
     static State state;
     static CommandManager commandManager;
+    private static ArrayList<String> startingPrompts;
 
+
+    //Moved code from console to Game class
+    public Game () {
+        startingPrompts = new ArrayList<>();
+        //Add starting prompts here
+        startingPrompts.add("-----------------------------------------");
+        startingPrompts.add("Welcome to Grizzly Survival!");
+        startingPrompts.add("-----------------------------------------");
+        startingPrompts.add("You just recently got accepted by Grizzly University " +
+                "and you're starting out your first semester as a student. ");
+        startingPrompts.add("-----------------------------------------");
+
+    }
+    public void  getPlayerName() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your character's name: ");
+        String playerName = scan.nextLine();
+        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
+    }
+
+
+    public void displayStartingPrompts() {
+        for (String prompt : startingPrompts) {
+            dotdotdot(prompt, 300, 1); // Adjust the duration and number of dots as needed
+        }
+    }
+    private void dotdotdot(String message, long delay, int repetitions) {
+        for (int i = 0; i < repetitions; i++) {
+            System.out.print(message);
+            try {
+                TimeUnit.MILLISECONDS.sleep(delay);
+                System.out.print(".");
+                TimeUnit.MILLISECONDS.sleep(delay);
+                System.out.print(".");
+                TimeUnit.MILLISECONDS.sleep(delay);
+                System.out.println(".");
+                TimeUnit.MILLISECONDS.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    // Call methods from State class
+
+    public void loadCharacterData() {
+        state.loadCharacterData();
+    }
+
+    public int selectCharacter() {
+        return state.selectCharacter();
+    }
+
+    public Map<String, Object> getSelectedCharacter(int characterId) {
+        return state.getSelectedCharacter(characterId);
+    }
     public static void main(String[] args) throws Exception {
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
@@ -23,14 +76,26 @@ public class Game {
 
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Please enter your character's name: ");
-        String playerName = scan.nextLine();
-        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
-        while(state.isRunning()) {
-            //TODO: user setup for the game
+
+        //TODO: user setup for the game
+
+        Game game = new Game();
+        game.displayStartingPrompts();
+        game.getPlayerName();
+        game.loadCharacterData();
+        int selectedCharacterId = game.selectCharacter();
+        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
+        if (selectedCharacter != null) {
+            System.out.println("You selected: " + selectedCharacter.get("name"));
+        } else {
+            System.out.println("Invalid character selection.");
+        }
+
+        Puzzle puzzle = new Puzzle(Puzzle.topic.All);
 
 
+        while (state.isRunning()) {
+            Scanner scan = new Scanner(System.in);
 
             //TODO: initial prompt
             System.out.println("Enter a command: ");
@@ -61,8 +126,15 @@ public class Game {
                 case "S", "SOUTH", "DOWN":
                     commandManager.move(2);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-
                     break;
+                case "PICKUP":
+                    commandManager.pickup_item(cmdAttr);
+                    break;
+                case "DROP":
+                    commandManager.drop_item(cmdAttr);
+                    break;
+
+
                 default:
                     commandManager.validateCommand(console, cmdAttr);
             }
@@ -87,14 +159,15 @@ public class Game {
             int itemID = (int) mapping.get("id");
             String itemName = (String) mapping.get("name");
             boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
-            String itemEffect = (String) mapping.get("effect");
+            String itemDescription = (String) mapping.get("description");
 //            int quantity = (int) mapping.get("quantity");
 
             Item itemInstance = new Item(
                     itemID,
                     itemName,
                     itemType,
-                    itemEffect
+                    itemDescription
+
             );
 
             itemIndex.put(itemID, itemInstance);
@@ -178,27 +251,31 @@ public class Game {
     }
 
     //TODO: implement parsePuzzle()
-    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
-        // List of monsters.
-        HashMap<Integer, Actor> puzzles = new HashMap<>();
+//    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
+//        // List of monsters.
+//        HashMap<Integer, Actor> puzzles = new HashMap<>();
+//
+//        // Parses YAML file.
+//        Yaml yaml = new Yaml();
+//        String source = Files.readString(Paths.get("puzzles.yaml"));
+//        Map<String, Object> object = yaml.load(source);
+//
+//        // Creates monster (actor) instances from YAML data.
+//        LinkedHashMap<Object, ArrayList<Object>> objects = (LinkedHashMap<Object, ArrayList<Object>>) object.get("Puzzles");
+//        System.out.println(objects.size());
+//
+//        //First layer objects in puzzle are topics, second layer objects are question, answer
+//        for (Map.Entry<Object, ArrayList<Object>> entry : objects.entrySet()) {
+//            System.out.println(entry.getValue());
+//            System.out.println();
+////            for (Object puzzle :
+////                    entry.getValue()) {
+////                System.out.println("Prompt of all puzzles: ");
+////                System.out.println(puzzle);
+////            }
+//        }
+//        return puzzles;
+//    }
 
-        // Parses YAML file.
-        Yaml yaml = new Yaml();
-        String source = Files.readString(Paths.get("puzzles.yaml"));
-        Map<String, Object> object = yaml.load(source);
 
-        // Creates monster (actor) instances from YAML data.
-        LinkedHashMap<Object, ArrayList<Object>> objects = (LinkedHashMap<Object, ArrayList<Object>>) object.get("Puzzles");
-        System.out.println(objects.size());
-
-        //First layer objects in puzzle are topics, second layer objects are question, answer
-        for (Map.Entry<Object, ArrayList<Object>> entry : objects.entrySet()) {
-            for (Object puzzle :
-                    entry.getValue()) {
-                System.out.println("Prompt of all puzzles: ");
-                System.out.println(puzzle);
-            }
-        }
-        return puzzles;
-    }
 }
