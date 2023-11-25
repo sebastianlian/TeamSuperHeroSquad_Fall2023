@@ -11,6 +11,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static Controller.Game.state;
 
 public class CommandManager {
@@ -135,7 +136,7 @@ public class CommandManager {
         map.put(2,"South");
         map.put(3,"West");
 
-         for(int direct: map.keySet()){
+        for(int direct: map.keySet()){
             if(state.getCurrentOutlets()[direct] != -1){
                 System.out.println("Way to exit");
                 System.out.println("To go to room: " + state.getRoom(state.getCurrentOutlets()[direct]).getRoomName());
@@ -159,7 +160,24 @@ public class CommandManager {
         objectOutputStream.writeObject(state);
 
     }
+    //TODO: Sebastian implement list_item() method
+    public void list_item() {
+        HashMap<Integer, Item> allItems = state.getItems();
 
+        if (allItems.isEmpty()) {
+            System.out.println("No items found.");
+        } else {
+            System.out.println("__________________________________________________________");
+            System.out.println("All items:");
+            for (Item item : allItems.values()) {
+                System.out.println("Item ID: " + item.getId());
+                System.out.println("Name: " + item.getName());
+                System.out.println("Effect: " + item.getEffect());
+                System.out.println("Description: " + item.getDescription());
+                System.out.println("__________________________________________________________");
+            }
+        }
+    }
 
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
@@ -175,28 +193,34 @@ public class CommandManager {
         }
     }
 
-
     public void pickup_item(String cmdAttr) {
-            System.out.println("Attempting to pick up item: " + cmdAttr);
+        System.out.println("Attempting to pick up item: " + cmdAttr);
 
-            ItemReference itemReference = state.getCurrentRoom()
-                    .getReferredItems()
-                    .values()
-                    .stream()
-                    .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
-                    .findFirst()
-                    .orElse(null);
+        ItemReference itemReference = state.getCurrentRoom()
+                .getReferredItems()
+                .values()
+                .stream()
+                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
+                .findFirst()
+                .orElse(null);
 
-            if (itemReference != null) {
-                System.out.println("Found item: " + itemReference.getName());
-                state.moveIntoInventory(itemReference);
-                System.out.println("You picked up " + itemReference.getName());
-            } else {
-                System.out.println("The item is not in the current room.");
-            }
+        if (itemReference != null) {
+            System.out.println("Found item: " + itemReference.getName());
+            state.moveIntoInventory(itemReference);
+            System.out.println("You picked up " + itemReference.getName());
+        } else {
+            System.out.println("The item is not in the current room.");
         }
+    }
 
     public void use_item(String cmdAttr) {
+//        if (itemsInInventory.isEmpty()) {
+//            System.out.println("You have no items in your inventory nothing can be used.");
+//            // return;
+//        } else {
+//            return;
+//        }
+
         ItemReference itemRef = itemFromInv(cmdAttr);
         Item selectItem = state.getItem(itemRef.getIndex());
 
@@ -289,7 +313,9 @@ public class CommandManager {
             explore();
         }
 
-
+        public void LIST() {
+            list_item();
+        }
 
     }
 }
