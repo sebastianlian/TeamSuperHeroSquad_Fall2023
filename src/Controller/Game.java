@@ -21,9 +21,6 @@ public class Game {
         startingPrompts.add("-----------------------------------------");
         startingPrompts.add("Welcome to Grizzly Survival!");
         startingPrompts.add("-----------------------------------------");
-        startingPrompts.add("You just recently got accepted by Grizzly University " +
-                "and you're starting out your first semester as a student. ");
-        startingPrompts.add("-----------------------------------------");
 
     }
 
@@ -31,7 +28,7 @@ public class Game {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your character's name: ");
         String playerName = scan.nextLine();
-        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
+        System.out.println("Hello, " + playerName + "!");
     }
 
     public void displayStartingPrompts() {
@@ -87,10 +84,24 @@ public class Game {
         int selectedCharacterId = game.selectCharacter();
         Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
         if (selectedCharacter != null) {
-            System.out.println("You selected: " + selectedCharacter.get("name"));
+            game.dotdotdot("You selected: " + selectedCharacter.get("name"), 300, 1);
+
+            Map<String, Object> stats = (Map<String, Object>) selectedCharacter.get("stats");
+
+            if (stats != null) {
+                game.dotdotdot("Stats:", 270, 1);
+                game.dotdotdot("  HP: " + stats.get("hp"), 270, 1);
+                game.dotdotdot("  DEF: " + stats.get("def"), 270, 1);
+                game.dotdotdot("  ATK: " + stats.get("atk"), 270, 1);
+            } else {
+                game.dotdotdot("Invalid character selection - stats not found.", 300, 1);
+            }
         } else {
-            System.out.println("Invalid character selection.");
+            game.dotdotdot("Invalid character selection.", 300, 1);
         }
+        game.dotdotdot("Now let's begin!", 300, 1);
+        String def = game.state.getRoom(0).getRoomDescription();
+        System.out.println(def);
 
 //        Puzzle puzzle = new Puzzle(Puzzle.topic.All);
 
@@ -100,6 +111,7 @@ public class Game {
 
                 //TODO: initial prompt
                 System.out.println("Enter a command: ");
+                System.out.println("Type 'HELP' for list of commands");
 
                 String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
                 String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
@@ -134,6 +146,8 @@ public class Game {
                     case "DROP":
                         commandManager.drop_item(cmdAttr);
                         break;
+                    case "HELP":
+                        commandManager.access_help();
 
 
                     default:

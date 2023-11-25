@@ -234,6 +234,8 @@ public class State implements Serializable {
         return null; // Character not found
     }
 
+
+
     //TODO: refactor these
     //Getters and setters
     public double getHitPoints() {
@@ -246,6 +248,17 @@ public class State implements Serializable {
 
     public double getAttack() {
         return attack;
+    }
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public void setDefense(double defense) {
+        this.defense = defense;
+    }
+
+    public void setAttack(double attack) {
+        this.attack = attack;
     }
 
     public ArrayList<ItemReference> getInventory() {

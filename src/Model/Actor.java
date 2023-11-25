@@ -27,7 +27,7 @@ public class Actor {
     }
 
 
-    public void takeDamge(double damageTaken) {
+    public void takeDamage(double damageTaken) {
         hitPoints -= damageTaken;
     }
 
