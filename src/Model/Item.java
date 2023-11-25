@@ -7,7 +7,7 @@ public class Item {
     private String description;
     private boolean type;
     private int quantity;
-    protected Stats stats;
+    public Stats stats;
 
 
     //TODO: get rid of this constructor when parsing method is corrected
@@ -44,21 +44,6 @@ public class Item {
 
     public boolean isType() { return type; }
 
-
-    public void setType(boolean type) { this.type = type; }
-
-
-    public String getDescription() { return description; }
-
-
-    public void setDescription(String description) { this.description = description; }
-
-
-    public int getQuantity() { return quantity; }
-
-
-    public void setQuantity(int quantity) { this.quantity = quantity; }
-
     // Method to list items (assumed functionality)
     public void listItems() {
         // Logic to list items (e.g., printing item details to the console)
@@ -91,8 +76,6 @@ public class Item {
 
 
     // Additional methods for other interactions can be added here
-
-
     public static class Stats {
         //Assumes non-dynamic item stats
         protected final double hp;

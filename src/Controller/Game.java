@@ -5,19 +5,14 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import Model.Actor;
+import Model.*;
 import org.yaml.snakeyaml.Yaml;
-
-import Model.Room;
-import Model.State;
-import Model.Item;
 
 public class Game {
 
     static State state;
     static CommandManager commandManager;
     private static ArrayList<String> startingPrompts;
-
 
     //Moved code from console to Game class
     public Game () {
@@ -37,7 +32,6 @@ public class Game {
         String playerName = scan.nextLine();
         System.out.println("Hello, " + playerName + "! Let's start your adventure.");
     }
-
 
     public void displayStartingPrompts() {
         for (String prompt : startingPrompts) {
@@ -81,6 +75,21 @@ public class Game {
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();
 
+        //TODO: user setup for the game
+
+        Game game = new Game();
+        game.displayStartingPrompts();
+        game.getPlayerName();
+        game.loadCharacterData();
+        int selectedCharacterId = game.selectCharacter();
+        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
+        if (selectedCharacter != null) {
+            System.out.println("You selected: " + selectedCharacter.get("name"));
+        } else {
+            System.out.println("Invalid character selection.");
+        }
+
+        Puzzle puzzle = new Puzzle(Puzzle.topic.All);
 
         Game game = new Game();
         game.displayStartingPrompts();
@@ -100,6 +109,9 @@ public class Game {
             //TODO: user setup for the game
             Scanner scan = new Scanner(System.in);
 
+
+        while (state.isRunning()) {
+            Scanner scan = new Scanner(System.in);
 
             //TODO: initial prompt
             System.out.println("Enter a command: ");
@@ -255,29 +267,29 @@ public class Game {
     }
 
     //TODO: implement parsePuzzle()
-    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
-        // List of monsters.
-        HashMap<Integer, Actor> puzzles = new HashMap<>();
-
-        // Parses YAML file.
-        Yaml yaml = new Yaml();
-        String source = Files.readString(Paths.get("puzzles.yaml"));
-        Map<String, Object> object = yaml.load(source);
-
-        // Creates monster (actor) instances from YAML data.
-        LinkedHashMap<Object, ArrayList<Object>> objects = (LinkedHashMap<Object, ArrayList<Object>>) object.get("Puzzles");
-        System.out.println(objects.size());
-
-        //First layer objects in puzzle are topics, second layer objects are question, answer
-        for (Map.Entry<Object, ArrayList<Object>> entry : objects.entrySet()) {
-            for (Object puzzle :
-                    entry.getValue()) {
-                System.out.println("Prompt of all puzzles: ");
-                System.out.println(puzzle);
-            }
-        }
-        return puzzles;
-    }
-
-
+//    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
+//        // List of monsters.
+//        HashMap<Integer, Actor> puzzles = new HashMap<>();
+//
+//        // Parses YAML file.
+//        Yaml yaml = new Yaml();
+//        String source = Files.readString(Paths.get("puzzles.yaml"));
+//        Map<String, Object> object = yaml.load(source);
+//
+//        // Creates monster (actor) instances from YAML data.
+//        LinkedHashMap<Object, ArrayList<Object>> objects = (LinkedHashMap<Object, ArrayList<Object>>) object.get("Puzzles");
+//        System.out.println(objects.size());
+//
+//        //First layer objects in puzzle are topics, second layer objects are question, answer
+//        for (Map.Entry<Object, ArrayList<Object>> entry : objects.entrySet()) {
+//            System.out.println(entry.getValue());
+//            System.out.println();
+////            for (Object puzzle :
+////                    entry.getValue()) {
+////                System.out.println("Prompt of all puzzles: ");
+////                System.out.println(puzzle);
+////            }
+//        }
+//        return puzzles;
+//    }
 }
