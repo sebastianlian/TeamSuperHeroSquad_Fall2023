@@ -2,20 +2,23 @@ package Model;
 
 public class Item {
     private int id;
-    private String name, effect, description;
+    private String name;
+    private String effect;
+    private String description;
     private boolean type;
     private int quantity;
     public Stats stats;
 
 
     //TODO: get rid of this constructor when parsing method is corrected
-    public Item(int id, String name, boolean type, String effect) {
+    public Item(int id, String name, boolean type, String description) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.effect = effect;
-//        this.quantity = quantity;
+        this.description = description;
+        //  this.quantity = quantity;
     }
+
 
     public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
         this.id = id;
@@ -26,22 +29,25 @@ public class Item {
         this.stats = stats;
     }
 
-    public int getID() {
-        return id;
-    }
+    public int getId() { return id; }
 
-    public String getName() {
-        return name;
-    }
 
-    public boolean isType() {
-        return type;
-    }
+    public void setId(int id) { this.id = id; }
+
+
+    public String getName() { return name; }
+
+
+    public void setName(String name) { this.name = name; }
+
+
+
+    public boolean isType() { return type; }
 
     // Method to list items (assumed functionality)
     public void listItems() {
         // Logic to list items (e.g., printing item details to the console)
-        System.out.println(id + ": " + name + " - " + effect + " (Quantity: " + quantity + ")");
+        System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
     }
 
     // Method to simulate picking up an item (increment quantity)
@@ -66,6 +72,9 @@ public class Item {
         }
     }
 
+
+
+
     // Additional methods for other interactions can be added here
     public static class Stats {
         //Assumes non-dynamic item stats
@@ -78,6 +87,8 @@ public class Item {
             this.def = def;
             this.atk = atk;
         }
+
+
 
         public double getHp() {
             return hp;

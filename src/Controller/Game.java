@@ -14,7 +14,6 @@ public class Game {
     static CommandManager commandManager;
     private static ArrayList<String> startingPrompts;
 
-
     //Moved code from console to Game class
     public Game () {
         startingPrompts = new ArrayList<>();
@@ -33,7 +32,6 @@ public class Game {
         String playerName = scan.nextLine();
         System.out.println("Hello, " + playerName + "! Let's start your adventure.");
     }
-
 
     public void displayStartingPrompts() {
         for (String prompt : startingPrompts) {
@@ -92,6 +90,24 @@ public class Game {
         }
 
         Puzzle puzzle = new Puzzle(Puzzle.topic.All);
+
+        Game game = new Game();
+        game.displayStartingPrompts();
+        game.getPlayerName();
+        game.loadCharacterData();
+        int selectedCharacterId = game.selectCharacter();
+        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
+        if (selectedCharacter != null) {
+            System.out.println("You selected: " + selectedCharacter.get("name"));
+        } else {
+            System.out.println("Invalid character selection.");
+        }
+
+
+
+        while (state.isRunning()) {
+            //TODO: user setup for the game
+            Scanner scan = new Scanner(System.in);
 
 
         while (state.isRunning()) {
@@ -276,6 +292,4 @@ public class Game {
 //        }
 //        return puzzles;
 //    }
-
-
 }
