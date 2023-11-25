@@ -149,6 +149,7 @@ public class CommandManager {
     public void save() {
 
     }
+
     //TODO: Sebastian implement list_item() method
     public void list_item() {
         HashMap<Integer, Item> allItems = state.getItems();
@@ -231,11 +232,19 @@ public class CommandManager {
                 .stream()
                 .map(ItemReference::getName)
                 .collect(Collectors.toList());
+        System.out.println("__________________________________________________________");
+        System.out.println("Monsters in the Room: " + state.getCurrentRoom().getMonsterInRoom());
+        System.out.println("Puzzle in the Room: " ); //TODO: print puzzle in room if there is one
         System.out.println("Items in the Room: " + itemsInRoom);
+        System.out.println("Current Room: " + state.getCurrentRoom().getRoomName());
+        System.out.println("Room Description: " + state.getCurrentRoom().getRoomDescription());
+        System.out.println("__________________________________________________________");
     }
     public void list_monster() {
 
     }
+
+
 
 
     public class Command {

@@ -12,8 +12,10 @@ rooms:
 
   - id: 1
     name: Library 1
-    description: The player enters the library's door on the first level, just as you do.
-    explored: There, you find what seems to be the remains of a librarian... holding a sign that reads, "Overdue by
+    description: |
+      The player enters the library's door on the first level, just as you do.
+    explored: |
+      There, you find what seems to be the remains of a librarian... holding a sign that reads, "Overdue by
       300 years! Return your books on time!" But first let's fight this zombie blocking the path.
     outlets:
       east: 5
@@ -22,7 +24,8 @@ rooms:
 
   - id: 2
     name: Library 2
-    description: You enter the second level of the library, which seems to have had a slimy "glitter" party
+    description: |
+      You enter the second level of the library, which seems to have had a slimy "glitter" party
       gone wrong - broken glass everywhere and shimmering slime on the floor.
     explored: You chuckle at a sign that reads "Slime and Dine - Book Club Gone Wild!" as you begin your
       slippery search for clues to escape this quirky library.
@@ -60,7 +63,6 @@ rooms:
       a gargantuan zombified librarian, her once neat bun now haphazardly falling apart, glasses skewed. With an ominous
       (yet slightly comedic) creak, she points a bony finger at you.
     explored: |
-      
       "Shhhhhhhhhhhhhhh..." she draws out with a dramatic flair, her voice echoing across the vast hall.
       
       "Late returns?" she asks, her eyes twitching.
