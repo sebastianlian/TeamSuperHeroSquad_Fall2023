@@ -1,5 +1,7 @@
 package Model;
 
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.Serializable;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -206,7 +208,7 @@ public class State implements Serializable {
 
     //FIXME: Sebastian implement populateRandomItem
     public void populateRandomItem(ItemReference itemRef) {
-        if (itemRef == null || itemRef.getItem() == null) {
+        if (itemRef == null) {
             // If itemRef or the item within it is null, place a random item in the room
             Random random = new Random();
             List<Item> allItems = new ArrayList<>(indexedItems.values());
@@ -223,7 +225,7 @@ public class State implements Serializable {
             System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
         } else {
             // If the item is not null and its ID is less than or equal to 60, proceed as before
-            if (itemRef.getItem().getId() <= 60) {
+            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
                 // Rest of the code to place the specific item
             }
         }
@@ -289,8 +291,8 @@ public class State implements Serializable {
         } else {
             System.out.println("Inventory contains:");
             for (ItemReference itemRef : inventory) {
-                Item item = itemRef.getItem();
-                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription() + ", Quantity: " + item.getQuantity());
+                Item item = indexedItems.get(itemRef.getIndex());
+                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
             }
         }
     }

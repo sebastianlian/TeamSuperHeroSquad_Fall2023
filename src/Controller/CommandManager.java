@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -162,7 +163,8 @@ public class CommandManager {
     }
     //TODO: Sebastian implement list_item() method
     public void list_item() {
-        HashMap<Integer, Item> allItems = state.getItems();
+        HashMap<Integer, Item> allItems = state.getIndexOfItems(); //FIXME: indexOfItems is not the items in inventory, but all items possible
+        ArrayList<ItemReference> inventory = state.getInventory();
 
         if (allItems.isEmpty()) {
             System.out.println("No items found.");
@@ -172,7 +174,7 @@ public class CommandManager {
             for (Item item : allItems.values()) {
                 System.out.println("Item ID: " + item.getId());
                 System.out.println("Name: " + item.getName());
-                System.out.println("Effect: " + item.getEffect());
+//                System.out.println("Effect: " + item.getEffect());
                 System.out.println("Description: " + item.getDescription());
                 System.out.println("__________________________________________________________");
             }

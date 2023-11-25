@@ -5,7 +5,7 @@ public class Item {
     private String name, effect, description;
     private boolean type;
     private int quantity;
-    protected Stats stats;
+    public Stats stats;
 
 
     //TODO: get rid of this constructor when parsing method is corrected
@@ -47,8 +47,7 @@ public class Item {
 //    public String getEffect() {
 //        return effect;
 //    }
-//
-//    public String getDescription() { return description; }
+    public String getDescription() { return description; }
 //
 //    public void setDescription(String description) { this.description = description; }
 //
@@ -102,7 +101,7 @@ public class Item {
     // Additional methods for other interactions can be added here
 
 
-    public static class Stats {
+    public static final class Stats {
         //Assumes non-dynamic item stats
         protected final double hp;
         protected final double def;

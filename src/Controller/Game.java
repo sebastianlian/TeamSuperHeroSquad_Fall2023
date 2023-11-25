@@ -155,7 +155,7 @@ public class Game {
                     commandManager.list_item();
                     break;
                 case "USE":
-                    commandManager.use_item();
+                    commandManager.use_item(cmdAttr);
                     break;
                 default:
                     commandManager.validateCommand(console, cmdAttr);
@@ -299,5 +299,4 @@ public class Game {
 //        }
 //        return puzzles;
 //    }
-    }
 }
