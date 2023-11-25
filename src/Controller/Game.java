@@ -15,7 +15,7 @@ public class Game {
     private static ArrayList<String> startingPrompts;
 
     //Moved code from console to Game class
-    public Game () {
+    public Game() {
         startingPrompts = new ArrayList<>();
         //Add starting prompts here
         startingPrompts.add("-----------------------------------------");
@@ -26,7 +26,8 @@ public class Game {
         startingPrompts.add("-----------------------------------------");
 
     }
-    public void  getPlayerName() {
+
+    public void getPlayerName() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your character's name: ");
         String playerName = scan.nextLine();
@@ -38,6 +39,7 @@ public class Game {
             dotdotdot(prompt, 300, 1); // Adjust the duration and number of dots as needed
         }
     }
+
     private void dotdotdot(String message, long delay, int repetitions) {
         for (int i = 0; i < repetitions; i++) {
             System.out.print(message);
@@ -67,6 +69,7 @@ public class Game {
     public Map<String, Object> getSelectedCharacter(int characterId) {
         return state.getSelectedCharacter(characterId);
     }
+
     public static void main(String[] args) throws Exception {
 
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
@@ -89,169 +92,151 @@ public class Game {
             System.out.println("Invalid character selection.");
         }
 
-        Puzzle puzzle = new Puzzle(Puzzle.topic.All);
-
-        Game game = new Game();
-        game.displayStartingPrompts();
-        game.getPlayerName();
-        game.loadCharacterData();
-        int selectedCharacterId = game.selectCharacter();
-        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
-        if (selectedCharacter != null) {
-            System.out.println("You selected: " + selectedCharacter.get("name"));
-        } else {
-            System.out.println("Invalid character selection.");
-        }
+//        Puzzle puzzle = new Puzzle(Puzzle.topic.All);
 
 
+            while (state.isRunning()) {
+                Scanner scan = new Scanner(System.in);
 
-        while (state.isRunning()) {
-            //TODO: user setup for the game
-            Scanner scan = new Scanner(System.in);
+                //TODO: initial prompt
+                System.out.println("Enter a command: ");
 
+                String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
+                String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
 
-        while (state.isRunning()) {
-            Scanner scan = new Scanner(System.in);
+                Room currentRoom = state.getCurrentRoom(); //TODO: why not make currentRoom and outlets protected within state?
+                int[] currentRoomOutlets = state.getCurrentOutlets();
 
-            //TODO: initial prompt
-            System.out.println("Enter a command: ");
-
-            String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
-            String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
-
-            Room currentRoom = state.getCurrentRoom(); //TODO: why not make currentRoom and outlets protected within state?
-            int[] currentRoomOutlets = state.getCurrentOutlets();
-
-            //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
-            switch (console) {
-                case "N", "NORTH", "UP":
-                    commandManager.move(0);
+                //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
+                switch (console) {
+                    case "N", "NORTH", "UP":
+                        commandManager.move(0);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
 
-                    break;
-                case "W", "WEST", "LEFT":
-                    commandManager.move(3);
+                        break;
+                    case "W", "WEST", "LEFT":
+                        commandManager.move(3);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
 
-                    break;
-                case "E", "EAST", "RIGHT":
-                    commandManager.move(1);
+                        break;
+                    case "E", "EAST", "RIGHT":
+                        commandManager.move(1);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
 
-                    break;
-                case "S", "SOUTH", "DOWN":
-                    commandManager.move(2);
+                        break;
+                    case "S", "SOUTH", "DOWN":
+                        commandManager.move(2);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
-                    break;
-                case "PICKUP":
-                    commandManager.pickup_item(cmdAttr);
-                    break;
-                case "DROP":
-                    commandManager.drop_item(cmdAttr);
-                    break;
+                        break;
+                    case "PICKUP":
+                        commandManager.pickup_item(cmdAttr);
+                        break;
+                    case "DROP":
+                        commandManager.drop_item(cmdAttr);
+                        break;
 
 
-                default:
-                    commandManager.validateCommand(console, cmdAttr);
+                    default:
+                        commandManager.validateCommand(console, cmdAttr);
+                }
             }
         }
-    }
 
-    public static HashMap<Integer, Item> parseItems() throws Exception {
-        // Index of items.
-        HashMap<Integer, Item> itemIndex = new HashMap<>();
+        public static HashMap<Integer, Item> parseItems () throws Exception {
+            // Index of items.
+            HashMap<Integer, Item> itemIndex = new HashMap<>();
 
-        // Parses YAML file.
-        Yaml yaml = new Yaml();
-        String source = Files.readString(Paths.get("items.yaml"));
-        Map<String, Object> object = yaml.load(source);
+            // Parses YAML file.
+            Yaml yaml = new Yaml();
+            String source = Files.readString(Paths.get("items.yaml"));
+            Map<String, Object> object = yaml.load(source);
 
-        // Creates object mappings from YAML data.
-        ArrayList<Object> items = (ArrayList<Object>) object.get("items");
-        for (Object item : items) {
-            Map<Object, Object> mapping = (Map<Object, Object>) item;
+            // Creates object mappings from YAML data.
+            ArrayList<Object> items = (ArrayList<Object>) object.get("items");
+            for (Object item : items) {
+                Map<Object, Object> mapping = (Map<Object, Object>) item;
 
-            // Extract all fields for Item
-            int itemID = (int) mapping.get("id");
-            String itemName = (String) mapping.get("name");
-            boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
-            String itemDescription = (String) mapping.get("description");
+                // Extract all fields for Item
+                int itemID = (int) mapping.get("id");
+                String itemName = (String) mapping.get("name");
+                boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
+                String itemDescription = (String) mapping.get("description");
 //            int quantity = (int) mapping.get("quantity");
 
-            Item itemInstance = new Item(
-                    itemID,
-                    itemName,
-                    itemType,
-                    itemDescription
+                Item itemInstance = new Item(
+                        itemID,
+                        itemName,
+                        itemType,
+                        itemDescription
 
-            );
+                );
 
-            itemIndex.put(itemID, itemInstance);
+                itemIndex.put(itemID, itemInstance);
+            }
+
+            return itemIndex;
         }
 
-        return itemIndex;
-    }
 
+        public static HashMap<Room, int[]> parseRooms() throws Exception {
+            // List of rooms.
+            HashMap<Room, int[]> rooms = new HashMap<>();
 
-    public static HashMap<Room, int[]> parseRooms() throws Exception {
-        // List of rooms.
-        HashMap<Room, int[]> rooms = new HashMap<>();
+            // Parses YAML file.
+            Yaml yaml = new Yaml();
+            String source = Files.readString(Paths.get("rooms.yaml"));
+            Map<String, Object> object = yaml.load(source);
 
-        // Parses YAML file.
-        Yaml yaml = new Yaml();
-        String source = Files.readString(Paths.get("rooms.yaml"));
-        Map<String, Object> object = yaml.load(source);
+            // Creates room instances and outlet mappings from YAML data.
+            ArrayList<Object> objects = (ArrayList<Object>) object.get("rooms");
+            for (Object room : objects) {
+                Map<Object, Object> mapping = (Map<Object, Object>) room;
 
-        // Creates room instances and outlet mappings from YAML data.
-        ArrayList<Object> objects = (ArrayList<Object>) object.get("rooms");
-        for (Object room : objects) {
-            Map<Object, Object> mapping = (Map<Object, Object>) room;
+                Room roomInstance = new Room(
+                        (int) mapping.get("id"),
+                        (String) mapping.get("name"),
+                        (String) mapping.get("description"),
+                        (ArrayList<Integer>) mapping.get("items")
+                );
 
-            Room roomInstance = new Room(
-                    (int) mapping.get("id"),
-                    (String) mapping.get("name"),
-                    (String) mapping.get("description"),
-                    (ArrayList<Integer>) mapping.get("items")
-            );
+                Map<Object, Integer> outletMapping = (Map<Object, Integer>) mapping.get("outlets");
+                int[] outlets = new int[]{-1, -1, -1, -1};
+                outlets[0] = outletMapping.getOrDefault("north", -1);
+                outlets[1] = outletMapping.getOrDefault("east", -1);
+                outlets[2] = outletMapping.getOrDefault("south", -1);
+                outlets[3] = outletMapping.getOrDefault("west", -1);
 
-            Map<Object, Integer> outletMapping = (Map<Object, Integer>) mapping.get("outlets");
-            int[] outlets = new int[]{-1, -1, -1, -1};
-            outlets[0] = outletMapping.getOrDefault("north", -1);
-            outlets[1] = outletMapping.getOrDefault("east", -1);
-            outlets[2] = outletMapping.getOrDefault("south", -1);
-            outlets[3] = outletMapping.getOrDefault("west", -1);
+                rooms.put(roomInstance, outlets);
+            }
 
-            rooms.put(roomInstance, outlets);
+            return rooms;
         }
 
-        return rooms;
-    }
+        public static HashMap<Integer, Actor> parseMonsters() throws Exception {
+            // List of monsters.
+            HashMap<Integer, Actor> monsters = new HashMap<>();
 
-    public static HashMap<Integer, Actor> parseMonsters() throws Exception {
-        // List of monsters.
-        HashMap<Integer, Actor> monsters = new HashMap<>();
+            // Parses YAML file.
+            Yaml yaml = new Yaml();
+            String source = Files.readString(Paths.get("monsters.yaml"));
+            Map<String, Object> object = yaml.load(source);
 
-        // Parses YAML file.
-        Yaml yaml = new Yaml();
-        String source = Files.readString(Paths.get("monsters.yaml"));
-        Map<String, Object> object = yaml.load(source);
+            // Creates monster (actor) instances from YAML data.
+            ArrayList<Object> objects = (ArrayList<Object>) object.get("monsters");
+            for (Object actor : objects) {
+                Map<Object, Object> mapping = (Map<Object, Object>) actor;
 
-        // Creates monster (actor) instances from YAML data.
-        ArrayList<Object> objects = (ArrayList<Object>) object.get("monsters");
-        for (Object actor : objects) {
-            Map<Object, Object> mapping = (Map<Object, Object>) actor;
+                int id = (int) mapping.get("id");
 
-            int id = (int) mapping.get("id");
-
-            Actor monsterInstance = new Actor(
+                Actor monsterInstance = new Actor(
 //                    (int)mapping.get("id"),
-                    (String) mapping.get("name"),
-                    (String) mapping.get("description"),
-                    Double.valueOf((int)mapping.getOrDefault("hp", 0)),
-                    Double.valueOf((int)mapping.getOrDefault("def", 0)),
-                    Double.valueOf((int)mapping.getOrDefault("atk", 0)),
-                    (int) mapping.get("id") //setting monster location using the room id NOT THE startingLocation value
-            );
+                        (String) mapping.get("name"),
+                        (String) mapping.get("description"),
+                        Double.valueOf((int) mapping.getOrDefault("hp", 0)),
+                        Double.valueOf((int) mapping.getOrDefault("def", 0)),
+                        Double.valueOf((int) mapping.getOrDefault("atk", 0)),
+                        (int) mapping.get("id") //setting monster location using the room id NOT THE startingLocation value
+                );
 
 //            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
 //            int[] outlets = new int[] { -1, -1, -1, -1 };
@@ -260,13 +245,13 @@ public class Game {
 //            outlets[2] = outletMapping.getOrDefault("south", -1);
 //            outlets[3] = outletMapping.getOrDefault("west", -1);
 
-            monsters.put(id, monsterInstance);
+                monsters.put(id, monsterInstance);
+            }
+
+            return monsters;
         }
 
-        return monsters;
-    }
-
-    //TODO: implement parsePuzzle()
+        //TODO: implement parsePuzzle()
 //    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
 //        // List of monsters.
 //        HashMap<Integer, Actor> puzzles = new HashMap<>();
@@ -292,4 +277,4 @@ public class Game {
 //        }
 //        return puzzles;
 //    }
-}
+    }
