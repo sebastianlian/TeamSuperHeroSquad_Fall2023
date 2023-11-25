@@ -1,5 +1,6 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,9 +22,9 @@ enum MODE {
 
 }
 
-public class State {
+public class State implements Serializable {
     // Statics
-    private HashMap<Integer, Item> indexedItems;
+    protected HashMap<Integer, Item> indexedItems;
 
 
     // Controller.Game State
@@ -212,6 +213,81 @@ public class State {
         return null; // Character not found
     }
 
+    public void equipItem(ItemReference itemRef) {
+        if (itemRef == null) {
+            System.out.println(itemRef + " failed to be moved into inventory");
+        } else {
+            equippedItem = itemRef;
+            inventory.remove(itemRef);
+        }
+    }
+
+    public void removeEquippedItem(ItemReference itemRef) {
+        if (itemRef == null) {
+            System.out.println(itemRef + " failed to be moved into inventory");
+        } else {
+            inventory.add(itemRef);
+            equippedItem = null;
+        }
+    }
+
+
+    public void replenishHP(double amount) {
+        // Ensuring that HP does not exceed the maximum value
+        hitPoints = Math.min(hitPoints + amount, 100);
+        System.out.println("HP replenished. Current HP: " + hitPoints);
+    }
+    public void replenishMaxHP() {
+        // Setting HP to the maximum value
+        replenishHP(100); //FIXME
+        System.out.println("Max HP replenished. Current HP: " + hitPoints);
+    }
+    public void takePlayerDamage(double damage) {
+        // Ensure that the player's HP doesn't go below 0
+        hitPoints = Math.max(hitPoints - damage, 0);
+        System.out.println("Player took " + damage + " damage. Current HP: " + hitPoints);
+
+        // Check if the player has run out of HP
+        if (hitPoints == 0) {
+            running = false; // Game over
+            System.out.println("Game Over. Player has run out of HP.");
+        }
+    }
+    public void loadCharacterData() {
+        Yaml yaml = new Yaml();
+        Path path = Paths.get("character.yaml");
+        try (InputStream inputStream = Files.newInputStream(path)) {
+            Map<String, List<Map<String, Object>>> data = yaml.load(inputStream);
+            characters = data.get("characters");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    public int selectCharacter() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose your character:");
+        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+
+        for (Map<String, Object> character : characters) {
+            System.out.println(character.get("id") + ". " + character.get("name"));
+        }
+
+        int selectedId = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        return selectedId;
+    }
+    public Map<String, Object> getSelectedCharacter(int characterId) {
+        for (Map<String, Object> character : characters) {
+            if ((int) character.get("id") == characterId) {
+                return character;
+            }
+        }
+        return null; // Character not found
+    }
+
     //TODO: refactor these
     //Getters and setters
     public double getHitPoints() {
@@ -255,6 +331,20 @@ public class State {
 
         System.out.println(test);
 
+    }
+
+    public HashMap<Integer, Item> getIndexOfItems() {
+        return indexedItems;
+    }
+
+    public Item getItem(int i) {
+        return indexedItems.get(i);
+    }
+
+    public void consumeStats(Item.Stats incomingStats) {
+        hitPoints += incomingStats.hp;
+        attack += incomingStats.atk;
+        defense += incomingStats.def;
     }
 
 }

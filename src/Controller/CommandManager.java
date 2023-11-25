@@ -3,6 +3,9 @@ package Controller;
 import Model.Item;
 import Model.ItemReference;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -84,7 +87,7 @@ public class CommandManager {
     public void runCommand(String command) throws Exception {
         System.out.println(String.valueOf(command));
         Method method = Command.class.getMethod(String.valueOf(command).toUpperCase());
-        Command command1 = new CommandManager.Command();
+        Command command1 = new Command();
         method.invoke(command1);
     }
 
@@ -148,7 +151,12 @@ public class CommandManager {
     public void quit(int statusCode) {
         System.exit(statusCode);
     }
-    public void save() {
+    public void save() throws Exception {
+        String filePath = "src/test/resources/store/save.txt";
+
+        FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(state);
 
     }
 
@@ -156,11 +164,7 @@ public class CommandManager {
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
 
-        ItemReference itemReference = state.getInventory()
-                .stream()
-                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
-                .findFirst()
-                .orElse(null);
+        ItemReference itemReference = itemFromInv(cmdAttr);
 
         if (itemReference != null) {
             System.out.println("Found item: " + itemReference.getName());
@@ -170,6 +174,7 @@ public class CommandManager {
             System.out.println("The item is not in your inventory.");
         }
     }
+
 
     public void pickup_item(String cmdAttr) {
             System.out.println("Attempting to pick up item: " + cmdAttr);
@@ -191,11 +196,23 @@ public class CommandManager {
             }
         }
 
-    public void use_item() {
+    public void use_item(String cmdAttr) {
+        ItemReference itemRef = itemFromInv(cmdAttr);
+        Item selectItem = state.getItem(itemRef.getIndex());
 
+        if(!selectItem.isType()) {
+            state.consumeStats(selectItem.stats);
+        }
     }
-    public void equip_item() {
+    public void equip_item(String cmdAttr) {
 
+        ItemReference itemRef = itemFromInv(cmdAttr);
+
+        if(state.getItem(itemRef.getIndex()).isType()) {
+            //Check for equippable now set to equippedItem
+            state.equipItem(itemRef);
+            state.getInventory().remove(itemRef); //or inventory.remove(itemRef);
+        }
     }
     public void explore() {
         List itemsInRoom = state.getCurrentRoom()
@@ -211,6 +228,16 @@ public class CommandManager {
 
     }
 
+    //Private methods
+    private ItemReference itemFromInv(String itemName) {
+        ItemReference itemReference = state.getInventory()
+                .stream()
+                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
+
+        return itemReference;
+    }
 
     public class Command {
         //TEMP class full of methods to pass once able
@@ -239,7 +266,7 @@ public class CommandManager {
         }
 
         public void SAVE() {
-            save();
+//            save();
         }
 
         public void DROP(){
@@ -250,12 +277,12 @@ public class CommandManager {
             pickup_item(cmdAttr);
         }
 
-        public void USE() {
-            use_item();
+        public void USE(String cmdAttr) {
+            use_item(cmdAttr);
         }
 
-        public void EQUIP() {
-            equip_item();
+        public void EQUIP(String cmdAttr) {
+            equip_item(cmdAttr);
         }
 
         public void EXPLORE() {
