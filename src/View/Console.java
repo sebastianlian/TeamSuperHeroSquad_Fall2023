@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Console {
 
-    private static ArrayList<String> startingPrompts;
+    private ArrayList<String> startingPrompts;
 
 
     public Console() {

@@ -12,20 +12,20 @@ public class Game {
 
     static State state;
     static CommandManager commandManager;
-    private static ArrayList<String> startingPrompts;
+    private ArrayList<String> startingPrompts;
 
     //Moved code from console to Game class
-    public Game () {
-        startingPrompts = new ArrayList<>();
-        //Add starting prompts here
-        startingPrompts.add("-----------------------------------------");
-        startingPrompts.add("Welcome to Grizzly Survival!");
-        startingPrompts.add("-----------------------------------------");
-        startingPrompts.add("You just recently got accepted by Grizzly University " +
-                "and you're starting out your first semester as a student. ");
-        startingPrompts.add("-----------------------------------------");
-
-    }
+//    public Game () {
+//        startingPrompts = new ArrayList<>();
+//        //Add starting prompts here
+//        startingPrompts.add("-----------------------------------------");
+//        startingPrompts.add("Welcome to Grizzly Survival!");
+//        startingPrompts.add("-----------------------------------------");
+//        startingPrompts.add("You just recently got accepted by Grizzly University " +
+//                "and you're starting out your first semester as a student. ");
+//        startingPrompts.add("-----------------------------------------");
+//
+//    }
     public void  getPlayerName() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter your character's name: ");
@@ -77,17 +77,17 @@ public class Game {
 
         //TODO: user setup for the game
 
-        Game game = new Game();
-        game.displayStartingPrompts();
-        game.getPlayerName();
-        game.loadCharacterData();
-        int selectedCharacterId = game.selectCharacter();
-        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
-        if (selectedCharacter != null) {
-            System.out.println("You selected: " + selectedCharacter.get("name"));
-        } else {
-            System.out.println("Invalid character selection.");
-        }
+//        Game game = new Game();
+//        game.displayStartingPrompts();
+//        game.getPlayerName();
+//        game.loadCharacterData();
+//        int selectedCharacterId = game.selectCharacter();
+//        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
+//        if (selectedCharacter != null) {
+//            System.out.println("You selected: " + selectedCharacter.get("name"));
+//        } else {
+//            System.out.println("Invalid character selection.");
+//        }
 
         Puzzle puzzle = new Puzzle(Puzzle.topic.All);
 
