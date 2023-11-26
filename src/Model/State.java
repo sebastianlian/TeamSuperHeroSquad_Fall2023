@@ -35,8 +35,6 @@ public class State implements Serializable {
     private Puzzle puzzle = new Puzzle();
 
 
-
-
     // Player Variables
     private ArrayList<ItemReference> inventory;
     private int position = 0; // FIXME: There must be a 0th room.
@@ -45,8 +43,6 @@ public class State implements Serializable {
 
     //Aux player variables
     private ItemReference equippedItem = null;
-
-
 
 
     public State(Callable<HashMap<Integer, Item>> populateItemIndex, Callable<HashMap<Room, int[]>> populateRooms, Callable<HashMap<Integer, Actor>> populateMonsters) throws Exception {
@@ -84,7 +80,6 @@ public class State implements Serializable {
 //            }).get()));
         }
     }
-
 
 
     public Actor getMonsterInCurrentRoom() {
@@ -136,6 +131,7 @@ public class State implements Serializable {
         ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID());
         selectRoom.referredItems.put(itemId, itemRef);
     }
+
     //
 //    private void createMonsterRefInstance(int monsterId, Room selectRoom, Actor monster) {
 //        MonsterReference monRef = new MonsterReference(monsterId, indexedMonsters.get(monsterId).getName(), selectRoom.getNumber(), monster);
@@ -192,11 +188,13 @@ public class State implements Serializable {
         hitPoints = Math.min(hitPoints + amount, 100);
         System.out.println("HP replenished. Current HP: " + hitPoints);
     }
+
     public void replenishMaxHP() {
         // Setting HP to the maximum value
         replenishHP(100); //FIXME
         System.out.println("Max HP replenished. Current HP: " + hitPoints);
     }
+
     public void takePlayerDamage(double damage) {
         // Ensure that the player's HP doesn't go below 0
         hitPoints = Math.max(hitPoints - damage, 0);
@@ -208,6 +206,7 @@ public class State implements Serializable {
             System.out.println("Game Over. Player has run out of HP.");
         }
     }
+
     public void loadCharacterData() {
         Yaml yaml = new Yaml();
         Path path = Paths.get("character.yaml");
@@ -260,6 +259,7 @@ public class State implements Serializable {
 
         return selectedId;
     }
+
     public Map<String, Object> getSelectedCharacter(int characterId) {
         for (Map<String, Object> character : characters) {
             if ((int) character.get("id") == characterId) {
@@ -294,6 +294,7 @@ public class State implements Serializable {
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
+
     public void setCurrentRoom(int roomNumber) {
         this.currentRoom = getRoom(roomNumber);
     }
@@ -311,7 +312,7 @@ public class State implements Serializable {
         }
     }
 
-    public void accessMap(){
+    public void accessMap() {
         int[] test = indexedRooms.get(currentRoom);
 
         System.out.println(test);
@@ -348,10 +349,10 @@ public class State implements Serializable {
                 System.out.println("Wrong!");
             }
         }
+    }
 
-    //DO NOT DELETE
+    //DO NOT DELETE OR MODIFY
     public HashMap<Integer, Item> getItems() {
         return indexedItems;
-
     }
 }
