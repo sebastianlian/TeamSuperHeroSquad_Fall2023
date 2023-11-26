@@ -44,10 +44,14 @@ public class Item {
         System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
     }
 
-//    public String getEffect() {
-//        return effect;
-//    }
+    public String getEffect() {
+        return effect;
+    }
     public String getDescription() { return description; }
+
+    public Stats getStats() {
+        return stats;
+    }
 //
 //    public void setDescription(String description) { this.description = description; }
 //
