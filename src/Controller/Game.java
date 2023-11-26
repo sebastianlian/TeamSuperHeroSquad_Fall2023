@@ -188,7 +188,7 @@ public class Game {
                     itemID,
                     itemName,
                     itemType,
-//                    itemEffect,
+                    itemEffect,
                     itemDescription
             );
 
