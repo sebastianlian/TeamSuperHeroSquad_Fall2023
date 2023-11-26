@@ -52,6 +52,10 @@ public class Item {
         return effect;
     }
     public String getDescription() { return description; }
+
+    public Stats getStats() {
+        return stats;
+    }
 //
 //    public void setDescription(String description) { this.description = description; }
 //
