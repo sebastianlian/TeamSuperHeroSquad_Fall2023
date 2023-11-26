@@ -9,6 +9,7 @@ monsters:
       atk: 15
     innate:
     location: 4
+    type: History
 
   - id: 2
     name: Zombie Librarian (English Zombie)
@@ -26,6 +27,7 @@ monsters:
         frequency: 1 #attack boost for that one turn
         totality: false #doesn't last all battle only when activated
     location: 5
+    type: English
 
   - id: 3
     name: Square Z (Math Zombie)
@@ -36,6 +38,7 @@ monsters:
       atk: 40
     innateDesc:
     location: 8
+    type: Math
 
   - id: 4
     name: ZTX (IT Zombie)
@@ -53,6 +56,7 @@ monsters:
         frequency: 0 # 0 being start at the beginning of battle
         totality: true # last all battle
     location: 9
+    type: IT
 
 
   - id: 5
@@ -71,6 +75,7 @@ monsters:
         frequency: 2 # last 2 turn, only applied when the 2 turn run out
         totality: false # doesn't last all battle
     location: 10
+    type: Chemistry
 
   - id: 6
     name: Dr. Frankizom (Health Zombie)
@@ -88,6 +93,7 @@ monsters:
         frequency: 0 # last all turn when activated
         totality: true # last all battle
     location: 14
+    type: Health
 
   - id: 7
     name: Grizzly the Zombie Bear
@@ -98,6 +104,7 @@ monsters:
       atk: 10
     innateDesc:
     location: 15
+    type:
 
   - id: 8
     name: Chief Le Brains
@@ -108,6 +115,7 @@ monsters:
       atk: 40
     innateDesc:
     location: 17
+    type:
 
   - id: 9
     name: Dean Zombie (final boss)
@@ -120,3 +128,4 @@ monsters:
       atk: 50
     passive:
     location: 20
+    type:

@@ -9,7 +9,7 @@ import java.util.*;
 public class Puzzle {
 
     public enum topic {
-        Chemisty, History, Health, Math, IT, English, Business, Nursing, Final, All
+        Chemistry, History, Health, Math, IT, English, Business, Nursing, Final, All
     }
 
     private topic currentPuzzleTopic;
@@ -18,6 +18,9 @@ public class Puzzle {
     private HashMap<String, ArrayList<PairQA>> QAMap;
 
     public Puzzle(topic puzzletopic) throws Exception {
+        QAMap = parsePuzzle();
+    }
+    public Puzzle() throws Exception {
         QAMap = parsePuzzle();
     }
 
@@ -45,8 +48,6 @@ public class Puzzle {
                 PairQA pairQA = mapToPairQA((String) puzzleMapping.get("question"),
                         (String) puzzleMapping.get("answer"));
                 puzzleEntries.add(pairQA);
-//                System.out.println(mapping.get("question"));
-//                System.out.println(mapping.get("answer"));
             }
 
             allPuzzles.put(topicString, puzzleEntries);
@@ -79,10 +80,12 @@ public class Puzzle {
     //    private PairQA mapToPairQA(Map.Entry<String, String> entry) {
 //        return new PairQA(entry);
 //    }
+
     private PairQA mapToPairQA(Map.Entry<Object, Object> entry) {
         Map.Entry<String, String> stringEntry = Map.Entry.class.cast(entry);
         return new PairQA(stringEntry);
     }
+
 
 //    public void randomizedPuzzle(){
 //        int random = (int) (Math.random() * 9);
@@ -117,6 +120,7 @@ public class Puzzle {
 //        }
 //    }
 
+
     public class PairQA { //NOTE: could make final, probably bad idea
         private final String question;
         private final String answer;
@@ -134,10 +138,6 @@ public class Puzzle {
         public String getAnswer() {
             return answer;
         }
-        public void setSolved(boolean solved) {
-            isSolved = solved;
-        }
-
         public void setSolved() {
             isSolved = true;
         }
@@ -148,4 +148,31 @@ public class Puzzle {
 
     }
 
+
+    public void start(Actor monster) {
+        topic topicType = topic.valueOf(monster.getType());
+        Scanner console = new Scanner(System.in);
+        if (validateTopic(topicType)) {
+            System.out.println("Combat started with " + monster.getName() + "!");
+            PairQA randomPuzzle = getRandomPuzzle(topicType);
+            System.out.println(randomPuzzle.question);
+            String input = console.nextLine();
+            if (input.equalsIgnoreCase(randomPuzzle.answer)){
+                randomPuzzle.setSolved();
+            } else {
+                randomPuzzle.isSolved = false;
+            }
+        }
+    }
+    public boolean validateTopic(topic inputTopic) {
+        for (topic validTopic : topic.values()) {
+            if (validTopic == inputTopic) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
+}
+

@@ -32,8 +32,12 @@ public class State implements Serializable {
     protected Room currentRoom;
     private List<Map<String, Object>> characters;
 
+    private Puzzle puzzle = new Puzzle();
+
+
+
+
     // Player Variables
-    private Actor player; //We don't want our player to be an Actor TODO: remove and replace with a proper stats
     private ArrayList<ItemReference> inventory;
     private int position = 0; // FIXME: There must be a 0th room.
     private int characterID; //FIXME: what is character id for?
@@ -64,6 +68,7 @@ public class State implements Serializable {
                 indexedMonsters.values()) {
         }
 
+
         setInitalRoom();
 
         hitPoints = 100;
@@ -78,6 +83,17 @@ public class State implements Serializable {
 //                throw new IllegalStateException("Multiple elements: " + mon + ", " + mon2);
 //            }).get()));
         }
+    }
+
+
+
+    public Actor getMonsterInCurrentRoom() {
+        int currentRoomId = currentRoom.getRoomID();
+
+        return indexedMonsters.values().stream()
+                .filter(monster -> monster.getCurrentPosition() == currentRoomId)
+                .findFirst()
+                .orElse(null);
     }
 
     public void setInitalRoom() {
@@ -312,8 +328,30 @@ public class State implements Serializable {
         defense += incomingStats.def;
     }
 
+
+    public void combatMode() {
+        gameMode = MODE.BATTLE;
+
+        Actor monster = getMonsterInCurrentRoom();
+        System.out.println("MonstersHP:" + monster.getMaxHitPoints());
+        while (monster.getHitPoints() >= 0 && getHitPoints() >= 0) {
+            Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
+
+            puzzle.start(getMonsterInCurrentRoom());
+
+            if (randomPuzzle.isSolved()) {
+                System.out.println("Correct!");
+                System.out.println("MonstersHP:" + monster.hitPoints);
+                monster.setHitPoints(monster.getHitPoints() - (getAttack() - monster.getDefense()));
+                System.out.println("MonsterHP:" + monster.getHitPoints());
+            } else {
+                System.out.println("Wrong!");
+            }
+        }
+
     //DO NOT DELETE
     public HashMap<Integer, Item> getItems() {
         return indexedItems;
+
     }
 }
