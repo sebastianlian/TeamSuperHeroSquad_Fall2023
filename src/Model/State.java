@@ -32,10 +32,6 @@ public class State implements Serializable {
     protected Room currentRoom;
     private List<Map<String, Object>> characters;
 
-    private Puzzle
-
-
-
     // Player Variables
     private Actor player; //We don't want our player to be an Actor TODO: remove and replace with a proper stats
     private ArrayList<ItemReference> inventory;
@@ -306,10 +302,6 @@ public class State implements Serializable {
 
     }
 
-    public HashMap<Integer, Item> getIndexOfItems() {
-        return indexedItems;
-    }
-
     public Item getItem(int i) {
         return indexedItems.get(i);
     }
@@ -320,4 +312,8 @@ public class State implements Serializable {
         defense += incomingStats.def;
     }
 
+    //DO NOT DELETE
+    public HashMap<Integer, Item> getItems() {
+        return indexedItems;
+    }
 }
