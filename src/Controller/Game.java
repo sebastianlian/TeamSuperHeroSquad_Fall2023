@@ -7,13 +7,9 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-import Model.Actor;
+import Model.*;
 import View.Console;
 import org.yaml.snakeyaml.Yaml;
-
-import Model.Room;
-import Model.State;
-import Model.Item;
 
 public class Game {
 
@@ -83,14 +79,12 @@ public class Game {
         state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
         commandManager = new CommandManager();
 
-//        //FIXME: implement populateRandomItem
-//        // Initialize randomization for specific items (assuming state.getItems() returns all items)
-//        for (Item item : state.getItems().values()) {
-//            if (item.getId() <= 60) {
-//                ItemReference itemRef = new ItemReference(item.getId(), item.getName(), item.getId());
-//                state.populateRandomItem(itemRef);
-//            }
-//        }
+        for (Item item : state.getIndexOfItems().values()) {
+            if (item.getId() <= 60) {
+                ItemReference itemRef = new ItemReference(item.getId(), item.getName(), item.getId());
+                state.populateRandomItem(itemRef);
+            }
+        }
 
         //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
 //        parsePuzzle();
