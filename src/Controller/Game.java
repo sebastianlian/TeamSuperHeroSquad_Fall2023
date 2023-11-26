@@ -148,6 +148,9 @@ public class Game {
                 case "USE":
                     commandManager.use_item(cmdAttr);
                     break;
+                case "LIST":
+                    commandManager.list(cmdAttr);
+                    break;
                 default:
                     commandManager.validateCommand(console, cmdAttr);
             }

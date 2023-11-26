@@ -154,9 +154,6 @@ public class Puzzle {
         return false;
     }
 
-<<<<<<< Updated upstream
-=======
+
 }
 
-
->>>>>>> Stashed changes
