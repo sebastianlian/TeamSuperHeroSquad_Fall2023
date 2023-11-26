@@ -263,6 +263,7 @@ rooms:
       "Ah! An audience! Have you come to taste Dean's Delight?" you gulp, wondering how you'll navigate this culinary
       escapade in the heart of the Dean's Lair.
     outlets:
+      north: 15
       east: 18
       west: 17
     items:
