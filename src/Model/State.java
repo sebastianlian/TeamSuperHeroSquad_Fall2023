@@ -1,5 +1,11 @@
 package Model;
 
+import org.yaml.snakeyaml.Yaml;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -23,7 +29,7 @@ public class State {
     private MODE gameMode;
     //    protected MonsterReference currentMonster = null;
     protected Room currentRoom;
-
+    private List<Map<String, Object>> characters;
 
     // Player Variables
     private Actor player; //We don't want our player to be an Actor TODO: remove and replace with a proper stats
@@ -144,9 +150,62 @@ public class State {
         }
     }
 
+
+    public void equipItem(ItemReference itemRef) {
+        if (itemRef == null) {
+            System.out.println(itemRef + " failed to be moved into inventory");
+        } else {
+            equippedItem = itemRef;
+            inventory.remove(itemRef);
+        }
+    }
+
+    public void removeEquippedItem(ItemReference itemRef) {
+        if (itemRef == null) {
+            System.out.println(itemRef + " failed to be moved into inventory");
+        } else {
+            inventory.add(itemRef);
+            equippedItem = null;
+        }
+    }
+
+
+    public void replenishHP(double amount) {
+        // Ensuring that HP does not exceed the maximum value
+        hitPoints = Math.min(hitPoints + amount, 100);
+        System.out.println("HP replenished. Current HP: " + hitPoints);
+    }
+    public void replenishMaxHP() {
+        // Setting HP to the maximum value
+        replenishHP(100); //FIXME
+        System.out.println("Max HP replenished. Current HP: " + hitPoints);
+    }
+    public void takePlayerDamage(double damage) {
+        // Ensure that the player's HP doesn't go below 0
+        hitPoints = Math.max(hitPoints - damage, 0);
+        System.out.println("Player took " + damage + " damage. Current HP: " + hitPoints);
+
+        // Check if the player has run out of HP
+        if (hitPoints == 0) {
+            running = false; // Game over
+            System.out.println("Game Over. Player has run out of HP.");
+        }
+    }
+    public void loadCharacterData() {
+        Yaml yaml = new Yaml();
+        Path path = Paths.get("character.yaml");
+        try (InputStream inputStream = Files.newInputStream(path)) {
+            Map<String, List<Map<String, Object>>> data = yaml.load(inputStream);
+            characters = data.get("characters");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     //FIXME: Sebastian implement populateRandomItem
     public void populateRandomItem(ItemReference itemRef) {
-        if (itemRef == null || itemRef.getItem() == null) {
+        if (itemRef == null) {
             // If itemRef or the item within it is null, place a random item in the room
             Random random = new Random();
             List<Item> allItems = new ArrayList<>(indexedItems.values());
@@ -163,10 +222,34 @@ public class State {
             System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
         } else {
             // If the item is not null and its ID is less than or equal to 60, proceed as before
-            if (itemRef.getItem().getId() <= 60) {
+            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
                 // Rest of the code to place the specific item
             }
         }
+    }
+
+    public int selectCharacter() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose your character:");
+        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+
+        for (Map<String, Object> character : characters) {
+            System.out.println(character.get("id") + ". " + character.get("name"));
+        }
+
+        int selectedId = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        return selectedId;
+    }
+    public Map<String, Object> getSelectedCharacter(int characterId) {
+        for (Map<String, Object> character : characters) {
+            if ((int) character.get("id") == characterId) {
+                return character;
+            }
+        }
+        return null; // Character not found
     }
 
     //TODO: refactor these
@@ -204,8 +287,8 @@ public class State {
         } else {
             System.out.println("Inventory contains:");
             for (ItemReference itemRef : inventory) {
-                Item item = itemRef.getItem();
-                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription() + ", Quantity: " + item.getQuantity());
+                Item item = indexedItems.get(itemRef.getIndex());
+                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
             }
         }
     }
@@ -217,9 +300,17 @@ public class State {
 
     }
 
-    //TODO: Sebastian implement to list_item() method
-    public HashMap<Integer, Item> getItems() {
+    public HashMap<Integer, Item> getIndexOfItems() {
         return indexedItems;
     }
 
+    public Item getItem(int i) {
+        return indexedItems.get(i);
+    }
+
+    public void consumeStats(Item.Stats incomingStats) {
+        hitPoints += incomingStats.hp;
+        attack += incomingStats.atk;
+        defense += incomingStats.def;
+    }
 }

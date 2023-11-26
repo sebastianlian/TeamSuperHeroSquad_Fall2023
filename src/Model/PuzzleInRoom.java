@@ -1,10 +1,9 @@
 package Model;
 
-public class PuzzleInRoom extends Puzzle{
+public class PuzzleInRoom extends Puzzle {
     private int attempts;
-    public PuzzleInRoom(Puzzle.topic puzzleTopic, String question, String answer, boolean isSolved, int attempts){
-
-        super(puzzleTopic, question, answer, isSolved);
+    public PuzzleInRoom(topic puzzletopic, int attempts) throws Exception {
+        super(puzzletopic);
         this.attempts = attempts;
     }
 }
