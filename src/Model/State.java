@@ -39,7 +39,7 @@ public class State implements Serializable {
     private ArrayList<ItemReference> inventory;
     private int position = 0; // FIXME: There must be a 0th room.
     private int characterID; //FIXME: what is character id for?
-    private double hitPoints, defense, attack;
+    private double maxHitPoints , hitPoints, defense, attack;
 
     //Aux player variables
     private ItemReference equippedItem = null;
@@ -81,6 +81,21 @@ public class State implements Serializable {
         }
     }
 
+    public double getMaxHitPoints() {
+        return maxHitPoints;
+    }
+
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public void setDefense(double defense) {
+        this.defense = defense;
+    }
+
+    public void setAttack(double attack) {
+        this.attack = attack;
+    }
 
     public Actor getMonsterInCurrentRoom() {
         int currentRoomId = currentRoom.getRoomID();
@@ -213,6 +228,7 @@ public class State implements Serializable {
         try (InputStream inputStream = Files.newInputStream(path)) {
             Map<String, List<Map<String, Object>>> data = yaml.load(inputStream);
             characters = data.get("characters");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -335,21 +351,27 @@ public class State implements Serializable {
         gameMode = MODE.BATTLE;
 
         Actor monster = getMonsterInCurrentRoom();
-        System.out.println("MonstersHP:" + monster.getMaxHitPoints());
-        while (monster.getHitPoints() >= 0 && getHitPoints() >= 0) {
+        System.out.println("Monsters:" + monster.getName());
+        System.out.println("Monsters:" + monster.getAttack());
+        System.out.println("Monsters:" + monster.getHitPoints());
+        System.out.println("Monsters:" + monster.getDefense());
+        System.out.println("player Hp:" + getMaxHitPoints());
+
+         do {
             Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
 
-            puzzle.start(getMonsterInCurrentRoom());
-
-            if (randomPuzzle.isSolved()) {
-                System.out.println("Correct!");
-                System.out.println("MonstersHP:" + monster.hitPoints);
-                monster.setHitPoints(monster.getHitPoints() - (getAttack() - monster.getDefense()));
-                System.out.println("MonsterHP:" + monster.getHitPoints());
-            } else {
-                System.out.println("Wrong!");
+            puzzle.startPuzzleForCombat(monster, randomPuzzle);
+            System.out.println(randomPuzzle.isSolved());
+            if (randomPuzzle.isSolved()){
+                System.out.println("You attacked the monster!");
+                monster.setHitPoints(monster.getHitPoints()-(getAttack()- monster.getDefense()));
+            } else{
+                System.out.println("The monster attacked you");
+                setHitPoints(getHitPoints()-(monster.getAttack()-getDefense()));
             }
-        }
+            System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
+            System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
+        } while (monster.getHitPoints() > 0 && getHitPoints() > 0);
     }
 
     //DO NOT DELETE OR MODIFY - for list_item()

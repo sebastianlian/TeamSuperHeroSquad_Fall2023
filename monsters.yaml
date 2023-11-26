@@ -7,7 +7,7 @@ monsters:
       hp: 80
       def: 5
       atk: 15
-    innate:
+    passive:
     location: 4
     type: History
 
@@ -36,7 +36,7 @@ monsters:
       hp: 20
       def: 15
       atk: 40
-    innateDesc:
+    passive:
     location: 8
     type: Math
 
@@ -102,7 +102,7 @@ monsters:
       hp: 65
       def: 20
       atk: 10
-    innateDesc:
+    passive:
     location: 15
     type:
 
@@ -113,7 +113,7 @@ monsters:
       hp: 70
       def: 25
       atk: 40
-    innateDesc:
+    passive:
     location: 17
     type:
 

@@ -145,9 +145,6 @@ public class Game {
                 case "DROP":
                     commandManager.drop_item(cmdAttr);
                     break;
-                case "LIST":
-                    commandManager.list_item();
-                    break;
                 case "USE":
                     commandManager.use_item(cmdAttr);
                     break;
@@ -212,7 +209,9 @@ public class Game {
                     (int) mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
-                    (ArrayList<Integer>) mapping.get("items")
+                    (ArrayList<Integer>) mapping.get("items"),
+                    (String)mapping.get("type")
+
             );
 
             Map<Object, Integer> outletMapping = (Map<Object, Integer>) mapping.get("outlets");
@@ -243,17 +242,19 @@ public class Game {
             Map<Object, Object> mapping = (Map<Object, Object>) actor;
 
             int id = (int) mapping.get("id");
-
+            Map<Object, Object> stats = (Map<Object, Object>) mapping.get("stats");
             Actor monsterInstance = new Actor(
 //                    (int)mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
-                    Double.valueOf((int)mapping.getOrDefault("hp", 0)),
-                    Double.valueOf((int)mapping.getOrDefault("def", 0)),
-                    Double.valueOf((int)mapping.getOrDefault("atk", 0)),
+                    Double.valueOf((int)stats.getOrDefault("hp", 0)),
+                    Double.valueOf((int)stats.getOrDefault("def", 0)),
+                    Double.valueOf((int)stats.getOrDefault("atk", 0)),
                     (int) mapping.get("location"), //setting monster location using the room id NOT THE startingLocation value
                     (String) mapping.get("type")
+
             );
+//            System.out.println("Debug: Name=" + mapping.get("name") + ", HP=" + monsterInstance.getHitPoints() + ", DEF=" + monsterInstance.getAttack() + ", ATK=" + mapping.get("atk"));
 
 //            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
 //            int[] outlets = new int[] { -1, -1, -1, -1 };
