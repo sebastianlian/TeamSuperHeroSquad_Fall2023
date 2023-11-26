@@ -30,7 +30,9 @@ public class State implements Serializable {
     private MODE gameMode;
     //    protected MonsterReference currentMonster = null;
     protected Room currentRoom;
-    private static List<Map<String, Object>> characters;
+    private List<Map<String, Object>> characters;
+
+    private Puzzle
 
 
 

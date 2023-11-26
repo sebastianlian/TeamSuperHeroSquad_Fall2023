@@ -19,7 +19,7 @@ public class Game {
 
     static State state;
     static CommandManager commandManager;
-    private static ArrayList<String> startingPrompts;
+    private ArrayList<String> startingPrompts;
 
     //Moved code from console to Game class
     public Game() {
@@ -107,7 +107,6 @@ public class Game {
         } else {
             System.out.println("Invalid character selection.");
         }
-//        Puzzle puzzle = new Puzzle(Puzzle.topic.All);
 
 
 //        Scanner scan = new Scanner(System.in);

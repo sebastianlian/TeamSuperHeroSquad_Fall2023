@@ -250,6 +250,13 @@ public class CommandManager {
         System.out.println("Items in the Room: " + itemsInRoom);
 
     }
+
+    public void examine() {
+
+
+
+    }
+
     public void list_monster() {
 
     }
@@ -264,6 +271,16 @@ public class CommandManager {
 
         return itemReference;
     }
+
+//    private ArrayList<ItemReference> itemsInRoom(String itemName) {
+//        ArrayList itemsInRoom = state.getCurrentRoom()
+//                .getReferredItems()
+//                .values()
+//                .stream().;
+//
+//        return itemsInRoom;
+//    }
+
 
     public class Command {
         //TEMP class full of methods to pass once able
