@@ -20,6 +20,7 @@ public class Game {
     static State state;
     static CommandManager commandManager;
     private ArrayList<String> startingPrompts;
+    //static State populateRandomItem;
 
     //Moved code from console to Game class
     public Game() {
@@ -117,19 +118,19 @@ public class Game {
             //TODO: user setup for the game
             Scanner scan = new Scanner(System.in);
 
-                //TODO: initial prompt
-                System.out.println("Enter a command: ");
+            //TODO: initial prompt
+            System.out.println("Enter a command: ");
 
-                String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
-                String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
+            String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
+            String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
 
-                Room currentRoom = state.getCurrentRoom(); //TODO: why not make currentRoom and outlets protected within state?
-                int[] currentRoomOutlets = state.getCurrentOutlets();
+            Room currentRoom = state.getCurrentRoom(); //TODO: why not make currentRoom and outlets protected within state?
+            int[] currentRoomOutlets = state.getCurrentOutlets();
 
-                //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
-                switch (console) {
-                    case "N", "NORTH", "UP":
-                        commandManager.move(0);
+            //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
+            switch (console) {
+                case "N", "NORTH", "UP":
+                    commandManager.move(0);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
                     break;
                 case "W", "WEST", "LEFT":
@@ -188,7 +189,7 @@ public class Game {
                     itemID,
                     itemName,
                     itemType,
-//                    itemEffect,
+                    itemEffect,
                     itemDescription
             );
 
@@ -272,7 +273,7 @@ public class Game {
         return monsters;
     }
 
-        //TODO: implement parsePuzzle()
+    //TODO: implement parsePuzzle()
 //    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
 //        // List of monsters.
 //        HashMap<Integer, Actor> puzzles = new HashMap<>();
