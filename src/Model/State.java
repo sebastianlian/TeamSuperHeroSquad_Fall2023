@@ -205,8 +205,8 @@ public class State {
 
     //FIXME: Sebastian implement populateRandomItem
     public void populateRandomItem(ItemReference itemRef) {
-        if (itemRef == null) {
-            // If itemRef or the item within it is null, place a random item in the room
+        if (itemRef == null || indexedItems.get(itemRef.getIndex()).getId() <= 60) {
+            // If itemRef is null or its ID is less than or equal to 60, place a random item in a room
             Random random = new Random();
             List<Item> allItems = new ArrayList<>(indexedItems.values());
             List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
@@ -221,12 +221,14 @@ public class State {
 
             System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
         } else {
-            // If the item is not null and its ID is less than or equal to 60, proceed as before
-            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
-                // Rest of the code to place the specific item
-            }
+            // Implement logic to handle placing a specific item based on conditions
+            // For example:
+            // - Retrieve the specific item from indexedItems using itemRef
+            // - Decide the room to place the item based on game conditions
+            // - Create an ItemReference and add it to the chosen room
         }
     }
+
 
     public int selectCharacter() {
         Scanner scanner = new Scanner(System.in);
@@ -313,4 +315,5 @@ public class State {
         attack += incomingStats.atk;
         defense += incomingStats.def;
     }
+
 }
