@@ -96,6 +96,7 @@ public class Game {
             } else {
                 game.dotdotdot("Invalid character selection - stats not found.", 300, 1);
             }
+            game.dotdotdot("Bonus Item: " + selectedCharacter.get("bonusItem"), 300, 1);
         } else {
             game.dotdotdot("Invalid character selection.", 300, 1);
         }

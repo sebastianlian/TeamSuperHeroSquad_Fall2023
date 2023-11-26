@@ -1,0 +1,86 @@
+commands:
+
+  - name: MOVE NORTH
+    description: Player move 1 step up/north
+    aliases:
+      - MOVE N
+      - UP
+      - NORTH
+      - N
+
+  - name: MOVE EAST
+    description: Player move 1 step right/east
+    aliases:
+      - MOVE E
+      - RIGHT
+      - EAST
+      - E
+
+  - name: MOVE SOUTH
+    description: Player move 1 step down/south
+    aliases:
+      - MOVE S
+      - DOWN
+      - SOUTH
+      - S
+
+  - name: MOVE WEST
+    description: Player move 1 step left/west
+    aliases:
+      - MOVE W
+      - LEFT
+      - WEST
+      - W
+
+  - name: STATS
+    description: Displays character name, HP, ATK and what armor they are equipped with
+    aliases: []
+
+  - name: INVENTORY
+    description: Displays player inventory, including  usable items, equippable items, their ID and amount
+    aliases: []
+
+  - name: MAP
+    description: Displays the rooms and connections that player has already explored
+    aliases: []
+
+  - name: HELP
+    description: Displays all usable commands
+    aliases: []
+
+  - name: QUIT
+    description: Ends the game
+
+  - name: SAVE
+    description: Saves the game
+    aliases: []
+
+  - name: LIST ITEM
+    description: Lists all item names, ids, and effects
+    aliases: []
+
+  - name: PICKUP
+    description: Takes an item and puts into inventory
+    aliases: []
+
+  - name: DROP
+    description: Item is dropped/removed from inventory
+    aliases: []
+
+  - name: USE
+    description: Use a usable item
+    aliases: []
+
+  - name: EQUIP
+    description: Equip an armor
+    aliases: []
+
+  - name: EXPLORE
+    description: Explore the room to see puzzles / items /zombies
+    aliases: []
+
+  - name: LIST MONSTER
+    description: Lists all monsters (name + description + stats)
+    aliases: []
+
+
