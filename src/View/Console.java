@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+//TODO: Sebastian write console class
 public class Console {
 
     private ArrayList<String> startingPrompts;
