@@ -256,7 +256,8 @@ public class Game {
                     Double.valueOf((int)mapping.getOrDefault("hp", 0)),
                     Double.valueOf((int)mapping.getOrDefault("def", 0)),
                     Double.valueOf((int)mapping.getOrDefault("atk", 0)),
-                    (int) mapping.get("id") //setting monster location using the room id NOT THE startingLocation value
+                    (int) mapping.get("location"), //setting monster location using the room id NOT THE startingLocation value
+                    (String) mapping.get("type")
             );
 
 //            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");

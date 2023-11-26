@@ -1,7 +1,6 @@
 package Controller;
 
-import Model.Item;
-import Model.ItemReference;
+import Model.*;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
@@ -248,7 +247,13 @@ public class CommandManager {
                 .map(ItemReference::getName)
                 .collect(Collectors.toList());
         System.out.println("Items in the Room: " + itemsInRoom);
-
+        Actor monster = state.getMonsterInCurrentRoom();
+        if (monster != null) {
+            System.out.println("Found monster: " + monster.getName());
+            state.combatMode();
+        } else {
+            System.out.println("No monsters in the room.");
+        }
     }
 
     public void examine() {
