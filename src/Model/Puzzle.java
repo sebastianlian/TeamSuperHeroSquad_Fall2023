@@ -77,10 +77,49 @@ public class Puzzle {
         return new PairQA(String.valueOf(question), String.valueOf(answer));
     }
 
+    //    private PairQA mapToPairQA(Map.Entry<String, String> entry) {
+//        return new PairQA(entry);
+//    }
+
     private PairQA mapToPairQA(Map.Entry<Object, Object> entry) {
         Map.Entry<String, String> stringEntry = Map.Entry.class.cast(entry);
         return new PairQA(stringEntry);
     }
+
+
+//    public void randomizedPuzzle(){
+//        int random = (int) (Math.random() * 9);
+//        switch (random){
+//            case 0:
+//                this.puzzletopic = topic.CHEM;
+//                break;
+//            case 1:
+//                this.puzzletopic = topic.HIST;
+//                break;
+//            case 2:
+//                this.puzzletopic = topic.HEALTH;
+//                break;
+//            case 3:
+//                this.puzzletopic = topic.MATH;
+//                break;
+//            case 4:
+//                this.puzzletopic = topic.IT;
+//                break;
+//            case 5:
+//                this.puzzletopic = topic.ENGL;
+//                break;
+//            case 6:
+//                this.puzzletopic = topic.BUSN;
+//                break;
+//            case 7:
+//                this.puzzletopic = topic.NURS;
+//                break;
+//            case 8:
+//                this.puzzletopic = topic.FINAL;
+//                break;
+//        }
+//    }
+
 
     public class PairQA { //NOTE: could make final, probably bad idea
         private final String question;
@@ -109,6 +148,7 @@ public class Puzzle {
 
     }
 
+
     public void start(Actor monster) {
         topic topicType = topic.valueOf(monster.getType());
         Scanner console = new Scanner(System.in);
@@ -133,3 +173,6 @@ public class Puzzle {
         return false;
     }
 }
+
+}
+

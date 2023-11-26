@@ -31,7 +31,9 @@ public class State implements Serializable {
     //    protected MonsterReference currentMonster = null;
     protected Room currentRoom;
     private List<Map<String, Object>> characters;
+
     private Puzzle puzzle = new Puzzle();
+
 
 
 
@@ -220,7 +222,7 @@ public class State implements Serializable {
 
     //FIXME: Sebastian implement populateRandomItem
     public void populateRandomItem(ItemReference itemRef) {
-        if (itemRef == null) {
+        if (itemRef == null || itemRef.getItem() == null) {
             // If itemRef or the item within it is null, place a random item in the room
             Random random = new Random();
             List<Item> allItems = new ArrayList<>(indexedItems.values());
@@ -237,7 +239,7 @@ public class State implements Serializable {
             System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
         } else {
             // If the item is not null and its ID is less than or equal to 60, proceed as before
-            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
+            if (itemRef.getItem().getId() <= 60) {
                 // Rest of the code to place the specific item
             }
         }
@@ -316,10 +318,6 @@ public class State implements Serializable {
 
     }
 
-    public HashMap<Integer, Item> getIndexOfItems() {
-        return indexedItems;
-    }
-
     public Item getItem(int i) {
         return indexedItems.get(i);
     }
@@ -329,6 +327,7 @@ public class State implements Serializable {
         attack += incomingStats.atk;
         defense += incomingStats.def;
     }
+
 
     public void combatMode() {
         gameMode = MODE.BATTLE;
@@ -349,5 +348,10 @@ public class State implements Serializable {
                 System.out.println("Wrong!");
             }
         }
+
+    //DO NOT DELETE
+    public HashMap<Integer, Item> getItems() {
+        return indexedItems;
+
     }
 }

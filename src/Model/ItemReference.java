@@ -33,4 +33,8 @@ public class ItemReference {
     }
 
     public int getPosition() { return position; }
+
+    public Item getItem() {
+        return item;
+    }
 }

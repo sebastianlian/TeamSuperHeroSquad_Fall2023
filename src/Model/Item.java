@@ -9,21 +9,25 @@ public class Item {
 
 
     //TODO: get rid of this constructor when parsing method is corrected
-    public Item(int id, String name, boolean type, String description) {
+
+    //TODO: get rid of this constructor when parsing method is corrected
+    public Item(int id, String name, boolean type, String effect, String description) {
         this.id = id;
         this.name = name;
         this.type = type;
+        this.effect = effect;
         this.description = description;
-        //  this.quantity = quantity;
+        this.quantity = quantity;
     }
 
 
-    public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
+    public Item(int id, String name, String effect, String description, int quantity, boolean type, Stats stats) {
         this.id = id;
         this.name = name;
         this.effect = effect;
         this.description = description;
         this.type = type;
+        this.quantity = quantity;
         this.stats = stats;
     }
 
@@ -44,9 +48,9 @@ public class Item {
         System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
     }
 
-//    public String getEffect() {
-//        return effect;
-//    }
+        public String getEffect() {
+        return effect;
+    }
     public String getDescription() { return description; }
 //
 //    public void setDescription(String description) { this.description = description; }

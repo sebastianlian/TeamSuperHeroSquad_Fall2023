@@ -160,10 +160,9 @@ public class CommandManager {
         objectOutputStream.writeObject(state);
 
     }
-    //TODO: Sebastian implement list_item() method
+    //SEBASTIAN: DO NOT MODIFY THIS METHOD
     public void list_item() {
-        HashMap<Integer, Item> allItems = state.getIndexOfItems(); //FIXME: indexOfItems is not the items in inventory, but all items possible
-        ArrayList<ItemReference> inventory = state.getInventory();
+        HashMap<Integer, Item> allItems = state.getItems();
 
         if (allItems.isEmpty()) {
             System.out.println("No items found.");
@@ -173,7 +172,7 @@ public class CommandManager {
             for (Item item : allItems.values()) {
                 System.out.println("Item ID: " + item.getId());
                 System.out.println("Name: " + item.getName());
-//                System.out.println("Effect: " + item.getEffect());
+                System.out.println("Effect: " + item.getEffect());
                 System.out.println("Description: " + item.getDescription());
                 System.out.println("__________________________________________________________");
             }
