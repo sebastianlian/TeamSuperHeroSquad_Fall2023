@@ -27,7 +27,7 @@ public class Puzzle {
 
         // List of monsters.
         HashMap<String, ArrayList<PairQA>> allPuzzles = new HashMap<>();
-        String source = Files.readString(Paths.get("puzzles_testing.yaml"));
+        String source = Files.readString(Paths.get("puzzles.yaml"));
 
         Map<String, Object> object = yaml.load(source);
 
