@@ -4,6 +4,9 @@ import Model.Item;
 import Model.ItemReference;
 import Model.Room;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -34,7 +37,7 @@ public class CommandManager {
         INVENTORY("Inventory"),
         MAP("Map"),
         HELP("Help"),
-        LIST("List item"),
+        LIST("List"),
         PICKUP("Pickup"),
         DROP("Drop"),
         USE("Use"),
@@ -87,7 +90,7 @@ public class CommandManager {
     public void runCommand(String command) throws Exception {
         System.out.println(String.valueOf(command));
         Method method = Command.class.getMethod(String.valueOf(command).toUpperCase());
-        Command command1 = new CommandManager.Command();
+        Command command1 = new Command();
         method.invoke(command1);
     }
 
@@ -103,19 +106,11 @@ public class CommandManager {
             System.out.println("You cant go that way!");
             return;
         }
-//        System.out.print("Moving to a new room... ");
-////        TimeUnit.NANOSECONDS.sleep(1000);
-//        System.out.println("Arrived within " + state.getRoom(state.getCurrentOutlets()[direction]).getRoomName()); // + ((state.getCurrentRoom().isVisited) ? ". Seems familiar..." : ""));
-//        state.setCurrentRoom(state.getCurrentOutlets()[direction]);
+        System.out.print("Moving to a new room... ");
+//        TimeUnit.NANOSECONDS.sleep(1000);
+        System.out.println("Arrived within " + state.getRoom(state.getCurrentOutlets()[direction]).getRoomName()); // + ((state.getCurrentRoom().isVisited) ? ". Seems familiar..." : ""));
 
-        // Update the player's location to the new room
         state.setCurrentRoom(state.getCurrentOutlets()[direction]);
-
-        // Now that the player's location is updated, get the current room
-        Room currentRoom = state.getCurrentRoom();
-        System.out.println("Moving to a new room... ");
-        System.out.println("Arrived within " + currentRoom.getRoomName());
-
         state.getCurrentRoom().setVisited();
         System.out.println(state.getCurrentRoom().getRoomDescription());
 
@@ -156,17 +151,60 @@ public class CommandManager {
             }
         }
     }
-
     public void access_help() {
         System.out.println(validCommandSet);
     }
     public void quit(int statusCode) {
         System.exit(statusCode);
     }
-    public void save() {
+    public void save() throws Exception {
+        String filePath = "src/test/resources/store/save.txt";
+
+        FileOutputStream fileOutputStream = new FileOutputStream(filePath);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(state);
 
     }
+    //SEBASTIAN: DO NOT MODIFY THIS METHOD
+    public void list(String cmdAttr) {
+        HashMap<Integer, Item> allItems = state.getItems();
 
+        if (cmdAttr.equalsIgnoreCase("items")) {
+            if (allItems.isEmpty()) {
+                System.out.println("No items found.");
+            } else {
+                System.out.println("__________________________________________________________");
+                System.out.println("All items:");
+                for (Item item : allItems.values()) {
+                    System.out.println("Item ID: " + item.getId());
+                    System.out.println("Name: " + item.getName());
+                    System.out.println("Effect: " + item.getEffect());
+                    System.out.println("Description: " + item.getDescription());
+                    System.out.println("__________________________________________________________");
+                }
+            }
+        } else if(cmdAttr.equalsIgnoreCase("monsters")) {
+            HashMap<Integer, Actor> allMonster = state.getMonsterList();
+
+            if (allMonster.isEmpty()) {
+                System.out.println("No Monster found.");
+            } else {
+
+                System.out.println("All monsters:");
+                for (Actor monster : allMonster.values()) {
+                    System.out.println("__________________________________________________________");
+                    System.out.println("Name : " + monster.getName());
+                    System.out.println("Hp: " + monster.getMaxHitPoints());
+                    System.out.println("Atk: " + monster.getAttack());
+                    System.out.println("Def: " + monster.getDefense());
+                    System.out.println("Passive:");
+                    System.out.println("__________________________________________________________");
+                }
+            }
+        } else{
+            System.out.println("Type 'items' or 'monsters'");
+        }
+    }
 
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
@@ -187,24 +225,23 @@ public class CommandManager {
     }
 
     public void pickup_item(String cmdAttr) {
-            System.out.println("Attempting to pick up item: " + cmdAttr);
+        System.out.println("Attempting to pick up item: " + cmdAttr);
 
-            ItemReference itemReference = state.getCurrentRoom()
-                    .getReferredItems()
-                    .values()
-                    .stream()
-                    .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
-                    .findFirst()
-                    .orElse(null);
+        ItemReference itemReference = state.getCurrentRoom()
+                .getReferredItems()
+                .values()
+                .stream()
+                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
+                .findFirst()
+                .orElse(null);
 
-            if (itemReference != null) {
-                System.out.println("Found item: " + itemReference.getName());
-                state.moveIntoInventory(itemReference);
-                System.out.println("You picked up " + itemReference.getName());
-            } else {
-                System.out.println("The item is not in the current room.");
-            }
+        if (itemReference != null) {
+            state.moveIntoInventory(itemReference);
+            System.out.println("You picked up " + itemReference.getName());
+        } else {
+            System.out.println("The item is not in the current room.");
         }
+    }
 
     public void use_item() {
         Scanner scan = new Scanner(System.in);
@@ -340,18 +377,58 @@ public class CommandManager {
 
 
     public void explore() {
-        List itemsInRoom = state.getCurrentRoom()
-                .getReferredItems()
-                .values()
-                .stream()
-                .map(ItemReference::getName)
-                .collect(Collectors.toList());
-        System.out.println("Items in the Room: " + itemsInRoom);
+        List itemsInRoom = state.getCurrentRoom().getReferredItems().values().stream().map(ItemReference::getName).collect(Collectors.toList());
+        Actor monster = state.getMonsterInCurrentRoom();
+        Room room = state.getCurrentRoom();
+
+        // Does checks for any aspect of using explore, item, puzzle, and monster detection
+        if (!itemsInRoom.isEmpty()) {
+            System.out.println("Items in the Room: " + itemsInRoom);
+        } else{
+            System.out.println("No items are in the room.");
+        }
+        if (room.isHasPuzzle()){
+            System.out.println("You encounter a puzzle");
+            state.roomPuzzle();
+        }else{
+            System.out.println("No puzzles are in the room");
+        }
+        if (monster!=null) {
+            System.out.println("A monster approached your presence..." + monster.getName());
+            state.combatMode();
+        } else {
+            System.out.println("No monsters are in the room.");
+        }
+    }
+
+    public void examine() {
+
+
 
     }
     public void list_monster() {
 
     }
+
+    //Private methods
+    private ItemReference itemFromInv(String itemName) {
+        ItemReference itemReference = state.getInventory()
+                .stream()
+                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
+
+        return itemReference;
+    }
+
+//    private ArrayList<ItemReference> itemsInRoom(String itemName) {
+//        ArrayList itemsInRoom = state.getCurrentRoom()
+//                .getReferredItems()
+//                .values()
+//                .stream().;
+//
+//        return itemsInRoom;
+//    }
 
 
     public class Command {
@@ -381,7 +458,7 @@ public class CommandManager {
         }
 
         public void SAVE() {
-            save();
+//            save();
         }
 
         public void DROP(){
@@ -406,6 +483,9 @@ public class CommandManager {
 
         public void UNEQUIP() {
             unequip();
+        }
+        public void LIST(String cmdAttr) {
+            list(cmdAttr);
         }
 
     }

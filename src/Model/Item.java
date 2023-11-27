@@ -7,7 +7,8 @@ public class Item {
     private String effect; // Include the effect field
     private String description;
     private int number; // Include the number field
-    protected Stats stats;
+    public Stats stats;
+    //public?
     private boolean isEquipped;
 
     // Updated constructor to match the fields from the YAML file
@@ -34,38 +35,37 @@ public class Item {
         isEquipped = equipped;
     }
 
-    // Getters and setters
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
+        this.id = id;
         this.name = name;
-    }
-
-    public boolean isType() {
-        return type;
-    }
-
-    public void setType(boolean type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
+        this.effect = effect;
         this.description = description;
+        this.type = type;
+        this.quantity = quantity;
+        this.stats = stats;
+    }
+
+    public int getId() { return id; }
+
+    public String getName() { return name; }
+
+
+    public void setName(String name) { this.name = name; }
+
+
+
+    public boolean isType() { return type; }
+
+    // Method to list items (assumed functionality)
+    public void listItems() {
+        // Logic to list items (e.g., printing item details to the console)
+        System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
     }
 
     public Stats getStats() {
         return stats;
     }
+    public String getDescription() { return description; }
 
     public String getEffect() {
         return effect;
@@ -82,6 +82,8 @@ public class Item {
             this.def = def;
             this.atk = atk;
         }
+
+
 
         public double getHp() {
             return hp;

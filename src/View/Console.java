@@ -10,9 +10,10 @@ import java.util.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+//TODO: Sebastian write console class
 public class Console {
 
-    private static ArrayList<String> startingPrompts;
+    private ArrayList<String> startingPrompts;
 
 
     public Console() {
@@ -72,7 +73,7 @@ public class Console {
         initialTestPrint();
         initialGamePrint();
         //Add more prints as needed
-       // Additional prints for different game phases or events
+        // Additional prints for different game phases or events
         exitGamePrint();
     }
 
@@ -89,7 +90,7 @@ public class Console {
         System.out.println(str2);
         TimeUnit.MILLISECONDS.sleep(100 * time);
     }
-// DEAD CODE
+    // DEAD CODE
     public static void main(String[] args) throws InterruptedException {
         Console gameConsole = new Console();
         gameConsole.allPrints();
