@@ -7,8 +7,7 @@ public class Item {
     private String effect; // Include the effect field
     private String description;
     private int number; // Include the number field
-    public Stats stats;
-    //public?
+    protected Stats stats;
     private boolean isEquipped;
 
     // Updated constructor to match the fields from the YAML file
@@ -35,37 +34,38 @@ public class Item {
         isEquipped = equipped;
     }
 
-    public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
-        this.id = id;
-        this.name = name;
-        this.effect = effect;
-        this.description = description;
-        this.type = type;
-        this.quantity = quantity;
-        this.stats = stats;
+    // Getters and setters
+    public int getId() {
+        return id;
     }
 
-    public int getId() { return id; }
+    public String getName() {
+        return name;
+    }
 
-    public String getName() { return name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public boolean isType() {
+        return type;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setType(boolean type) {
+        this.type = type;
+    }
 
+    public String getDescription() {
+        return description;
+    }
 
-
-    public boolean isType() { return type; }
-
-    // Method to list items (assumed functionality)
-    public void listItems() {
-        // Logic to list items (e.g., printing item details to the console)
-        System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Stats getStats() {
         return stats;
     }
-    public String getDescription() { return description; }
 
     public String getEffect() {
         return effect;
@@ -73,17 +73,15 @@ public class Item {
 
     // Stats inner class
     public static class Stats {
-        private final double hp;
-        private final double def;
-        private final double atk;
+        public final double hp;
+        public  final double def;
+        public  final double atk;
 
         public Stats(double hp, double def, double atk) {
             this.hp = hp;
             this.def = def;
             this.atk = atk;
         }
-
-
 
         public double getHp() {
             return hp;

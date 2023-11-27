@@ -3,6 +3,7 @@ package Controller;
 import Model.Item;
 import Model.ItemReference;
 import Model.Room;
+import Model.Actor;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;

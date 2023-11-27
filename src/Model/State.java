@@ -333,7 +333,7 @@ public class State implements Serializable {
     }
 
     public void displayInventory() {
-        List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
+      //  List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
         if (inventory.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {

@@ -75,7 +75,9 @@ public class Room {
 
     public void setVisited() { isVisited = true; }
 
-
+    public boolean isVisited() {
+        return isVisited;
+    }
 
 
     // Additional methods to handle movements, items, and monster interactions can be added here
