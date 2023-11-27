@@ -203,7 +203,7 @@ public class CommandManager {
                 }
             }
         } else{
-            System.out.println("Type 'items' or 'monsters'");
+            System.out.println("Type 'list items' or 'list monsters'");
         }
     }
 
