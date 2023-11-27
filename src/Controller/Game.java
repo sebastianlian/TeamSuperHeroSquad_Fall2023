@@ -40,26 +40,26 @@ public class Game {
 
 
     public void displayStartingPrompts() {
-        for (String prompt : startingPrompts) {
-            dotdotdot(prompt, 300, 1); // Adjust the duration and number of dots as needed
+     //   for (String prompt : startingPrompts) {
+       //     dotdotdot(prompt, 300, 1); // Adjust the duration and number of dots as needed
         }
-    }
-    private void dotdotdot(String message, long delay, int repetitions) {
-        for (int i = 0; i < repetitions; i++) {
-            System.out.print(message);
-            try {
-                TimeUnit.MILLISECONDS.sleep(delay);
-                System.out.print(".");
-                TimeUnit.MILLISECONDS.sleep(delay);
-                System.out.print(".");
-                TimeUnit.MILLISECONDS.sleep(delay);
-                System.out.println(".");
-                TimeUnit.MILLISECONDS.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+  //  }
+//    private void dotdotdot(String message, long delay, int repetitions) {
+//        for (int i = 0; i < repetitions; i++) {
+//            System.out.print(message);
+           // try {
+//               // TimeUnit.MILLISECONDS.sleep(delay);
+//                System.out.print(".");
+//              //  TimeUnit.MILLISECONDS.sleep(delay);
+//                System.out.print(".");
+//             //   TimeUnit.MILLISECONDS.sleep(delay);
+//                System.out.println(".");
+             //   TimeUnit.MILLISECONDS.sleep(delay);
+          //  } catch (InterruptedException e) {
+             //   e.printStackTrace();
+           // }
+       // }
+    //}
     // Call methods from State class
 
     public void loadCharacterData() {
@@ -163,16 +163,30 @@ public class Game {
             int itemID = (int) mapping.get("id");
             String itemName = (String) mapping.get("name");
             boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
+            String itemEffect = (String) mapping.get("effect");
             String itemDescription = (String) mapping.get("description");
-//            int quantity = (int) mapping.get("quantity");
+            int number = (int) mapping.get("number");
+            Map<String, Integer> statsMap = (Map<String, Integer>) mapping.get("stats");
+
+            Item.Stats itemStats = null;
+            if (statsMap != null) {
+                double hp = statsMap.getOrDefault("hp", 0);
+                double def = statsMap.getOrDefault("def", 0);
+                double atk = statsMap.getOrDefault("atk", 0);
+                itemStats = new Item.Stats(hp, def, atk);
+            }
 
             Item itemInstance = new Item(
                     itemID,
                     itemName,
                     itemType,
-                    itemDescription
-
+                    itemEffect,
+                    itemDescription,
+                    number,
+                    itemStats
             );
+
+
 
             itemIndex.put(itemID, itemInstance);
         }

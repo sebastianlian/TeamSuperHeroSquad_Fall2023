@@ -41,4 +41,11 @@ public class ItemReference {
     public void setItem(Item item) {
         this.item = item;
     }
+
+    @Override
+    public String toString() {
+        return "ItemReference{" +
+                "item=" + item +
+                '}';
+    }
 }

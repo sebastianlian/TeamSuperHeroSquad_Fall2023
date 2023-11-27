@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 import static Controller.Game.state;
 
@@ -26,6 +27,7 @@ public class CommandManager {
         EQUIP_ITEM("Equip"),
         EXPLORE("Explore"),
         LIST_MONSTER("List monster"),
+        UNEQUIP("Unequip"),
 
         //Testing for single word named enums
         STATS("Stats"),
@@ -205,11 +207,138 @@ public class CommandManager {
         }
 
     public void use_item() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the name of the item to use: ");
+        String itemName = scan.nextLine();
 
+        ItemReference itemRef = state.getInventory()
+                .stream()
+                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
+
+        if (itemRef != null) {
+            Item item = itemRef.getItem();
+            if (item != null && !item.isType()) { // Check if the item is consumable
+                // Apply the effect of the item
+                if (item.getStats() != null && item.getStats().getHp() > 0) {
+                    // Assuming you have a method in State to update HP
+                    double healingAmount = item.getStats().getHp();
+                    state.healPlayer(healingAmount);
+                    System.out.println("Used " + item.getName() + ": Healed " + healingAmount + " HP.");
+                } else {
+                    System.out.println("The item " + item.getName() + " has no usable effect.");
+                }
+            } else {
+                System.out.println("The item " + item.getName() + " is not usable. It might be an equippable item or null.");
+            }
+        } else {
+            System.out.println("The item " + itemName + " is not in your inventory.");
+        }
     }
+
+    private void applyItemEffect(Item item) {
+        // Check if the item has a healing effect
+        if (item.getStats() != null && item.getStats().getHp() > 0) {
+            double healingAmount = item.getStats().getHp();
+
+            // Apply the healing
+            double newHp = state.getHitPoints() + healingAmount;
+
+            // Ensure HP does not exceed maximum HP, assuming 100 is max HP
+            newHp = Math.min(newHp, 100);
+
+            // Set the new HP
+            state.setHitPoints(newHp);
+
+            System.out.println("Healed " + healingAmount + " HP. Current HP: " + newHp);
+        } else {
+            // Handle other types of effects if any
+            System.out.println("The item " + item.getName() + " has no healing effect.");
+        }
+    }
+
+
     public void equip_item() {
+        Scanner scan = new Scanner(System.in);
+        state.displayInventory();
+        System.out.println("Enter the name of the item to equip: ");
+        String itemName = scan.nextLine().trim();  // Trim to remove leading/trailing spaces
+
+        ItemReference itemRef = state.getInventory()
+                .stream()
+                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElse(null);
+
+        if (itemRef != null) {
+            Item item = itemRef.getItem();
+            if (item != null && item.isType()) { // Check if item is equippable and not null
+                equipItemEffect(item); // Assuming this method sets the equipped item in the player state
+//                System.out.println("Equipped " + item.getName() + ": " + item.getEffect());
+                state.setEquipped(item);
+                state.getInventory().remove(itemRef);
+            } else if (item != null) {
+                System.out.println("Item " + item.getName() + " is not equippable. It's a consumable item.");
+            } else {
+                System.out.println("Failed to retrieve item details.");
+            }
+        } else {
+            System.out.println("Item not found in inventory.");
+        }
+    }
+
+    public void unequip(){
+        ItemReference itemRef = new ItemReference(state.getEquipped().getId(), state.getEquipped().getName(), state.getCurrentRoom().getRoomID(), state.getEquipped());
+        state.getInventory().add(itemRef);
+
+        Item.Stats itemStats = state.getEquipped().getStats();
+
+        if (itemStats != null) {
+            // Apply the stats of the item to the player
+            double newHp = state.getHitPoints() - itemStats.getHp();
+            double newAtk = state.getAttack() - itemStats.getAtk();
+            double newDef = state.getDefense() - itemStats.getDef();
+
+            // Update the player's stats
+            state.setHitPoints(newHp);
+            state.setAttack(newAtk);
+            state.setDefense(newDef);
+
+            System.out.println("Equipped " + state.getEquipped().getName() + ". New Stats - HP: " + newHp + ", ATK: " + newAtk + ", DEF: " + newDef);
+        } else {
+            System.out.println("The item " + state.getEquipped().getName() + " has no equippable stats.");
+        }
+
+        state.setEquipped(null);
+
 
     }
+
+
+    private void equipItemEffect(Item item) {
+        // Assuming the Stats class has hp, atk, and def as attributes
+        Item.Stats itemStats = item.getStats();
+
+        if (itemStats != null) {
+            // Apply the stats of the item to the player
+            double newHp = state.getHitPoints() + itemStats.getHp();
+            double newAtk = state.getAttack() + itemStats.getAtk();
+            double newDef = state.getDefense() + itemStats.getDef();
+
+            // Update the player's stats
+            state.setHitPoints(newHp);
+            state.setAttack(newAtk);
+            state.setDefense(newDef);
+
+            System.out.println("Equipped " + item.getName() + ". New Stats - HP: " + newHp + ", ATK: " + newAtk + ", DEF: " + newDef);
+        } else {
+            System.out.println("The item " + item.getName() + " has no equippable stats.");
+        }
+    }
+
+
+
     public void explore() {
         List itemsInRoom = state.getCurrentRoom()
                 .getReferredItems()
@@ -275,7 +404,9 @@ public class CommandManager {
             explore();
         }
 
-
+        public void UNEQUIP() {
+            unequip();
+        }
 
     }
 }

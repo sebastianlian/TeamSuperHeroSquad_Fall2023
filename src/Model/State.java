@@ -36,7 +36,7 @@ public class State {
     protected Room currentRoom;
     private static List<Map<String, Object>> characters;
 
-
+    private Item equipped;
 
     // Player Variables
     private Actor player; //We don't want our player to be an Actor TODO: remove and replace with a proper stats
@@ -86,6 +86,23 @@ public class State {
         }
     }
 
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public void setAttack(double attack) {
+        this.attack = attack;
+    }
+
+    public void setDefense(double defense) {
+        this.defense = defense;
+    }
+
+    public void healPlayer(double amount) {
+        this.hitPoints += amount;
+        // Ensure that HP does not exceed maximum HP, if there's a limit
+    }
+
     public void setInitalRoom() {
         this.currentRoom = getRoom(position);
     }
@@ -126,9 +143,12 @@ public class State {
 //    }
 
     private void createItemRefInstance(int itemId, Room selectRoom) {
-        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID());
+        Item item = indexedItems.get(itemId);
+        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID(),item);
         selectRoom.referredItems.put(itemId, itemRef);
     }
+
+
     //
 //    private void createMonsterRefInstance(int monsterId, Room selectRoom, Actor monster) {
 //        MonsterReference monRef = new MonsterReference(monsterId, indexedMonsters.get(monsterId).getName(), selectRoom.getNumber(), monster);
@@ -261,4 +281,11 @@ public class State {
 
     }
 
+    public Item getEquipped() {
+        return equipped;
+    }
+
+    public void setEquipped(Item equipped) {
+        this.equipped = equipped;
+    }
 }
