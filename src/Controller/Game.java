@@ -3,117 +3,73 @@ package Controller;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import Model.*;
+import View.ConsoleTUI;
 import org.yaml.snakeyaml.Yaml;
 
 public class Game {
 
     static State state;
     static CommandManager commandManager;
-    private ArrayList<String> startingPrompts;
 
     //Moved code from console to Game class
-//    public Game () {
-//        startingPrompts = new ArrayList<>();
-//        //Add starting prompts here
-//        startingPrompts.add("-----------------------------------------");
-//        startingPrompts.add("Welcome to Grizzly Survival!");
-//        startingPrompts.add("-----------------------------------------");
-//        startingPrompts.add("You just recently got accepted by Grizzly University " +
-//                "and you're starting out your first semester as a student. ");
-//        startingPrompts.add("-----------------------------------------");
-//
-//    }
-    public void  getPlayerName() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Please enter your character's name: ");
-        String playerName = scan.nextLine();
-        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
+    public Game() {
     }
 
-    public void displayStartingPrompts() {
-        for (String prompt : startingPrompts) {
-            dotdotdot(prompt, 300, 1); // Adjust the duration and number of dots as needed
-        }
+    public static boolean loadFromFile(Scanner scan) throws Exception {
+        //Ask if player wants to load a new file
+        System.out.println("Would you like to load from your previous save?");
+        System.out.println("1: Yes, 2: No");
+
+        return (scan.nextLine().equals("1"));
     }
-    private void dotdotdot(String message, long delay, int repetitions) {
-        for (int i = 0; i < repetitions; i++) {
-            System.out.print(message);
-            try {
-                TimeUnit.MILLISECONDS.sleep(delay);
-                System.out.print(".");
-                TimeUnit.MILLISECONDS.sleep(delay);
-                System.out.print(".");
-                TimeUnit.MILLISECONDS.sleep(delay);
-                System.out.println(".");
-                TimeUnit.MILLISECONDS.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
+
     // Call methods from State class
 
     public void loadCharacterData() {
-        state.loadCharacterData();
+//        state.loadCharacterData();
     }
 
     public int selectCharacter() {
         return state.selectCharacter();
     }
 
-    public Map<String, Object> getSelectedCharacter(int characterId) {
-        return state.getSelectedCharacter(characterId);
-    }
-    public static void main(String[] args) throws Exception {
+//    public Map<String, Object> getSelectedCharacter(int characterId) {
+//        return state.getSelectedCharacter(characterId);
+//    }
 
-        state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
+    public static void main(String[] args) throws Exception {
+        //First initalize main instance of View (Scanner) and Controller objects
+        Scanner scan = new Scanner(System.in);
         commandManager = new CommandManager();
 
-        //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
-//        parsePuzzle();
-
+        //Load from file or init setup~
         //TODO: user setup for the game
-
-//        Game game = new Game();
-//        game.displayStartingPrompts();
-//        game.getPlayerName();
-//        game.loadCharacterData();
-//        int selectedCharacterId = game.selectCharacter();
-//        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
-//        if (selectedCharacter != null) {
-//            System.out.println("You selected: " + selectedCharacter.get("name"));
-//        } else {
-//            System.out.println("Invalid character selection.");
-//        }
-
-        Puzzle puzzle = new Puzzle(Puzzle.topic.All);
-
-        Game game = new Game();
-        game.displayStartingPrompts();
-        game.getPlayerName();
-        game.loadCharacterData();
-        int selectedCharacterId = game.selectCharacter();
-        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
-        if (selectedCharacter != null) {
-            System.out.println("You selected: " + selectedCharacter.get("name"));
+        if (loadFromFile(scan)) {
+            state = commandManager.load();
         } else {
-            System.out.println("Invalid character selection.");
+            state = new State(Game::parseItems, Game::parseRooms, Game::parseMonsters);
+            Puzzle puzzle = new Puzzle(Puzzle.topic.All);
+
+            ConsoleTUI.displayStartingPrompts();
+            ConsoleTUI.getPlayerName();
+//            ConsoleTUI.getPlayerName(scan);
+            state.loadCharacterData(); //TODO: change all references to the word character to role
+            //Dead code: only need to pull 1 role
+//            int selectedCharacterId = selectCharacter();
+//            Map<String, Object> selectedCharacter = getSelectedCharacter(selectedCharacterId);
+
+            //TODO: place this elsewhere
+//            if (selectedCharacter != null) {
+//                System.out.println("You selected: " + selectedCharacter.get("name"));
+//            } else {
+//                System.out.println("Invalid character selection.");
+//            }
         }
 
-
-
         while (state.isRunning()) {
-            //TODO: user setup for the game
-            Scanner scan = new Scanner(System.in);
-
-
-        while (state.isRunning()) {
-            Scanner scan = new Scanner(System.in);
-
-            //TODO: initial prompt
             System.out.println("Enter a command: ");
 
             String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
@@ -123,6 +79,7 @@ public class Game {
             int[] currentRoomOutlets = state.getCurrentOutlets();
 
             //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
+            //TODO: get rid of this switch
             switch (console) {
                 case "N", "NORTH", "UP":
                     commandManager.move(0);
@@ -150,7 +107,6 @@ public class Game {
                     commandManager.drop_item(cmdAttr);
                     break;
 
-
                 default:
                     commandManager.validateCommand(console, cmdAttr);
             }
@@ -176,22 +132,38 @@ public class Game {
             String itemName = (String) mapping.get("name");
             boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
             String itemDescription = (String) mapping.get("description");
+            Map<String, Integer> stats = (Map<String, Integer>) mapping.getOrDefault("stats", null);
+
+            Item itemInstance;
+            if (stats != null) {
+                Item.ItemStats itemStats = new Item.ItemStats(
+                        Double.valueOf(stats.getOrDefault("hp", 0)),
+                        Double.valueOf(stats.getOrDefault("def", 0)),
+                        Double.valueOf(stats.getOrDefault("atk", 0))
+                );
+
+                itemInstance = new Item(
+                        itemID,
+                        itemName,
+                        itemType,
+                        itemDescription,
+                        itemStats
+                );
+            } else {
+                itemInstance = new Item(
+                        itemID,
+                        itemName,
+                        itemType,
+                        itemDescription
+                );
+            }
+
 //            int quantity = (int) mapping.get("quantity");
-
-            Item itemInstance = new Item(
-                    itemID,
-                    itemName,
-                    itemType,
-                    itemDescription
-
-            );
-
             itemIndex.put(itemID, itemInstance);
         }
 
         return itemIndex;
     }
-
 
     public static HashMap<Room, int[]> parseRooms() throws Exception {
         // List of rooms.
@@ -247,9 +219,9 @@ public class Game {
 //                    (int)mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
-                    Double.valueOf((int)mapping.getOrDefault("hp", 0)),
-                    Double.valueOf((int)mapping.getOrDefault("def", 0)),
-                    Double.valueOf((int)mapping.getOrDefault("atk", 0)),
+                    Double.valueOf((int) mapping.getOrDefault("hp", 0)),
+                    Double.valueOf((int) mapping.getOrDefault("def", 0)),
+                    Double.valueOf((int) mapping.getOrDefault("atk", 0)),
                     (int) mapping.get("id") //setting monster location using the room id NOT THE startingLocation value
             );
 

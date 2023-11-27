@@ -1,13 +1,15 @@
 package Model;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int id;
     private String name;
     private String effect;
     private String description;
     private boolean type;
     private int quantity;
-    public Stats stats;
+    public ItemStats stats;
 
 
     //TODO: get rid of this constructor when parsing method is corrected
@@ -20,7 +22,7 @@ public class Item {
     }
 
 
-    public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
+    public Item(int id, String name, boolean type, String description, ItemStats stats) {
         this.id = id;
         this.name = name;
         this.effect = effect;
@@ -73,31 +75,43 @@ public class Item {
     }
 
 
-
-
     // Additional methods for other interactions can be added here
-    public static class Stats {
+    public static class ItemStats extends Model.Stats {
         //Assumes non-dynamic item stats
         protected final double hp;
         protected final double def;
         protected final double atk;
 
-        public Stats(double hp, double def, double atk) {
+        public ItemStats(double hp, double def, double atk) {
             this.hp = hp;
             this.def = def;
             this.atk = atk;
         }
 
 
+        public void addTo(Stats stats) {
+            stats.hp += this.hp;
+            stats.atk += this.atk;
+            stats.def += this.def;
+        }
 
+        public void subtractFrom(Stats stats) {
+            stats.hp -= this.hp;
+            stats.atk -= this.atk;
+            stats.def -= this.def;
+        }
+
+        @Override
         public double getHp() {
             return hp;
         }
 
+        @Override
         public double getDef() {
             return def;
         }
 
+        @Override
         public double getAtk() {
             return atk;
         }

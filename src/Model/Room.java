@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Room {
+public class Room implements Serializable {
     private int id;
     private String roomName;
     private String roomDescription;
@@ -12,6 +13,7 @@ public class Room {
     private String moveLeft;
     private String moveDown;
     private String moveRight;
+    private boolean firstVisit;
     private boolean isVisited;
     private ArrayList<Integer> items;
     protected HashMap<Integer, ItemReference> referredItems = new HashMap<>(); //Integer stands for the item id and the ItemReference refers to the actual item
@@ -62,8 +64,6 @@ public class Room {
 
     public String getMoveRight() { return moveRight; }
 
-    public boolean isVisited() { return isVisited; }
-
     public ArrayList<Integer> getItems() {
         return items;
     }
@@ -86,12 +86,21 @@ public class Room {
 
     public void setMoveRight(String moveRight) { this.moveRight = moveRight; }
 
+    public void setFirstVisit(boolean bool) {
+        firstVisit = bool;
+    }
+
+    public boolean isFirstVisit() {
+        return firstVisit;
+    }
+
     public void setVisited() { isVisited = true; }
+
+    public boolean isVisited() { return isVisited; }
 
     public void setItems(ArrayList<Integer> items) {
         this.items = items;
     }
-
 
     public void setMonsterInRoom(int monsterInRoom) { this.monsterInRoom = monsterInRoom; }
 

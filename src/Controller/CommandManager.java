@@ -2,12 +2,11 @@ package Controller;
 
 import Model.Item;
 import Model.ItemReference;
+import Model.State;
+import View.ConsoleTUI;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serial;
+import java.io.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +14,8 @@ import java.util.stream.Collectors;
 import static Controller.Game.state;
 
 public class CommandManager {
+    public String commandEntered = "";
+    public String cmdAttrEntered = "";
     public enum ValidCommand {
         MOVE("Move"),
         SHOW_STATS("Stats"),
@@ -52,11 +53,12 @@ public class CommandManager {
         }
     }
 
-
     private final static EnumSet<ValidCommand> validCommandSet = EnumSet.allOf(ValidCommand.class);
 
-
     public void validateCommand(String expectedCommandInput, String expectedCommandAttr){
+        commandEntered = expectedCommandInput;
+        cmdAttrEntered = expectedCommandAttr;
+
 //        Dead Code
 //        Scanner scan = new Scanner(System.in);
 //        System.out.println();
@@ -66,7 +68,7 @@ public class CommandManager {
             ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
             //stream.map not working: TODO: test to see if necessary
             if (validCommandSet.contains(input) || validCommandSet.stream().map(ValidCommand::getCommandInput).anyMatch(cmdName -> cmdName.equalsIgnoreCase(expectedCommandInput))){
-                System.out.println("You performed " + input); // TEMP: Checks if the input is holding the command
+                ConsoleTUI.dotdotdot("Performing \"" + input  + "\""); // TEMP: Checks if the input is holding the command
 
                 runCommand(input.commandInput);
 
@@ -86,11 +88,16 @@ public class CommandManager {
 //    }
 
     public void runCommand(String command) throws Exception {
-        System.out.println(String.valueOf(command));
         Method method = Command.class.getMethod(String.valueOf(command).toUpperCase());
         Command command1 = new Command();
         method.invoke(command1);
+        resetCommandInput();
     }
+    public void resetCommandInput() {
+        commandEntered = "";
+        cmdAttrEntered = "";
+    }
+
 
     //TODO: implement checkMode() or isMode()
 //    public void checkMode() {}
@@ -107,9 +114,16 @@ public class CommandManager {
         System.out.print("Moving to a new room... ");
 //        TimeUnit.NANOSECONDS.sleep(1000);
         System.out.println("Arrived within " + state.getRoom(state.getCurrentOutlets()[direction]).getRoomName()); // + ((state.getCurrentRoom().isVisited) ? ". Seems familiar..." : ""));
-
         state.setCurrentRoom(state.getCurrentOutlets()[direction]);
-        state.getCurrentRoom().setVisited();
+//        if (state.getCurrentRoom().isFirstVisit()) {
+//            System.out.println("The room seems vaguely familiar...");
+//        } else
+
+        if (state.getCurrentRoom().isVisited()) {
+            System.out.println("It seems we have been here before...");
+        }
+
+//        state.getCurrentRoom().setVisited();
         System.out.println(state.getCurrentRoom().getRoomDescription());
 
     }
@@ -153,15 +167,22 @@ public class CommandManager {
         System.exit(statusCode);
     }
     public void save() throws Exception {
-        String filePath = "src/test/resources/store/save.txt";
+        String filePath = "save.txt";
 
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(state);
+        objectOutputStream.close();
 
     }
+    public State load() throws Exception {
+        String filePath = "save.txt";
 
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        return (State) objectInputStream.readObject();
 
+    }
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
 
@@ -175,8 +196,6 @@ public class CommandManager {
             System.out.println("The item is not in your inventory.");
         }
     }
-
-
     public void pickup_item(String cmdAttr) {
             System.out.println("Attempting to pick up item: " + cmdAttr);
 
@@ -196,13 +215,12 @@ public class CommandManager {
                 System.out.println("The item is not in the current room.");
             }
         }
-
     public void use_item(String cmdAttr) {
         ItemReference itemRef = itemFromInv(cmdAttr);
         Item selectItem = state.getItem(itemRef.getIndex());
 
         if(!selectItem.isType()) {
-            state.consumeStats(selectItem.stats);
+            itemRef.useItem(state);
         }
     }
     public void equip_item(String cmdAttr) {
@@ -225,18 +243,16 @@ public class CommandManager {
         System.out.println("Items in the Room: " + itemsInRoom);
 
     }
-
     public void examine() {
 
 
 
     }
-
     public void list_monster() {
 
     }
 
-    //Private methods
+    //Private helper methods
     private ItemReference itemFromInv(String itemName) {
         ItemReference itemReference = state.getInventory()
                 .stream()
@@ -255,8 +271,6 @@ public class CommandManager {
 //
 //        return itemsInRoom;
 //    }
-
-
     public class Command {
         //TEMP class full of methods to pass once able
         public void MOVE() {
@@ -283,31 +297,29 @@ public class CommandManager {
             quit(0);
         }
 
-        public void SAVE() {
-//            save();
+        public void SAVE() throws Exception {
+            save();
         }
 
         public void DROP(){
 
         }
 
-        public void PICKUP(String cmdAttr) {
-            pickup_item(cmdAttr);
+        public void PICKUP() {
+            pickup_item(cmdAttrEntered);
         }
 
-        public void USE(String cmdAttr) {
-            use_item(cmdAttr);
+        public void USE() {
+            use_item(cmdAttrEntered);
         }
 
-        public void EQUIP(String cmdAttr) {
-            equip_item(cmdAttr);
+        public void EQUIP() {
+            equip_item(cmdAttrEntered);
         }
 
         public void EXPLORE() {
             explore();
         }
-
-
 
     }
 }
