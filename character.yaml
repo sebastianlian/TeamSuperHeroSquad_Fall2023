@@ -6,7 +6,7 @@ characters:
       hp: 100
       def: 0
       atk: 60
-    bonus item: 40
+    bonusItem: Chemical
   - id: 2
     name: Business Major
     description: All rounder character with balanced stats
@@ -14,7 +14,7 @@ characters:
       hp: 100
       def: 10
       atk: 50
-    bonus item: 50
+    bonusItem: Book
   - id: 3
     name: Nurse Major
     description: Survivor with a very high HP but low attack
@@ -22,4 +22,4 @@ characters:
       hp: 150
       def: 5
       atk: 40
-    bonus item: 60
+    bonusItem: Syringe

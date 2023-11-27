@@ -2,13 +2,21 @@ package Controller;
 
 import Model.Item;
 import Model.ItemReference;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 import Model.Room;
 import Model.Actor;
 
+
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -156,7 +164,28 @@ public class CommandManager {
         System.out.println("\n==============================\n");
     }
     public void access_help() {
-        System.out.println(validCommandSet);
+        try {
+            Path yamlFilePath = Paths.get("commands.yaml");
+            InputStream input = Files.newInputStream(yamlFilePath);
+
+            Yaml yaml = new Yaml();
+
+            // Parses YAML and stores contents in a list
+            List<Object> yamlObjects = new ArrayList<>();
+            Iterable<Object> iterable = yaml.loadAll(input);
+            iterable.forEach(yamlObjects::add);
+
+            // Serializes list of objects to YAML
+            DumperOptions options = new DumperOptions();
+            options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // Sets to BLOCK style for better readability
+            Yaml prettyYaml = new Yaml(options);
+            String yamlOutput = prettyYaml.dump(yamlObjects);
+
+            // Prints formatted YAML
+            System.out.println(yamlOutput);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void quit(int statusCode) {
         System.exit(statusCode);

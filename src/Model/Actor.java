@@ -67,7 +67,7 @@ public class Actor {
         this.attack = attack;
     }
 
-    public void takeDamge(double damageTaken) {
+    public void takeDamage(double damageTaken) {
         hitPoints -= damageTaken;
     }
 
