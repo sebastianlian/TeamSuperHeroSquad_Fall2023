@@ -290,11 +290,23 @@ public class State implements Serializable {
             System.out.println(character.get("id") + ". " + character.get("name"));
         }
 
-        int selectedId = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        while (true) {
+            try {
+                String input = scanner.nextLine();
+                int selectedId = Integer.parseInt(input); // Convert string input to integer
 
-        return selectedId;
+                // Check if the input is a valid character ID
+                if (selectedId >= 1 && selectedId <= characters.size()) {
+                    return selectedId;
+                } else {
+                    System.out.println("Invalid input. Please enter a valid character ID.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a number.");
+            }
+        }
     }
+
     public Map<String, Object> getSelectedCharacter(int characterId) {
         for (Map<String, Object> character : characters) {
             if ((int) character.get("id") == characterId) {
@@ -333,14 +345,14 @@ public class State implements Serializable {
     }
 
     public void displayInventory() {
-      //  List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
+        //  List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
         if (inventory.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
             System.out.println("Inventory contains:");
             for (ItemReference itemRef : inventory) {
                 Item item = indexedItems.get(itemRef.getIndex());
-                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
+                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Type: " + item.getIsType() +  ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
             }
         }
     }
@@ -377,29 +389,29 @@ public class State implements Serializable {
         System.out.println("You are in combat with " + monster.getName());
         System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
         System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
-            while (monster.getHitPoints() > 0 && getHitPoints() > 0) {
-                Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
+        while (monster.getHitPoints() > 0 && getHitPoints() > 0) {
+            Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
 
-                puzzle.startPuzzleForCombat(monster, randomPuzzle);
-                System.out.println(randomPuzzle.isSolved());
-                if (randomPuzzle.isSolved()) {
-                    System.out.println("You attacked the monster!");
-                    monster.setHitPoints(monster.getHitPoints() - Math.abs(getAttack() - monster.getDefense()));
-                } else {
-                    System.out.println("The monster attacked you");
-                    setHitPoints(getHitPoints() - Math.abs(monster.getAttack() - getDefense()));
-                    //TODO: implement Passive of the monsters
-                }
-                System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
-                System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
+            puzzle.startPuzzleForCombat(monster, randomPuzzle);
+            System.out.println(randomPuzzle.isSolved());
+            if (randomPuzzle.isSolved()) {
+                System.out.println("You attacked the monster!");
+                monster.setHitPoints(monster.getHitPoints() - Math.abs(getAttack() - monster.getDefense()));
+            } else {
+                System.out.println("The monster attacked you");
+                setHitPoints(getHitPoints() - Math.abs(monster.getAttack() - getDefense()));
+                //TODO: implement Passive of the monsters
             }
-            if (monster.getHitPoints() < 0) {
-                removeMonster(); // remove the monster so you don't fight it again
-                System.out.println("You have defeated the monster!");
-            } else if (getHitPoints() < 0) {
-                System.out.println("You will be return to where you last save ");
-                //TODO: implement the load here after they lose.
-            }
+            System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
+            System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
+        }
+        if (monster.getHitPoints() < 0) {
+            removeMonster(); // remove the monster so you don't fight it again
+            System.out.println("You have defeated the monster!");
+        } else if (getHitPoints() < 0) {
+            System.out.println("You will be return to where you last save ");
+            //TODO: implement the load here after they lose.
+        }
 
 
     }

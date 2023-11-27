@@ -12,7 +12,7 @@ public class Item {
 
     // Updated constructor to match the fields from the YAML file
     public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats) {
-        this(id, name, true, effect, description, number, stats, false);
+        this(id, name, type, effect, description, number, stats, false);
 
     }
     public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats, boolean isEquipped) {
@@ -51,9 +51,6 @@ public class Item {
         return type;
     }
 
-    public void setType(boolean type) {
-        this.type = type;
-    }
 
     public String getDescription() {
         return description;
@@ -69,6 +66,10 @@ public class Item {
 
     public String getEffect() {
         return effect;
+    }
+
+    public boolean getIsType() {
+        return type;
     }
 
     // Stats inner class

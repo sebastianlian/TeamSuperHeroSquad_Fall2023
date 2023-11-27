@@ -228,27 +228,38 @@ public class CommandManager {
         }
     }
 
-    public void pickup_item(String cmdAttr) {
-        System.out.println("Attempting to pick up item: " + cmdAttr);
+public void pickup_item(String cmdAttr) {
+    System.out.println("Attempting to pick up item: " + cmdAttr);
 
-        ItemReference itemReference = state.getCurrentRoom()
-                .getReferredItems()
-                .values()
-                .stream()
-                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
-                .findFirst()
-                .orElse(null);
+    ItemReference itemReference = state.getCurrentRoom()
+            .getReferredItems()
+            .values()
+            .stream()
+            .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
+            .findFirst()
+            .orElse(null);
 
-        if (itemReference != null) {
+    if (itemReference != null) {
+        Item item = state.getItem(itemReference.getIndex()); // Retrieve the Item based on the reference
+        if (item != null) {
+            itemReference.setItem(item); // Associate the Item with the ItemReference
+
+            // Debug statement to check the association
+            //System.out.println("DEBUG: Picking up '" + item.getName() + "' with ID " + item.getId() + " and Type: " + item.isType());
+
             state.moveIntoInventory(itemReference);
             System.out.println("You picked up " + itemReference.getName());
         } else {
-            System.out.println("The item is not in the current room.");
+            System.out.println("Failed to find the item details for " + cmdAttr);
         }
+    } else {
+        System.out.println("The item is not in the current room.");
     }
+}
 
     public void use_item() {
         Scanner scan = new Scanner(System.in);
+        state.displayInventory();
         System.out.println("Enter the name of the item to use: ");
         String itemName = scan.nextLine();
 
@@ -260,10 +271,20 @@ public class CommandManager {
 
         if (itemRef != null) {
             Item item = itemRef.getItem();
-            if (item != null && !item.isType()) { // Check if the item is consumable
+
+            // Add a null check for the item here
+//            if (item == null) {
+//                System.out.println("DEBUG: No item object associated with the item reference for " + itemName);
+//                return; // Early return to avoid NullPointerException
+//            }
+
+            if (!item.isType()) { // Check if the item is consumable
+                // Existing debug statement and logic
+               // System.out.println("DEBUG: Item details - Name: " + item.getName() + ", Type: " + item.isType() + ", Stats: " + (item.getStats() != null ? item.getStats().toString() : "null"));
+
                 // Apply the effect of the item
+                useItemEffect(item);
                 if (item.getStats() != null && item.getStats().getHp() > 0) {
-                    // Assuming you have a method in State to update HP
                     double healingAmount = item.getStats().getHp();
                     state.healPlayer(healingAmount);
                     System.out.println("Used " + item.getName() + ": Healed " + healingAmount + " HP.");
@@ -271,63 +292,41 @@ public class CommandManager {
                     System.out.println("The item " + item.getName() + " has no usable effect.");
                 }
             } else {
-                System.out.println("The item " + item.getName() + " is not usable. It might be an equippable item or null.");
+                System.out.println("The item " + item.getName() + " is not usable. It might be an equippable item.");
             }
         } else {
             System.out.println("The item " + itemName + " is not in your inventory.");
         }
     }
 
-    private void applyItemEffect(Item item) {
-        // Check if the item has a healing effect
-        if (item.getStats() != null && item.getStats().getHp() > 0) {
-            double healingAmount = item.getStats().getHp();
+        public void equip_item () {
+            Scanner scan = new Scanner(System.in);
+            state.displayInventory();
+            System.out.println("Enter the name of the item to equip: ");
+            String itemName = scan.nextLine().trim();  // Trim to remove leading/trailing spaces
 
-            // Apply the healing
-            double newHp = state.getHitPoints() + healingAmount;
+            ItemReference itemRef = state.getInventory()
+                    .stream()
+                    .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                    .findFirst()
+                    .orElse(null);
 
-            // Ensure HP does not exceed maximum HP, assuming 100 is max HP
-            newHp = Math.min(newHp, 100);
-
-            // Set the new HP
-            state.setHitPoints(newHp);
-
-            System.out.println("Healed " + healingAmount + " HP. Current HP: " + newHp);
-        } else {
-            // Handle other types of effects if any
-            System.out.println("The item " + item.getName() + " has no healing effect.");
-        }
-    }
-
-
-    public void equip_item() {
-        Scanner scan = new Scanner(System.in);
-        state.displayInventory();
-        System.out.println("Enter the name of the item to equip: ");
-        String itemName = scan.nextLine().trim();  // Trim to remove leading/trailing spaces
-
-        ItemReference itemRef = state.getInventory()
-                .stream()
-                .filter(item -> item.getName().equalsIgnoreCase(itemName))
-                .findFirst()
-                .orElse(null);
-
-        if (itemRef != null) {
-            Item item = itemRef.getItem();
-            if (item != null && item.isType()) { // Check if item is equippable and not null
-                equipItemEffect(item); // Assuming this method sets the equipped item in the player state
+            if (itemRef != null) {
+                Item item = itemRef.getItem();
+                if (item != null && item.isType()) { // Check if item is equippable and not null
+                    equipItemEffect(item); // Assuming this method sets the equipped item in the player state
 //                System.out.println("Equipped " + item.getName() + ": " + item.getEffect());
-                state.setEquipped(item);
-                state.getInventory().remove(itemRef);
-            } else if (item != null) {
-                System.out.println("Item " + item.getName() + " is not equippable. It's a consumable item.");
+                    state.setEquipped(item);
+                    state.getInventory().remove(itemRef);
+                } else if (item != null) {
+                    System.out.println("Item " + item.getName() + " is not equippable. It's a usable item.");
+                } else {
+                    System.out.println("Failed to retrieve item details.");
+                }
             } else {
-                System.out.println("Failed to retrieve item details.");
+                System.out.println("Item not found in inventory.");
             }
-        } else {
-            System.out.println("Item not found in inventory.");
         }
-    }
 
     public void unequip(){
         ItemReference itemRef = new ItemReference(state.getEquipped().getId(), state.getEquipped().getName(), state.getCurrentRoom().getRoomID(), state.getEquipped());
@@ -356,6 +355,19 @@ public class CommandManager {
 
     }
 
+    private void useItemEffect(Item item) {
+        // Check if the item has a healing effect
+        if (item.getStats() != null && item.getStats().getHp() > 0) {
+            double healingAmount = item.getStats().getHp();
+            // Apply the healing
+            double newHp = state.getHitPoints() + healingAmount;
+            // Ensure HP does not exceed maximum HP, assuming 100 is max HP
+            newHp = Math.min(newHp, state.getMaxHitPoints());
+            // Set the new HP
+            state.setHitPoints(newHp);
+            System.out.println("Healed " + healingAmount + " HP. Current HP: " + newHp);
+        }
+    }
 
     private void equipItemEffect(Item item) {
         // Assuming the Stats class has hp, atk, and def as attributes
