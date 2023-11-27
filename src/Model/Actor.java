@@ -2,7 +2,7 @@ package Model;
 
 public class Actor {
     //Class for holding relevant information of every actor in game including the player
-    String name, description;
+    String name, description, type;
 
     //Stats of actor
     double maxHitPoints,hitPoints, defense, attack;
@@ -17,15 +17,55 @@ public class Actor {
 
 
 
-    public Actor(String name, String description, double hitPoints, double defense, double attack, int startingPosition) {
+    public Actor(String name, String description, double hitPoints, double defense, double attack, int startingPosition, String type) {
         this.name = name;
         this.description = description;
-        this.hitPoints = hitPoints;
+        this.hitPoints = maxHitPoints = hitPoints;
         this.defense = defense;
         this.attack = attack;
-        this.startingPosition = startingPosition = currentPosition;
+        this.startingPosition = currentPosition = startingPosition ;
+        this.type = type;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
+    public double getMaxHitPoints() {
+        return maxHitPoints;
+    }
+
+    public double getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public double getDefense() {
+        return defense;
+    }
+
+    public void setDefense(double defense) {
+        this.defense = defense;
+    }
+
+    public double getAttack() {
+        return attack;
+    }
+
+    public void setAttack(double attack) {
+        this.attack = attack;
+    }
 
     public void takeDamage(double damageTaken) {
         hitPoints -= damageTaken;

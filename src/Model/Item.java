@@ -3,92 +3,90 @@ package Model;
 public class Item {
     private int id;
     private String name;
-    private String effect;
+    private boolean type; // true for equippable, false for consumable
+    private String effect; // Include the effect field
     private String description;
-    private boolean type;
-    private int quantity;
-    public Stats stats;
+    private int number; // Include the number field
+    protected Stats stats;
+    private boolean isEquipped;
 
+    // Updated constructor to match the fields from the YAML file
+    public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats) {
+        this(id, name, type, effect, description, number, stats, false);
 
-    //TODO: get rid of this constructor when parsing method is corrected
-    public Item(int id, String name, boolean type, String description) {
+    }
+    public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats, boolean isEquipped) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.description = description;
-        //  this.quantity = quantity;
-    }
-
-
-    public Item(int id, String name, String effect, String description, boolean type, Stats stats) {
-        this.id = id;
-        this.name = name;
         this.effect = effect;
         this.description = description;
-        this.type = type;
+        this.number = number;
         this.stats = stats;
+        this.isEquipped = isEquipped;
     }
 
-    public int getId() { return id; }
-
-
-    public void setId(int id) { this.id = id; }
-
-
-    public String getName() { return name; }
-
-
-    public void setName(String name) { this.name = name; }
-
-
-
-    public boolean isType() { return type; }
-
-    // Method to list items (assumed functionality)
-    public void listItems() {
-        // Logic to list items (e.g., printing item details to the console)
-        System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
+    public boolean isEquipped() {
+        return isEquipped;
     }
 
-    // Method to simulate picking up an item (increment quantity)
-    public void pickUp() {
-        quantity++;
+    public void setEquipped(boolean equipped) {
+        isEquipped = equipped;
     }
 
-    // Method to simulate equipping an item (assumed functionality)
-    public void equipItem() {
-        // Logic to equip an item (details depend on how you want to handle item equipment)
-        System.out.println("Equipping: " + name);
+    // Getters and setters
+    public int getId() {
+        return id;
     }
 
-    // Method to simulate using an item (decrement quantity)
-    public void useItem() {
-        if (quantity > 0) {
-            quantity--;
-            // Logic for the item's effect (details depend on the game mechanics)
-            System.out.println("Using: " + name);
-        } else {
-            System.out.println("Cannot use " + name + ". No more left.");
-        }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isType() {
+        return type;
     }
 
 
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    // Additional methods for other interactions can be added here
+    public Stats getStats() {
+        return stats;
+    }
+
+    public String getEffect() {
+        return effect;
+    }
+
+    public boolean getIsType() {
+        return type;
+    }
+
+    public String getQuantity() {
+        return String.valueOf(number);
+    }
+
+    // Stats inner class
     public static class Stats {
-        //Assumes non-dynamic item stats
-        protected final double hp;
-        protected final double def;
-        protected final double atk;
+        public final double hp;
+        public  final double def;
+        public  final double atk;
 
         public Stats(double hp, double def, double atk) {
             this.hp = hp;
             this.def = def;
             this.atk = atk;
         }
-
-
 
         public double getHp() {
             return hp;

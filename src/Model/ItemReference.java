@@ -33,4 +33,12 @@ public class ItemReference {
     }
 
     public int getPosition() { return position; }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
 }
