@@ -272,12 +272,14 @@ public class State implements Serializable {
             randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
 
+
+
         // Create a new ItemReference for the random item and add it to the random room
         ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
         randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
 
         System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
-        //System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
+        System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
     }
 
     public int selectCharacter() {

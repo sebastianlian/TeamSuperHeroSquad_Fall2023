@@ -72,6 +72,10 @@ public class Item {
         return type;
     }
 
+    public String getQuantity() {
+        return String.valueOf(number);
+    }
+
     // Stats inner class
     public static class Stats {
         public final double hp;
