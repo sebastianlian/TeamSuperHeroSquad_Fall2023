@@ -132,25 +132,28 @@ public class CommandManager {
         int[] currentRoomOutlets = state.getCurrentOutlets();
 
         // Displaying the current room
+        System.out.println("\n==============================");
         System.out.println("Current Room: " + currentRoom.getRoomName());
+        System.out.println("==============================\n");
 
         // Displaying available exits
-        System.out.println("Exits:");
+        System.out.println("Available Exits:");
         String[] directions = {"North", "East", "South", "West"};
         for (int i = 0; i < currentRoomOutlets.length; i++) {
             if (currentRoomOutlets[i] != -1) {
                 Room nextRoom = state.getRoom(currentRoomOutlets[i]);
-                System.out.println(directions[i] + " -> " + nextRoom.getRoomName());
+                System.out.println(" - " + directions[i] + " -> " + nextRoom.getRoomName());
             }
         }
 
         // Displaying visited rooms
-        System.out.println("Visited Rooms:");
+        System.out.println("\nVisited Rooms:");
         for (Room room : state.getIndexedRooms().keySet()) {
             if (room.isVisited()) {
-                System.out.println(room.getRoomName());
+                System.out.println(" - " + room.getRoomName());
             }
         }
+        System.out.println("\n==============================\n");
     }
     public void access_help() {
         System.out.println(validCommandSet);
