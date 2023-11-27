@@ -89,17 +89,6 @@ public class State implements Serializable {
         return maxHitPoints;
     }
 
-    public void setHitPoints(double hitPoints) {
-        this.hitPoints = hitPoints;
-    }
-
-    public void setDefense(double defense) {
-        this.defense = defense;
-    }
-
-    public void setAttack(double attack) {
-        this.attack = attack;
-    }
 
     public void healPlayer(double amount) {
         this.hitPoints += amount;
@@ -123,7 +112,7 @@ public class State implements Serializable {
     }
 
 
-    public void setInitalRoom() {
+    public void setInitialRoom() {
         this.currentRoom = getRoom(position);
     }
   
