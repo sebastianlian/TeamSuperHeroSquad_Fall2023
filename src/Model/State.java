@@ -203,33 +203,7 @@ public class State {
 
     }
 
-    //FIXME: Sebastian implement populateRandomItem
-//    public void populateRandomItem(ItemReference itemRef) {
-//        if (itemRef == null || indexedItems.get(itemRef.getIndex()).getId() <= 60) {
-//            // If itemRef is null or its ID is less than or equal to 60, place a random item in a room
-//            Random random = new Random();
-//            List<Item> allItems = new ArrayList<>(indexedItems.values());
-//            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
-//
-//            // Select a random item and room
-//            Item randomItem = allItems.get(random.nextInt(allItems.size()));
-//            Room randomRoom = rooms.get(random.nextInt(rooms.size()));
-//
-//            // Create a new ItemReference for the random item and add it to the random room
-//            ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
-//            randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
-//
-//            System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
-//        } else {
-//            // Implement logic to handle placing a specific item based on conditions
-//            // For example:
-//            // - Retrieve the specific item from indexedItems using itemRef
-//            // - Decide the room to place the item based on game conditions
-//            // - Create an ItemReference and add it to the chosen room
-//
-//        }
-//    }
-
+    //FIXME: MUST NOT ALLOW ITEMS IN ROOM 0 AND 21. MUST TAKE INTO ACCCOUNT QUANTITY OF AN ITEM AVAILABLE.
     public void populateRandomItem(ItemReference itemRef) {
         Random random = new Random();
         List<Item> allItems = new ArrayList<>(indexedItems.values());
