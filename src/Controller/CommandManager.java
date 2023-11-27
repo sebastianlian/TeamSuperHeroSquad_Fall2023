@@ -35,7 +35,7 @@ public class CommandManager {
         INVENTORY("Inventory"),
         MAP("Map"),
         HELP("Help"),
-        LIST("List item"),
+        LIST("List"),
         PICKUP("Pickup"),
         DROP("Drop"),
         USE("Use"),
@@ -161,21 +161,43 @@ public class CommandManager {
 
     }
     //SEBASTIAN: DO NOT MODIFY THIS METHOD
-    public void list_item() {
+    public void list(String cmdAttr) {
         HashMap<Integer, Item> allItems = state.getItems();
 
-        if (allItems.isEmpty()) {
-            System.out.println("No items found.");
-        } else {
-            System.out.println("__________________________________________________________");
-            System.out.println("All items:");
-            for (Item item : allItems.values()) {
-                System.out.println("Item ID: " + item.getId());
-                System.out.println("Name: " + item.getName());
-                System.out.println("Effect: " + item.getEffect());
-                System.out.println("Description: " + item.getDescription());
+        if (cmdAttr.equalsIgnoreCase("items")) {
+            if (allItems.isEmpty()) {
+                System.out.println("No items found.");
+            } else {
                 System.out.println("__________________________________________________________");
+                System.out.println("All items:");
+                for (Item item : allItems.values()) {
+                    System.out.println("Item ID: " + item.getId());
+                    System.out.println("Name: " + item.getName());
+                    System.out.println("Effect: " + item.getEffect());
+                    System.out.println("Description: " + item.getDescription());
+                    System.out.println("__________________________________________________________");
+                }
             }
+        } else if(cmdAttr.equalsIgnoreCase("monsters")) {
+            HashMap<Integer, Actor> allMonster = state.getMonster();
+
+            if (allMonster.isEmpty()) {
+                System.out.println("No Monster found.");
+            } else {
+
+                System.out.println("All monsters:");
+                for (Actor monster : allMonster.values()) {
+                    System.out.println("__________________________________________________________");
+                    System.out.println("Name : " + monster.getName());
+                    System.out.println("Hp: " + monster.getMaxHitPoints());
+                    System.out.println("Atk: " + monster.getAttack());
+                    System.out.println("Def: " + monster.getDefense());
+                    System.out.println("Passive:");
+                    System.out.println("__________________________________________________________");
+                }
+            }
+        } else{
+            System.out.println("Type 'items' or 'monsters'");
         }
     }
 
@@ -239,19 +261,19 @@ public class CommandManager {
         }
     }
     public void explore() {
-        List itemsInRoom = state.getCurrentRoom()
-                .getReferredItems()
-                .values()
-                .stream()
-                .map(ItemReference::getName)
-                .collect(Collectors.toList());
-        System.out.println("Items in the Room: " + itemsInRoom);
+        List itemsInRoom = state.getCurrentRoom().getReferredItems().values().stream().map(ItemReference::getName).collect(Collectors.toList());
         Actor monster = state.getMonsterInCurrentRoom();
+        if (!itemsInRoom.isEmpty()) {
+            System.out.println("Items in the Room: " + itemsInRoom);
+        } else{
+            System.out.println("No items are in the room.");
+        }
+
         if (monster != null) {
             System.out.println("Found monster: " + monster.getName());
             state.combatMode();
         } else {
-            System.out.println("No monsters in the room.");
+            System.out.println("No monsters are in the room.");
         }
     }
 
@@ -336,8 +358,8 @@ public class CommandManager {
             explore();
         }
 
-        public void LIST() {
-            list_item();
+        public void LIST(String cmdAttr) {
+            list(cmdAttr);
         }
 
     }

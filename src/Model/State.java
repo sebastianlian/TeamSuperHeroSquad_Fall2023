@@ -378,6 +378,9 @@ public class State implements Serializable {
     public HashMap<Integer, Item> getItems() {
         return indexedItems;
     }
+    public HashMap<Integer, Actor> getMonster(){
+        return indexedMonsters;
+    }
 
     //DO NOT DELETE OR MODIFY - for populateRandomItem()
     public HashMap<Integer, Item> getIndexOfItems() {
