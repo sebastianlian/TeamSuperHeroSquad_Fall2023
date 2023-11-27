@@ -136,10 +136,8 @@ public class Puzzle {
             String input = console.nextLine();
             if (input.equalsIgnoreCase(randomPuzzle.getAnswer())){
                 randomPuzzle.setSolved(true);
-                System.out.println("Correct!");
             } else {
                 randomPuzzle.setSolved(false);
-                System.out.println("Wrong!");
             }
         }
     }

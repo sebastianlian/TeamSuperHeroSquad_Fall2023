@@ -213,10 +213,10 @@ public class Game {
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
                     (ArrayList<Integer>) mapping.get("items"),
-                    (String)mapping.get("type")
-
+                    (int) mapping.getOrDefault("attempt",0),
+                    (String)mapping.get("topic"),
+                    (boolean) mapping.getOrDefault("hasPuzzle",false)
             );
-
             Map<Object, Integer> outletMapping = (Map<Object, Integer>) mapping.get("outlets");
             int[] outlets = new int[]{-1, -1, -1, -1};
             outlets[0] = outletMapping.getOrDefault("north", -1);
