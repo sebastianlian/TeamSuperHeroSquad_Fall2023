@@ -17,6 +17,8 @@ public class Room {
     protected HashMap<Integer, ItemReference> referredItems = new HashMap<>(); //Integer stands for the item id and the ItemReference refers to the actual item
     private int monsterInRoom;
     private String topicType;
+    private int puzzleAttempts;
+    private boolean hasPuzzle;
 
     public Room(int id, String roomName, String roomDescription) {
         this.id = id;
@@ -28,14 +30,28 @@ public class Room {
         //TODO: add ArrayList for monsters/ actors
     }
 
-    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items, String topicType) {
+    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items, int puzzleAttempts, String topicType, boolean hasPuzzle) {
         this.id = id;
         this.roomName = roomName; // Initialize roomName
         this.roomDescription = roomDescription;
         this.checkedRoom = false;
         this.isVisited = false;
         this.items = (items == null) ? new ArrayList<>() : items;
+        this.puzzleAttempts = puzzleAttempts;
         this.topicType = topicType;
+        this.hasPuzzle = hasPuzzle;
+    }
+
+    public boolean isHasPuzzle(){
+        return hasPuzzle;
+    }
+
+    public void setHasPuzzle(boolean hasPuzzle) {
+        this.hasPuzzle = hasPuzzle;
+    }
+
+    public int getPuzzleAttempts() {
+        return puzzleAttempts;
     }
 
     public String getTopicType() {

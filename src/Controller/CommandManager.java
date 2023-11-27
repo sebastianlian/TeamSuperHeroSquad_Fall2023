@@ -179,7 +179,7 @@ public class CommandManager {
                 }
             }
         } else if(cmdAttr.equalsIgnoreCase("monsters")) {
-            HashMap<Integer, Actor> allMonster = state.getMonster();
+            HashMap<Integer, Actor> allMonster = state.getMonsterList();
 
             if (allMonster.isEmpty()) {
                 System.out.println("No Monster found.");
@@ -227,7 +227,6 @@ public class CommandManager {
                 .orElse(null);
 
         if (itemReference != null) {
-            System.out.println("Found item: " + itemReference.getName());
             state.moveIntoInventory(itemReference);
             System.out.println("You picked up " + itemReference.getName());
         } else {
@@ -263,14 +262,22 @@ public class CommandManager {
     public void explore() {
         List itemsInRoom = state.getCurrentRoom().getReferredItems().values().stream().map(ItemReference::getName).collect(Collectors.toList());
         Actor monster = state.getMonsterInCurrentRoom();
+        Room room = state.getCurrentRoom();
+
+        // Does checks for any aspect of using explore, item, puzzle, and monster detection
         if (!itemsInRoom.isEmpty()) {
             System.out.println("Items in the Room: " + itemsInRoom);
         } else{
             System.out.println("No items are in the room.");
         }
-
-        if (monster != null) {
-            System.out.println("Found monster: " + monster.getName());
+        if (room.isHasPuzzle()){
+            System.out.println("You encounter a puzzle");
+            state.roomPuzzle();
+        }else{
+            System.out.println("No puzzles are in the room");
+        }
+        if (monster!=null) {
+            System.out.println("A monster approached your presence..." + monster.getName());
             state.combatMode();
         } else {
             System.out.println("No monsters are in the room.");

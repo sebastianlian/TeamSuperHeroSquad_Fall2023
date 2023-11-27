@@ -1,5 +1,6 @@
 package Model;
 
+import Controller.Game;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.Serializable;
@@ -67,7 +68,7 @@ public class State implements Serializable {
 
         setInitalRoom();
 
-        hitPoints = 100;
+        hitPoints = maxHitPoints = 100;
         defense = 100;
         attack = 100;
 
@@ -105,6 +106,13 @@ public class State implements Serializable {
                 .findFirst()
                 .orElse(null);
     }
+    public void removeMonster() {
+        Actor monster = getMonsterInCurrentRoom();
+        if (monster != null) {
+            indexedMonsters.values().remove(monster);
+        }
+    }
+
 
     public void setInitalRoom() {
         this.currentRoom = getRoom(position);
@@ -375,34 +383,58 @@ public class State implements Serializable {
         gameMode = MODE.BATTLE;
 
         Actor monster = getMonsterInCurrentRoom();
-        System.out.println("Monsters:" + monster.getName());
-        System.out.println("Monsters:" + monster.getAttack());
-        System.out.println("Monsters:" + monster.getHitPoints());
-        System.out.println("Monsters:" + monster.getDefense());
-        System.out.println("player Hp:" + getMaxHitPoints());
+        System.out.println("You are in combat with " + monster.getName());
+        System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
+        System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
+            while (monster.getHitPoints() > 0 && getHitPoints() > 0) {
+                Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
 
-         do {
-            Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
-
-            puzzle.startPuzzleForCombat(monster, randomPuzzle);
-            System.out.println(randomPuzzle.isSolved());
-            if (randomPuzzle.isSolved()){
-                System.out.println("You attacked the monster!");
-                monster.setHitPoints(monster.getHitPoints()-(getAttack()- monster.getDefense()));
-            } else{
-                System.out.println("The monster attacked you");
-                setHitPoints(getHitPoints()-(monster.getAttack()-getDefense()));
+                puzzle.startPuzzleForCombat(monster, randomPuzzle);
+                System.out.println(randomPuzzle.isSolved());
+                if (randomPuzzle.isSolved()) {
+                    System.out.println("You attacked the monster!");
+                    monster.setHitPoints(monster.getHitPoints() - Math.abs(getAttack() - monster.getDefense()));
+                } else {
+                    System.out.println("The monster attacked you");
+                    setHitPoints(getHitPoints() - Math.abs(monster.getAttack() - getDefense()));
+                    //TODO: implement Passive of the monsters
+                }
+                System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
+                System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
             }
-            System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
-            System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
-        } while (monster.getHitPoints() > 0 && getHitPoints() > 0);
+            if (monster.getHitPoints() < 0) {
+                removeMonster(); // remove the monster so you don't fight it again
+                System.out.println("You have defeated the monster!");
+            } else if (getHitPoints() < 0) {
+                System.out.println("You will be return to where you last save ");
+                //TODO: implement the load here after they lose.
+            }
+
+
+    }
+    public void roomPuzzle(){
+        Room room = getCurrentRoom();
+        Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(room.getTopicType()));
+        int maxAttempt = room.getPuzzleAttempts();
+        if(room.isHasPuzzle()){
+            for (int i = maxAttempt; i > 0; i--){
+                puzzle.startPuzzleForRoom(room,randomPuzzle);
+                if(randomPuzzle.isSolved()){
+                    System.out.println("you answered it correct!");
+                    room.setHasPuzzle(false);
+                    break;
+                } else{
+                    System.out.println("Wrong! You have " + (i-1) + " attempts left.");
+                }
+            }
+        }
     }
 
     //DO NOT DELETE OR MODIFY - for list_item()
     public HashMap<Integer, Item> getItems() {
         return indexedItems;
     }
-    public HashMap<Integer, Actor> getMonster(){
+    public HashMap<Integer, Actor> getMonsterList(){
         return indexedMonsters;
     }
 
