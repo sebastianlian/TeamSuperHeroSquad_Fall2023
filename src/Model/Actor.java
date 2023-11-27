@@ -71,4 +71,7 @@ public class Actor {
         hitPoints -= damageTaken;
     }
 
+    public boolean hasItemID(int i) {
+        return true;
+    }
 }

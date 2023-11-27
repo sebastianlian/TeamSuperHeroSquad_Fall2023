@@ -78,3 +78,21 @@ D - Dean's Lair (Level 4)
                                             |  D4    |                               |  D5   | ------ | Exit  |
                                             |        |                               |       |        |       |
                                              --------                                  ------          -------
+
+## Game Commands
+NAVIGATION
+NORTH, SOUTH, EAST, WEST - move in the specified direction
+STATS - display player stats
+INVENTORY - display player inventory
+MAP - display map
+HELP - display list of commands
+QUIT - quit game
+SAVE - save game
+LOAD - load game
+LIST ITEMS - list items game
+LIST MONSTERS - list monsters in game
+PICKUP - pick up item
+DROP - drop item
+USE - use item
+EQUIP - equip item
+UNEQUIP - unequip item

@@ -89,17 +89,6 @@ public class State implements Serializable {
         return maxHitPoints;
     }
 
-    public void setHitPoints(double hitPoints) {
-        this.hitPoints = hitPoints;
-    }
-
-    public void setDefense(double defense) {
-        this.defense = defense;
-    }
-
-    public void setAttack(double attack) {
-        this.attack = attack;
-    }
 
     public void healPlayer(double amount) {
         this.hitPoints += amount;
@@ -123,7 +112,7 @@ public class State implements Serializable {
     }
 
 
-    public void setInitalRoom() {
+    public void setInitialRoom() {
         this.currentRoom = getRoom(position);
     }
   
@@ -267,12 +256,16 @@ public class State implements Serializable {
             randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
 
-        //
+
         while (randomItem.getId() == 100 && !Arrays.asList(2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 20).contains(randomRoom.getRoomID())) {
             randomItem = allItems.get(random.nextInt(allItems.size()));
             randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
 
+        while (randomItem.getId() == 60 && !Arrays.asList(5).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
 
 
         // Create a new ItemReference for the random item and add it to the random room
@@ -280,7 +273,7 @@ public class State implements Serializable {
         randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
 
         System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
-        System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
+        //System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
     }
 
     public int selectCharacter() {

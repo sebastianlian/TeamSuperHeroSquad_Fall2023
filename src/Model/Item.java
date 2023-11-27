@@ -72,8 +72,12 @@ public class Item {
         return type;
     }
 
-    public String getQuantity() {
-        return String.valueOf(number);
+    public int getQuantity() {
+        return number;
+    }
+
+    public void setQuantity(int number) {
+        this.number = number;
     }
 
     // Stats inner class
