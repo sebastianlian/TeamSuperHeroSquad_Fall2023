@@ -203,7 +203,7 @@ public class State {
 
     }
 
-    //FIXME: MUST NOT ALLOW ITEMS IN ROOM 0 AND 21. MUST TAKE INTO ACCCOUNT QUANTITY OF AN ITEM AVAILABLE.
+    //FIXME: MUST TAKE INTO ACCOUNT QUANTITY OF AN ITEM AVAILABLE.
     public void populateRandomItem(ItemReference itemRef) {
         Random random = new Random();
         List<Item> allItems = new ArrayList<>(indexedItems.values());
@@ -213,7 +213,7 @@ public class State {
         Item randomItem = allItems.get(random.nextInt(allItems.size()));
         Room randomRoom = rooms.get(random.nextInt(rooms.size()));
 
-        // If the randomly selected item is ID 100 and the random room is not in the restricted IDs
+
         while (randomItem.getId() == 100 && !Arrays.asList(4, 9, 14, 19).contains(randomRoom.getRoomID())) {
             randomItem = allItems.get(random.nextInt(allItems.size()));
             randomRoom = rooms.get(random.nextInt(rooms.size()));
@@ -234,7 +234,14 @@ public class State {
             randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
 
+        //ensure that the item is not placed in the starting room or the final room
         while (randomRoom.getRoomID() == 0 || randomRoom.getRoomID() == 21) {
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        //
+        while (randomItem.getId() == 100 && !Arrays.asList(2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 20).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
             randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
 
@@ -243,6 +250,7 @@ public class State {
         randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
 
         System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
+        //System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
     }
 
 

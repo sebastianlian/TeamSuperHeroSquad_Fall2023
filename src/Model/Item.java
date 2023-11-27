@@ -73,9 +73,9 @@ public class Item {
 //        this.type = type;
 //    }
 //
-//    public int getQuantity() { return quantity; }
-//
-//    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public int getQuantity() { return quantity; }
+
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 //
 //    public Stats getStats() {
 //        return stats;
