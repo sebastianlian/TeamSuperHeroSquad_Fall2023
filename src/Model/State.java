@@ -234,6 +234,10 @@ public class State {
             randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
 
+        while (randomRoom.getRoomID() == 0 || randomRoom.getRoomID() == 21) {
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
         // Create a new ItemReference for the random item and add it to the random room
         ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
         randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
