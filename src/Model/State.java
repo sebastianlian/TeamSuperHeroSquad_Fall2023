@@ -235,30 +235,54 @@ public class State implements Serializable {
 
     }
 
-    //FIXME: Sebastian implement populateRandomItem
+    //FIXME: MUST TAKE INTO ACCOUNT QUANTITY OF AN ITEM AVAILABLE.
     public void populateRandomItem(ItemReference itemRef) {
-        if (itemRef == null || indexedItems.get(itemRef.getIndex()).getId() <= 60) {
-            // If itemRef is null or its ID is less than or equal to 60, place a random item in a room
-            Random random = new Random();
-            List<Item> allItems = new ArrayList<>(indexedItems.values());
-            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
+        Random random = new Random();
+        List<Item> allItems = new ArrayList<>(indexedItems.values());
+        List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
 
-            // Select a random item and room
-            Item randomItem = allItems.get(random.nextInt(allItems.size()));
-            Room randomRoom = rooms.get(random.nextInt(rooms.size()));
+        // Select a random item and room
+        Item randomItem = allItems.get(random.nextInt(allItems.size()));
+        Room randomRoom = rooms.get(random.nextInt(rooms.size()));
 
-            // Create a new ItemReference for the random item and add it to the random room
-            ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
-            randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
 
-            System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
-        } else {
-            // Implement logic to handle placing a specific item based on conditions
-            // For example:
-            // - Retrieve the specific item from indexedItems using itemRef
-            // - Decide the room to place the item based on game conditions
-            // - Create an ItemReference and add it to the chosen room
+        while (randomItem.getId() == 100 && !Arrays.asList(4, 9, 14, 19).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
+
+        while (randomItem.getId() == 70 && !Arrays.asList(5).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        while (randomItem.getId() == 80 && !Arrays.asList(10).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        while (randomItem.getId() == 90 && !Arrays.asList(15).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        //ensure that the item is not placed in the starting room or the final room
+        while (randomRoom.getRoomID() == 0 || randomRoom.getRoomID() == 21) {
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        //
+        while (randomItem.getId() == 100 && !Arrays.asList(2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 20).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        // Create a new ItemReference for the random item and add it to the random room
+        ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
+        randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
+
+        System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
+        //System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
     }
 
     public int selectCharacter() {
