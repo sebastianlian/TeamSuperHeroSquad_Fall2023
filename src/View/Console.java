@@ -3,6 +3,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 //TODO: Sebastian write console class
-public class Console {
+public class Console implements Serializable {
 
     private ArrayList<String> startingPrompts;
 
@@ -30,7 +31,6 @@ public class Console {
         String playerName = scan.nextLine();
         System.out.println("Hello, " + playerName + "! Let's start your adventure.");
     }
-
 
     public void displayStartingPrompts() {
         for (String prompt : startingPrompts) {

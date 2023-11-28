@@ -15,6 +15,10 @@ public class ItemReference implements Serializable {
         this.index = index;
         this.position = position;
     }
+    public ItemReference(Item item) {
+        this.index = item.getId();
+        this.name = item.getName();
+    }
 
     public ItemReference(Item item) {
         this.index = item.getId();

@@ -1,10 +1,11 @@
 package View;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class ConsoleTUI {
+public class ConsoleTUI implements Serializable {
 
     //FIXME: static for little benefit
 //    private static ArrayList<String> startingPrompts = new ArrayList<>();

@@ -214,7 +214,7 @@ public class CommandManager {
         System.exit(statusCode);
     }
     public void save() throws Exception {
-        String filePath = "src/test/resources/store/save.txt";
+        String filePath = "save.txt";
 
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
