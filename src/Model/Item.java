@@ -1,21 +1,36 @@
 package Model;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int id;
-    private String name;
-    private boolean type; // true for equippable, false for consumable
-    private String effect; // Include the effect field
-    private String description;
-    private int number; // Include the number field
-    protected Stats stats;
+    private String name, effect, description;
+    private boolean type;
+    private int quantity, number;
+    public ItemStats stats;
     private boolean isEquipped;
 
     // Updated constructor to match the fields from the YAML file
-    public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats) {
+    public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats) {
         this(id, name, type, effect, description, number, stats, false);
 
     }
-    public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats, boolean isEquipped) {
+
+    public Item(int id, String name, boolean type, String effect, String description, int number) {
+        this(id, name, type, effect, description, number, null, false);
+
+    }
+
+//    public Item(int id, String name, boolean type, String effect, String description, ItemStats stats) {
+//        this.id = id;
+//        this.name = name;
+//        this.effect = effect;
+//        this.description = description;
+//        this.type = type;
+//        this.stats = stats;
+//    }
+
+    public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats, boolean isEquipped) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -51,7 +66,6 @@ public class Item {
         return type;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -60,7 +74,62 @@ public class Item {
         this.description = description;
     }
 
-    public Stats getStats() {
+    // Method to list items (assumed functionality)
+    public void listItems() {
+        // Logic to list items (e.g., printing item details to the console)
+        System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
+    }
+
+//    public String getEffect() {
+//        return effect;
+//    }
+//
+//    public void setDescription(String description) { this.description = description; }
+//
+//    public boolean isType() {
+//        if (type == true) {
+//            System.out.println("Equippable");
+//        } else {
+//            System.out.println("Usable");
+//        }
+//        return type;
+//    }
+//
+//    public void getType(boolean type) {
+//        this.type = type;
+//    }
+//
+//    public void setType(boolean type) {
+//        this.type = type;
+//    }
+//
+//    public Stats getStats() {
+//        return stats;
+//    }
+
+//    // Method to simulate picking up an item (increment quantity)
+//    public void pickUp() {
+//        quantity++;
+//    }
+//
+//    // Method to simulate equipping an item (assumed functionality)
+//    public void equipItem() {
+//        // Logic to equip an item (details depend on how you want to handle item equipment)
+//        System.out.println("Equipping: " + name);
+//    }
+//
+//    // Method to simulate using an item (decrement quantity)
+//    public void useItem() {
+//        if (quantity > 0) {
+//            quantity--;
+//            // Logic for the item's effect (details depend on the game mechanics)
+//            System.out.println("Using: " + name);
+//        } else {
+//            System.out.println("Cannot use " + name + ". No more left.");
+//        }
+//    }
+
+    public ItemStats getStats() {
         return stats;
     }
 
@@ -76,26 +145,42 @@ public class Item {
         return String.valueOf(number);
     }
 
-    // Stats inner class
-    public static class Stats {
-        public final double hp;
-        public  final double def;
-        public  final double atk;
+    public static class ItemStats extends Model.Stats {
+        //Assumes non-dynamic item stats
+        protected final double hp;
+        protected final double def;
+        protected final double atk;
 
-        public Stats(double hp, double def, double atk) {
+        public ItemStats(double hp, double def, double atk) {
             this.hp = hp;
             this.def = def;
             this.atk = atk;
         }
 
+
+        public void addTo(Stats stats) {
+            stats.hp += this.hp;
+            stats.atk += this.atk;
+            stats.def += this.def;
+        }
+
+        public void subtractFrom(Stats stats) {
+            stats.hp -= this.hp;
+            stats.atk -= this.atk;
+            stats.def -= this.def;
+        }
+
+        @Override
         public double getHp() {
             return hp;
         }
 
+        @Override
         public double getDef() {
             return def;
         }
 
+        @Override
         public double getAtk() {
             return atk;
         }

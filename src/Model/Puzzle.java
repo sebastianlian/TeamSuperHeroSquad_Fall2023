@@ -11,6 +11,10 @@ public class Puzzle {
     public enum topic {
         Chemistry, History, Health, Math, IT, English, Business, Nursing, Final, All
     }
+
+    private topic currentPuzzleTopic;
+    private String currentQuestion;
+    private String currentAnswer;
     private HashMap<String, ArrayList<PairQA>> QAMap;
 
     public Puzzle(topic puzzletopic) throws Exception {
@@ -44,6 +48,8 @@ public class Puzzle {
                 PairQA pairQA = mapToPairQA((String) puzzleMapping.get("question"),
                         (String) puzzleMapping.get("answer"));
                 puzzleEntries.add(pairQA);
+//                System.out.println(mapping.get("question"));
+//                System.out.println(mapping.get("answer"));
             }
 
             allPuzzles.put(topicString, puzzleEntries);
@@ -99,12 +105,12 @@ public class Puzzle {
         public String getAnswer() {
             return answer;
         }
-        public void setSolved() {
-            isSolved = true;
-        }
-
         public void setSolved(boolean solved) {
             isSolved = solved;
+        }
+
+        public void setSolved() {
+            isSolved = true;
         }
 
         public boolean isSolved() {
