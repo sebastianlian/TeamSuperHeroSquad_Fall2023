@@ -1,36 +1,23 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Room {
+public class Room implements Serializable {
     private int id;
     private String roomName;
     private String roomDescription;
     private boolean checkedRoom;
-    private String moveUp;
-    private String moveLeft;
-    private String moveDown;
-    private String moveRight;
     private boolean isVisited;
     private ArrayList<Integer> items;
     protected HashMap<Integer, ItemReference> referredItems = new HashMap<>(); //Integer stands for the item id and the ItemReference refers to the actual item
-    private int monsterInRoom;
     private String topicType;
     private int puzzleAttempts;
     private boolean hasPuzzle;
+    private boolean isLocked;
 
-    public Room(int id, String roomName, String roomDescription) {
-        this.id = id;
-        this.roomName = roomName;
-        this.roomDescription = roomDescription;
-        this.checkedRoom = false;
-        this.isVisited = false;
-        this.items = new ArrayList<>();
-        //TODO: add ArrayList for monsters/ actors
-    }
-
-    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items, int puzzleAttempts, String topicType, boolean hasPuzzle) {
+    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items, int puzzleAttempts, String topicType, boolean hasPuzzle,boolean isLocked) {
         this.id = id;
         this.roomName = roomName; // Initialize roomName
         this.roomDescription = roomDescription;
@@ -40,12 +27,18 @@ public class Room {
         this.puzzleAttempts = puzzleAttempts;
         this.topicType = topicType;
         this.hasPuzzle = hasPuzzle;
+        this.isLocked = isLocked;
     }
 
     public boolean isHasPuzzle(){
         return hasPuzzle;
     }
-
+    public boolean isLocked(){
+        return isLocked;
+    }
+    public void setLocked(boolean isLocked){
+        this.isLocked = isLocked;
+    }
     public void setHasPuzzle(boolean hasPuzzle) {
         this.hasPuzzle = hasPuzzle;
     }
@@ -79,6 +72,4 @@ public class Room {
         return isVisited;
     }
 
-
-    // Additional methods to handle movements, items, and monster interactions can be added here
 }

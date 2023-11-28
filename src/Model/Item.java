@@ -1,21 +1,27 @@
 package Model;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private int id;
-    private String name;
-    private boolean type; // true for equippable, false for consumable
-    private String effect; // Include the effect field
-    private String description;
-    private int number; // Include the number field
-    protected Stats stats;
+    private String name, effect, description;
+    private boolean type;
+    private int quantity, number;
+    public ItemStats stats;
     private boolean isEquipped;
 
     // Updated constructor to match the fields from the YAML file
-    public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats) {
+    public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats) {
         this(id, name, type, effect, description, number, stats, false);
 
     }
-    public Item(int id, String name, boolean type, String effect, String description, int number, Stats stats, boolean isEquipped) {
+
+    public Item(int id, String name, boolean type, String effect, String description, int number) {
+        this(id, name, type, effect, description, number, null, false);
+
+    }
+
+    public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats, boolean isEquipped) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -24,14 +30,6 @@ public class Item {
         this.number = number;
         this.stats = stats;
         this.isEquipped = isEquipped;
-    }
-
-    public boolean isEquipped() {
-        return isEquipped;
-    }
-
-    public void setEquipped(boolean equipped) {
-        isEquipped = equipped;
     }
 
     // Getters and setters
@@ -51,7 +49,6 @@ public class Item {
         return type;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -60,7 +57,8 @@ public class Item {
         this.description = description;
     }
 
-    public Stats getStats() {
+
+    public ItemStats getStats() {
         return stats;
     }
 
@@ -76,26 +74,42 @@ public class Item {
         return String.valueOf(number);
     }
 
-    // Stats inner class
-    public static class Stats {
-        public final double hp;
-        public  final double def;
-        public  final double atk;
+    public static class ItemStats extends Model.Stats implements Serializable {
+        //Assumes non-dynamic item stats
+        protected final double hp;
+        protected final double def;
+        protected final double atk;
 
-        public Stats(double hp, double def, double atk) {
+        public ItemStats(double hp, double def, double atk) {
             this.hp = hp;
             this.def = def;
             this.atk = atk;
         }
 
+
+        public void addTo(Stats stats) {
+            stats.hp += this.hp;
+            stats.atk += this.atk;
+            stats.def += this.def;
+        }
+
+        public void subtractFrom(Stats stats) {
+            stats.hp -= this.hp;
+            stats.atk -= this.atk;
+            stats.def -= this.def;
+        }
+
+        @Override
         public double getHp() {
             return hp;
         }
 
+        @Override
         public double getDef() {
             return def;
         }
 
+        @Override
         public double getAtk() {
             return atk;
         }

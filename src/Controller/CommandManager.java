@@ -1,30 +1,22 @@
 package Controller;
 
-import Model.Item;
-import Model.ItemReference;
+import Model.*;
+import View.ConsoleTUI;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import Model.Room;
-import Model.Actor;
 
-
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serial;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 import static Controller.Game.state;
 
 public class CommandManager {
+    public String commandEntered = "";
+    public String cmdAttrEntered = "";
     public enum ValidCommand {
         MOVE("Move"),
         SHOW_STATS("Stats"),
@@ -68,22 +60,18 @@ public class CommandManager {
 
 
     public void validateCommand(String expectedCommandInput, String expectedCommandAttr){
-//        Dead Code
-//        Scanner scan = new Scanner(System.in);
-//        System.out.println();
-//        String userInput = scan.nextLine().toUpperCase();
+        commandEntered = expectedCommandInput;
+        cmdAttrEntered = expectedCommandAttr;
+
 
         try{
             ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
             //stream.map not working: TODO: test to see if necessary
             if (validCommandSet.contains(input) || validCommandSet.stream().map(ValidCommand::getCommandInput).anyMatch(cmdName -> cmdName.equalsIgnoreCase(expectedCommandInput))){
-                System.out.println("You performed " + input); // TEMP: Checks if the input is holding the command
+                ConsoleTUI.dotdotdot("Performing \"" + input  + "\""); // TEMP: Checks if the input is holding the command
 
                 runCommand(input.commandInput);
 
-//                Dead Code
-//                ExecutorService executor = Executors.newCachedThreadPool();
-//                Future<Integer> task1 = executor.submit(callable1);
             }
         } catch(IllegalArgumentException e) {
             System.out.println();
@@ -92,28 +80,40 @@ public class CommandManager {
         }
     }
 
-//    public void instCommandCall(String input) {
-//        Callable callable =
-//    }
 
     public void runCommand(String command) throws Exception {
-        System.out.println(String.valueOf(command));
         Method method = Command.class.getMethod(String.valueOf(command).toUpperCase());
         Command command1 = new Command();
         method.invoke(command1);
+        resetCommandInput();
     }
-
-    //TODO: implement checkMode() or isMode()
-//    public void checkMode() {}
-
-
-    //TODO: implement each command method/actions here
-    //TODO: match Command with mode and check
+    public void resetCommandInput() {
+        commandEntered = "";
+        cmdAttrEntered = "";
+    }
 
     public void move(int direction) {
         if (state.getCurrentOutlets()[direction] == -1) {
             System.out.println("You cant go that way!");
             return;
+        }
+        Room nextRoom = state.getRoom(state.getCurrentOutlets()[direction]);
+        ItemReference keyItem = state.getInventory().stream().filter(itemRef -> itemRef.getName().equalsIgnoreCase("key")).findFirst().orElse(null);
+        Actor monster = state.getMonsterInCurrentRoom();
+        if(nextRoom.isLocked()){
+            if (!state.getInventory().contains(keyItem)){
+                System.out.println("This room is locked, you need to find a key.");
+                return;
+            } else if(monster != null){
+                System.out.println("The door is being guarded by a " + monster.getName() + ".");
+                System.out.println("Defeat the monster to get by. (explore)");
+                return;
+            } else{
+                System.out.println("Key item found, you may pass.");
+                System.out.println("Monster has been defeated!");
+                nextRoom.setLocked(false);
+                state.getInventory().remove(keyItem);
+            }
         }
         System.out.print("Moving to a new room... ");
 //        TimeUnit.NANOSECONDS.sleep(1000);
@@ -130,9 +130,6 @@ public class CommandManager {
         System.out.println(" {Player defense} : " + (state.getDefense()));
     }
     public void open_inventory() {
-        //Print inventory if not empty - Print "You didn’t pickup any items yet" if empty
-        //List itemInventory = state.getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
-        //System.out.println("Items: " + ((itemInventory.isEmpty()) ? "You have no items in your inventory" : itemInventory));
         state.displayInventory();
     }
     public void access_map() {
@@ -191,17 +188,26 @@ public class CommandManager {
         System.exit(statusCode);
     }
     public void save() throws Exception {
-        String filePath = "src/test/resources/store/save.txt";
+        String filePath = "save.bin";
 
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(state);
+        objectOutputStream.close();
 
     }
-    //SEBASTIAN: DO NOT MODIFY THIS METHOD
-    public void list(String cmdAttr) {
-        HashMap<Integer, Item> allItems = state.getItems();
+    public State load() throws Exception {
+        String filePath = "save.bin";
 
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        return (State) objectInputStream.readObject();
+    }
+
+
+    // This list logic handles both items and monster list
+    public void list(String cmdAttr) {
+        HashMap<Integer, Item> allItems = state.getIndexOfItems();
         if (cmdAttr.equalsIgnoreCase("items")) {
             if (allItems.isEmpty()) {
                 System.out.println("No items found.");
@@ -242,11 +248,7 @@ public class CommandManager {
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
 
-        ItemReference itemReference = state.getInventory()
-                .stream()
-                .filter(itemRef -> itemRef.getName().equalsIgnoreCase(cmdAttr))
-                .findFirst()
-                .orElse(null);
+        ItemReference itemReference = itemFromInv(cmdAttr);
 
         if (itemReference != null) {
             System.out.println("Found item: " + itemReference.getName());
@@ -272,10 +274,6 @@ public class CommandManager {
             Item item = state.getItem(itemReference.getIndex()); // Retrieve the Item based on the reference
             if (item != null) {
                 itemReference.setItem(item); // Associate the Item with the ItemReference
-
-                // Debug statement to check the association
-                //System.out.println("DEBUG: Picking up '" + item.getName() + "' with ID " + item.getId() + " and Type: " + item.isType());
-
                 state.moveIntoInventory(itemReference);
                 System.out.println("You picked up " + itemReference.getName());
             } else {
@@ -286,31 +284,24 @@ public class CommandManager {
         }
     }
 
-    public void use_item() {
-        Scanner scan = new Scanner(System.in);
+    //Issues with git merge commenting main
+
+
+
+    public void use_item(String cmdAttr) {
+
         state.displayInventory();
-        System.out.println("Enter the name of the item to use: ");
-        String itemName = scan.nextLine();
 
         ItemReference itemRef = state.getInventory()
                 .stream()
-                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .filter(item -> item.getName().equalsIgnoreCase(cmdAttr))
                 .findFirst()
                 .orElse(null);
 
         if (itemRef != null) {
             Item item = itemRef.getItem();
 
-            // Add a null check for the item here
-//            if (item == null) {
-//                System.out.println("DEBUG: No item object associated with the item reference for " + itemName);
-//                return; // Early return to avoid NullPointerException
-//            }
-
-            if (!item.isType()) { // Check if the item is consumable
-                // Existing debug statement and logic
-                // System.out.println("DEBUG: Item details - Name: " + item.getName() + ", Type: " + item.isType() + ", Stats: " + (item.getStats() != null ? item.getStats().toString() : "null"));
-
+            if (!item.isType()) {
                 // Apply the effect of the item
                 useItemEffect(item);
                 if (item.getStats() != null && item.getStats().getHp() > 0) {
@@ -324,65 +315,11 @@ public class CommandManager {
                 System.out.println("The item " + item.getName() + " is not usable. It might be an equippable item.");
             }
         } else {
-            System.out.println("The item " + itemName + " is not in your inventory.");
+            System.out.println("The item " + cmdAttr + " is not in your inventory.");
         }
     }
 
-    public void equip_item () {
-        Scanner scan = new Scanner(System.in);
-        state.displayInventory();
-        System.out.println("Enter the name of the item to equip: ");
-        String itemName = scan.nextLine().trim();  // Trim to remove leading/trailing spaces
 
-        ItemReference itemRef = state.getInventory()
-                .stream()
-                .filter(item -> item.getName().equalsIgnoreCase(itemName))
-                .findFirst()
-                .orElse(null);
-
-        if (itemRef != null) {
-            Item item = itemRef.getItem();
-            if (item != null && item.isType()) { // Check if item is equippable and not null
-                equipItemEffect(item); // Assuming this method sets the equipped item in the player state
-//                System.out.println("Equipped " + item.getName() + ": " + item.getEffect());
-                state.setEquipped(item);
-                state.getInventory().remove(itemRef);
-            } else if (item != null) {
-                System.out.println("Item " + item.getName() + " is not equippable. It's a usable item.");
-            } else {
-                System.out.println("Failed to retrieve item details.");
-            }
-        } else {
-            System.out.println("Item not found in inventory.");
-        }
-    }
-
-    public void unequip(){
-        ItemReference itemRef = new ItemReference(state.getEquipped().getId(), state.getEquipped().getName(), state.getCurrentRoom().getRoomID(), state.getEquipped());
-        state.getInventory().add(itemRef);
-
-        Item.Stats itemStats = state.getEquipped().getStats();
-
-        if (itemStats != null) {
-            // Apply the stats of the item to the player
-            double newHp = state.getHitPoints() - itemStats.getHp();
-            double newAtk = state.getAttack() - itemStats.getAtk();
-            double newDef = state.getDefense() - itemStats.getDef();
-
-            // Update the player's stats
-            state.setHitPoints(newHp);
-            state.setAttack(newAtk);
-            state.setDefense(newDef);
-
-            System.out.println("Equipped " + state.getEquipped().getName() + ". New Stats - HP: " + newHp + ", ATK: " + newAtk + ", DEF: " + newDef);
-        } else {
-            System.out.println("The item " + state.getEquipped().getName() + " has no equippable stats.");
-        }
-
-        state.setEquipped(null);
-
-
-    }
 
     private void useItemEffect(Item item) {
         // Check if the item has a healing effect
@@ -400,7 +337,7 @@ public class CommandManager {
 
     private void equipItemEffect(Item item) {
         // Assuming the Stats class has hp, atk, and def as attributes
-        Item.Stats itemStats = item.getStats();
+        Item.ItemStats itemStats = item.getStats();
 
         if (itemStats != null) {
             // Apply the stats of the item to the player
@@ -429,16 +366,16 @@ public class CommandManager {
         // Does checks for any aspect of using explore, item, puzzle, and monster detection
         if (!itemsInRoom.isEmpty()) {
             System.out.println("Items in the Room: " + itemsInRoom);
-        } else{
+        } else {
             System.out.println("No items are in the room.");
         }
-        if (room.isHasPuzzle()){
+        if (room.isHasPuzzle()) {
             System.out.println("You encounter a puzzle");
             state.roomPuzzle();
-        }else{
+        } else {
             System.out.println("No puzzles are in the room");
         }
-        if (monster!=null) {
+        if (monster != null) {
             System.out.println("A monster approached your presence..." + monster.getName());
             state.combatMode();
         } else {
@@ -446,16 +383,68 @@ public class CommandManager {
         }
     }
 
+    public void equip_item(String cmdAttr) {
+        state.displayInventory();
+        ItemReference itemRef = state.getInventory()
+                .stream()
+                .filter(item -> item.getName().equalsIgnoreCase(cmdAttr))
+                .findFirst()
+                .orElse(null);
+
+        if (itemRef != null) {
+            Item item = itemRef.getItem();
+            if (item != null && item.isType()) { // Check if item is equippable and not null
+                equipItemEffect(item); // Assuming this method sets the equipped item in the player state
+                state.setEquipped(item);
+                state.getInventory().remove(itemRef);
+            } else if (item != null) {
+                System.out.println("Item " + item.getName() + " is not equippable. It's a usable item.");
+            } else {
+                System.out.println("Failed to retrieve item details.");
+            }
+        } else {
+            System.out.println("Item not found in inventory.");
+        }
+    }
+
+    public void unequip(){
+        ItemReference itemRef = new ItemReference(state.getEquipped().getId(), state.getEquipped().getName(), state.getCurrentRoom().getRoomID(), state.getEquipped());
+        state.getInventory().add(itemRef);
+
+        Item.ItemStats itemStats = state.getEquipped().getStats();
+
+        if (itemStats != null) {
+            // Apply the stats of the item to the player
+            double newHp = state.getHitPoints() - itemStats.getHp();
+            double newAtk = state.getAttack() - itemStats.getAtk();
+            double newDef = state.getDefense() - itemStats.getDef();
+
+            // Update the player's stats
+            state.setHitPoints(newHp);
+            state.setAttack(newAtk);
+            state.setDefense(newDef);
+
+            System.out.println("Unequipped " + state.getEquipped().getName() + ". New Stats - HP: " + newHp + ", ATK: " + newAtk + ", DEF: " + newDef);
+        } else {
+            System.out.println("The item " + state.getEquipped().getName() + " has no equippable stats.");
+        }
+
+        state.setEquipped(null);
+
+
+    }
+
     public void examine() {
 
 
 
     }
+
     public void list_monster() {
 
     }
 
-    //Private methods
+    //Private helper methods
     private ItemReference itemFromInv(String itemName) {
         ItemReference itemReference = state.getInventory()
                 .stream()
@@ -465,16 +454,6 @@ public class CommandManager {
 
         return itemReference;
     }
-
-//    private ArrayList<ItemReference> itemsInRoom(String itemName) {
-//        ArrayList itemsInRoom = state.getCurrentRoom()
-//                .getReferredItems()
-//                .values()
-//                .stream().;
-//
-//        return itemsInRoom;
-//    }
-
 
     public class Command {
         //TEMP class full of methods to pass once able
@@ -502,25 +481,23 @@ public class CommandManager {
             quit(0);
         }
 
-        public void SAVE() {
-//            save();
+        public void SAVE() throws Exception {
+            save();
         }
 
         public void DROP(){
-
+            drop_item(cmdAttrEntered);
         }
 
-        public void PICKUP(String cmdAttr) {
-            pickup_item(cmdAttr);
+        public void PICKUP() {
+            pickup_item(cmdAttrEntered);
         }
 
         public void USE() {
-            use_item();
+            use_item(cmdAttrEntered);
         }
 
-        public void EQUIP() {
-            equip_item();
-        }
+        public void EQUIP() {equip_item(cmdAttrEntered);}
 
         public void EXPLORE() {
             explore();
@@ -529,8 +506,8 @@ public class CommandManager {
         public void UNEQUIP() {
             unequip();
         }
-        public void LIST(String cmdAttr) {
-            list(cmdAttr);
+        public void LIST() {
+           list(cmdAttrEntered);
         }
 
     }

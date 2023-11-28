@@ -2,15 +2,21 @@ package Model;
 
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class Puzzle {
+public class Puzzle implements Serializable {
 
     public enum topic {
         Chemistry, History, Health, Math, IT, English, Business, Nursing, Final, All
     }
+
+    private topic currentPuzzleTopic;
+    private String currentQuestion;
+    private String currentAnswer;
     private HashMap<String, ArrayList<PairQA>> QAMap;
 
     public Puzzle(topic puzzletopic) throws Exception {
@@ -69,20 +75,8 @@ public class Puzzle {
     private PairQA mapToPairQA(String question, String answer) {
         return new PairQA(question, answer);
     }
-//    private PairQA mapToPairQA(Object question, Object answer) {
-//        return new PairQA(String.valueOf(question), String.valueOf(answer));
-//    }
-//
-//        private PairQA mapToPairQA(Map.Entry<String, String> entry) {
-//        return new PairQA(entry);
-//    }
-//
-//    private PairQA mapToPairQA(Map.Entry<Object, Object> entry) {
-//        Map.Entry<String, String> stringEntry = Map.Entry.class.cast(entry);
-//        return new PairQA(stringEntry);
-//    }
 
-    public class PairQA { //NOTE: could make final, probably bad idea
+    public class PairQA implements Serializable { //NOTE: could make final, probably bad idea
         private final String question;
         private final String answer;
 
@@ -99,14 +93,9 @@ public class Puzzle {
         public String getAnswer() {
             return answer;
         }
-        public void setSolved() {
-            isSolved = true;
-        }
-
         public void setSolved(boolean solved) {
             isSolved = solved;
         }
-
         public boolean isSolved() {
             return isSolved;
         }
