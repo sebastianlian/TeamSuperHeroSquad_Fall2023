@@ -145,7 +145,7 @@ public class Item implements Serializable {
         return String.valueOf(number);
     }
 
-    public static class ItemStats extends Model.Stats {
+    public static class ItemStats extends Model.Stats implements Serializable {
         //Assumes non-dynamic item stats
         protected final double hp;
         protected final double def;

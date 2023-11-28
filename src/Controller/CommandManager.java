@@ -92,7 +92,6 @@ public class CommandManager {
 //    }
 
     public void runCommand(String command) throws Exception {
-        System.out.println(String.valueOf(command));
         Method method = Command.class.getMethod(String.valueOf(command).toUpperCase());
         Command command1 = new Command();
         method.invoke(command1);
@@ -193,7 +192,7 @@ public class CommandManager {
         System.exit(statusCode);
     }
     public void save() throws Exception {
-        String filePath = "src/test/resources/store/save.txt";
+        String filePath = "save.bin";
 
         FileOutputStream fileOutputStream = new FileOutputStream(filePath);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -202,7 +201,7 @@ public class CommandManager {
 
     }
     public State load() throws Exception {
-        String filePath = "save.txt";
+        String filePath = "save.bin";
 
         FileInputStream fileInputStream = new FileInputStream(filePath);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
