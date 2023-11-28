@@ -21,6 +21,7 @@ public class Game {
     static State state;
     static CommandManager commandManager;
     private ArrayList<String> startingPrompts;
+    //static State populateRandomItem;
 
     //Moved code from console to Game class
 //    public Game () {
@@ -73,7 +74,6 @@ public class Game {
         //First initalize main instance of View (Scanner) and Controller objects
         Scanner scan = new Scanner(System.in);
         commandManager = new CommandManager();
-
         //Load from file or init setup~
         //TODO: user setup for the game
         if (loadFromFile(scan)) {
@@ -85,7 +85,7 @@ public class Game {
             ConsoleTUI.displayStartingPrompts();
             ConsoleTUI.getPlayerName();
 //            ConsoleTUI.getPlayerName(scan);
-            state.loadCharacterData(); //TODO: change all references to the word character to role
+//            state.loadCharacterData(); //TODO: change all references to the word character to role
             //Dead code: only need to pull 1 role
 //            int selectedCharacterId = selectCharacter();
 //            Map<String, Object> selectedCharacter = getSelectedCharacter(selectedCharacterId);
@@ -97,10 +97,65 @@ public class Game {
 //                System.out.println("Invalid character selection.");
 //            }
         }
+//        //FIXME: implement populateRandomItem
+        for (Item item : state.getIndexOfItems().values()) {
+            if (item.getId() <= 60) {
+                ItemReference itemRef = new ItemReference(item.getId(), item.getName(), item.getId());
+                state.populateRandomItem(itemRef);
+            }
+        }
+//        // Initialize randomization for specific items (assuming state.getItems() returns all items)
+//        for (Item item : state.getItems().values()) {
+//            if (item.getId() <= 60) {
+//                ItemReference itemRef = new ItemReference(item.getId(), item.getName(), item.getId());
+//                state.populateRandomItem(itemRef);
+//            }
+//        }
+
+
+
+        //Implement parsePuzzle to create completed Puzzle class (do not pass into State)
+//        parsePuzzle();
+
+        //TODO: user setup for the game
+
+//        Game game = new Game();
+//        game.displayStartingPrompts();
+//        game.getPlayerName();
+//        game.loadCharacterData();
+//        int selectedCharacterId = game.selectCharacter();
+//        Map<String, Object> selectedCharacter = game.getSelectedCharacter(selectedCharacterId);
+//        if (selectedCharacter != null) {
+//            game.dotdotdot("You selected: " + selectedCharacter.get("name"), 300, 1);
+//
+//            Map<String, Object> stats = (Map<String, Object>) selectedCharacter.get("stats");
+//
+//            if (stats != null) {
+//                game.dotdotdot("Stats:", 270, 1);
+//                game.dotdotdot("  HP: " + stats.get("hp"), 270, 1);
+//                game.dotdotdot("  DEF: " + stats.get("def"), 270, 1);
+//                game.dotdotdot("  ATK: " + stats.get("atk"), 270, 1);
+//            } else {
+//                game.dotdotdot("Invalid character selection - stats not found.", 300, 1);
+//            }
+//            game.dotdotdot("Bonus Item: " + selectedCharacter.get("bonusItem"), 300, 1);
+//        } else {
+//            game.dotdotdot("Invalid character selection.", 300, 1);
+//        }
+//        game.dotdotdot("Now let's begin!", 300, 1);
+//        String def = game.state.getRoom(0).getRoomDescription();
+//        System.out.println(def);
+
+
 
         while (state.isRunning()) {
-            //TODO: initial prompt
-            System.out.println("Enter a command: ");
+            //TODO: user setup for the game
+
+
+                //TODO: initial prompt
+                System.out.println("Enter a command: ");
+                System.out.println("Type 'HELP' for list of commands");
+
 
             String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
             String cmdAttr = scan.nextLine().replaceFirst("^\\s+", ""); //consumes the rest of the line and removes first whitespace
@@ -109,7 +164,6 @@ public class Game {
             int[] currentRoomOutlets = state.getCurrentOutlets();
 
             //TODO: failed switch, get it? okay well we'll get rid of this later. Only here for a fallback for non-matching mathod-command pairs
-            //TODO: get rid of this switch
             switch (console) {
                 case "N", "NORTH", "UP":
                     commandManager.move(0);
@@ -130,13 +184,21 @@ public class Game {
                     commandManager.move(2);
 //                    dotdotdot("Moving to a new room", "Arrived within " + state.getRoom(currentRoomOutlets[0]).getName(), 10, 3);
                     break;
+                case "HELP":
+                    commandManager.access_help();
+                    break;
                 case "PICKUP":
                     commandManager.pickup_item(cmdAttr);
                     break;
                 case "DROP":
                     commandManager.drop_item(cmdAttr);
                     break;
-
+                case "USE":
+                    commandManager.use_item();
+                    break;
+//                case "LIST":
+//                    commandManager.list(cmdAttr);
+//                    break;
                 default:
                     commandManager.validateCommand(console, cmdAttr);
             }
@@ -161,9 +223,11 @@ public class Game {
             int itemID = (int) mapping.get("id");
             String itemName = (String) mapping.get("name");
             boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
-//            String itemEffect = (String) mapping.get("effect");
+            String itemEffect = (String) mapping.get("effect");
             String itemDescription = (String) mapping.get("description");
+            int number = (int) mapping.get("number");
             Map<String, Integer> stats = (Map<String, Integer>) mapping.getOrDefault("stats", null);
+            Map<String, Integer> statsMap = (Map<String, Integer>) mapping.get("stats");
 
             Item itemInstance;
             if (stats != null) {
@@ -177,16 +241,36 @@ public class Game {
                         itemID,
                         itemName,
                         itemType,
+                        itemEffect,
                         itemDescription,
+                        number,
                         itemStats
                 );
+
+//                itemInstance = new Item(
+//                        itemID,
+//                        itemName,
+//                        itemType,
+//                        itemDescription,
+//                        itemStats
+//                );
             } else {
+
                 itemInstance = new Item(
                         itemID,
                         itemName,
                         itemType,
-                        itemDescription
+                        itemEffect,
+                        itemDescription,
+                        number
                 );
+
+//                itemInstance = new Item(
+//                        itemID,
+//                        itemName,
+//                        itemType,
+//                        itemDescription
+//                );
             }
 
 //            int quantity = (int) mapping.get("quantity");
@@ -215,7 +299,10 @@ public class Game {
                     (int) mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
-                    (ArrayList<Integer>) mapping.get("items")
+                    (ArrayList<Integer>) mapping.get("items"),
+                    (int) mapping.getOrDefault("attempt",0),
+                    (String)mapping.get("topic"),
+                    (boolean) mapping.getOrDefault("hasPuzzle",false)
             );
 
             Map<Object, Integer> outletMapping = (Map<Object, Integer>) mapping.get("outlets");
@@ -246,15 +333,17 @@ public class Game {
             Map<Object, Object> mapping = (Map<Object, Object>) actor;
 
             int id = (int) mapping.get("id");
-
+            Map<Object, Object> stats = (Map<Object, Object>) mapping.get("stats");
             Actor monsterInstance = new Actor(
 //                    (int)mapping.get("id"),
                     (String) mapping.get("name"),
                     (String) mapping.get("description"),
-                    Double.valueOf((int) mapping.getOrDefault("hp", 0)),
-                    Double.valueOf((int) mapping.getOrDefault("def", 0)),
-                    Double.valueOf((int) mapping.getOrDefault("atk", 0)),
-                    (int) mapping.get("id") //setting monster location using the room id NOT THE startingLocation value
+                    Double.valueOf((int)stats.getOrDefault("hp", 0)),
+                    Double.valueOf((int)stats.getOrDefault("def", 0)),
+                    Double.valueOf((int)stats.getOrDefault("atk", 0)),
+                    (int) mapping.get("location"), //setting monster location using the room id NOT THE startingLocation value
+                    (String) mapping.get("type")
+
             );
 
 //            Map<Object, Integer> outletMapping = (Map<Object, Integer>)mapping.get("outlets");
@@ -270,7 +359,7 @@ public class Game {
         return monsters;
     }
 
-    //TODO: implement parsePuzzle()
+        //TODO: implement parsePuzzle()
 //    public static HashMap<Integer, Actor> parsePuzzle() throws Exception {
 //        // List of monsters.
 //        HashMap<Integer, Actor> puzzles = new HashMap<>();

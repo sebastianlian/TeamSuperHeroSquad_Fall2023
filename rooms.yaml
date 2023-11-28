@@ -6,9 +6,11 @@ rooms:
       Then Suddenly a meteor hits, turning everyone into zombies around you. 
       You try to escape and get hit by the debris of the meteor chunks. 
       You suddenly wake up in what seems to be a destroyed library.
+    explored:
     outlets:
       east: 1
     items:
+
 
   - id: 1
     name: Library 1
@@ -19,6 +21,9 @@ rooms:
       east: 5
       west: 0
     items:
+    attempt: 5
+    topic: English
+    hasPuzzle: True
 
   - id: 2
     name: Library 2
@@ -29,6 +34,9 @@ rooms:
     outlets:
       south: 5
     items:
+    attempt: 5
+    topic: History
+    hasPuzzle: True
 
   - id: 3
     name: Library 3
@@ -43,6 +51,7 @@ rooms:
       west: 5
     items:
 
+
   - id: 4
     name: Library 4
     description: You step into the fourth level, which feels like a time warp. Ancient dusty tomes, some that
@@ -53,6 +62,7 @@ rooms:
       north: 3
     items:
       - 100
+
 
   - id: 5
     name: Library 5 (Zombie Librarian)
@@ -77,6 +87,7 @@ rooms:
     items:
       - 70
 
+
   - id: 6
     name: Science Lab 1
     description: You cautiously enter the first section of the science lab at Grizzly University. Green ooze is
@@ -94,6 +105,9 @@ rooms:
       north: 5
       west: 7
     items:
+    attempt: 4
+    topic: Chemistry
+    hasPuzzle: True
 
   - id: 7
     name: Science Lab 2
@@ -105,6 +119,7 @@ rooms:
       east: 6
       south: 8
     items:
+
 
   - id: 8
     name: Science Lab 3 (Square Z)
@@ -123,8 +138,9 @@ rooms:
       south: 9
     items:
 
+
   - id: 9
-    name: Science Lab 4 (ZTX
+    name: Science Lab 4 (ZTX)
     description: You enter the fourth section of the lab it is a dimly lit room filled with computers, and at the center
       of the chaos sits alone computer with a black screen. Suddenly, a pair of glowing green eyes flicker to life on the
       screen, and a gravelly voice emanates from the computer's speakers.
@@ -139,8 +155,9 @@ rooms:
     items:
       - 100
 
+
   - id: 10
-    name: Science Boss (Professor Z)
+    name: Science Lab 5 Boss (Professor Z)
     description: You're eager to leave the quirky science lab behind, strides confidently towards the exit, daydreaming
       about a hot drink from the Bear's Cafe. However, the sight ahead jolts you back to reality. There, blocking the path,
       is a zombie donning a disheveled scientist coat, scribbling equations furiously on a clipboard.
@@ -157,6 +174,7 @@ rooms:
     items:
       - 80
 
+
   - id: 11
     name: Bear's Cafe 1
     description: With a sigh of relief, you step into the first area of the Bear's Cafe hoping for a much-needed
@@ -169,6 +187,7 @@ rooms:
       west: 10
     items:
 
+
   - id: 12
     name: Bear's Cafe 2
     description: The creaky stairs lead you to the second floor of the Bear's Cafe. As you set foot on the upper level,
@@ -180,6 +199,9 @@ rooms:
       east: 13
       south: 15
     items:
+    attempt: 3
+    topic: Health
+    hasPuzzle: True
 
   - id: 13
     name: Bear's Cafe 3
@@ -193,6 +215,7 @@ rooms:
       north: 14
       west: 12
     items:
+
 
   - id: 14
     name: Bear's Cafe 4 (Dr. Frankizom)
@@ -213,8 +236,9 @@ rooms:
     items:
       - 100
 
+
   - id: 15
-    name: Cafe Boss (Grizzly the Zombie Bear)
+    name: Bear's Cafe 5 Boss (Grizzly the Zombie Bear)
     description: The final floor is in sight, and you feel a rush of hope. All you need to do is cross this last threshold
       to freedom. But as you step onto the floor, a deep, earth-shaking growl fills the room.
     explored: Emerging from the shadows is a massive, decaying version of the school's beloved mascot, Grizzly. His
@@ -241,6 +265,7 @@ rooms:
     items:
       - 90
 
+
   - id: 16
     name: Dean's Lair 1
     description: The ambiance of the Dean's Lair is strikingly different from the rest of the university. The elegant wooden
@@ -265,6 +290,7 @@ rooms:
       west: 17
     items:
 
+
   - id: 17
     name: Dean's Lair 2 (Chief Le Brains)
     description: The second floor is a stark contrast to the elegance of the first. Here, the dimly lit hallways echo with
@@ -288,6 +314,7 @@ rooms:
       east: 16
       south: 19
     items:
+
 
   - id: 18
     name: Dean's Lair 3
@@ -314,6 +341,9 @@ rooms:
       west: 16
       south: 20
     items:
+    attempt: 3
+    topic: Business
+    hasPuzzle: True
 
   - id: 19
     name: Dean's Lair 4
@@ -340,6 +370,7 @@ rooms:
     items:
       - 100
 
+
   - id: 20
     name: Dean (Dean Zombie)
     description: The sanctum is vast and grand, decorated with ancient artifacts and illuminated by a massive chandelier
@@ -353,6 +384,7 @@ rooms:
       north: 18
       east: 21
     items:
+
 
   - id: 21
     name: Exit

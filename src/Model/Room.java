@@ -18,6 +18,9 @@ public class Room implements Serializable {
     private ArrayList<Integer> items;
     protected HashMap<Integer, ItemReference> referredItems = new HashMap<>(); //Integer stands for the item id and the ItemReference refers to the actual item
     private int monsterInRoom;
+    private String topicType;
+    private int puzzleAttempts;
+    private boolean hasPuzzle;
 
     public Room(int id, String roomName, String roomDescription) {
         this.id = id;
@@ -38,6 +41,34 @@ public class Room implements Serializable {
         this.isVisited = false;
         this.items = (items == null) ? new ArrayList<>() : items;
         this.monsterInRoom = 0;
+    }
+
+    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items, int puzzleAttempts, String topicType, boolean hasPuzzle) {
+        this.id = id;
+        this.roomName = roomName; // Initialize roomName
+        this.roomDescription = roomDescription;
+        this.checkedRoom = false;
+        this.isVisited = false;
+        this.items = (items == null) ? new ArrayList<>() : items;
+        this.puzzleAttempts = puzzleAttempts;
+        this.topicType = topicType;
+        this.hasPuzzle = hasPuzzle;
+    }
+
+    public boolean isHasPuzzle(){
+        return hasPuzzle;
+    }
+
+    public void setHasPuzzle(boolean hasPuzzle) {
+        this.hasPuzzle = hasPuzzle;
+    }
+
+    public int getPuzzleAttempts() {
+        return puzzleAttempts;
+    }
+
+    public String getTopicType() {
+        return topicType;
     }
 
     public HashMap<Integer, ItemReference> getReferredItems() {
@@ -64,43 +95,21 @@ public class Room implements Serializable {
 
     public String getMoveRight() { return moveRight; }
 
+
     public ArrayList<Integer> getItems() {
         return items;
     }
 
-    public int getMonsterInRoom() { return monsterInRoom; }
-
-    public void setid(int id) { this.id = id; }
-
-    public void setRoomName(String roomName) { this.roomName = roomName; }
-
-    public void setRoomDescription(String roomDescription) { this.roomDescription = roomDescription; }
-
-    public void setCheckedRoom(boolean checkedRoom) { this.checkedRoom = checkedRoom; }
-
-    public void setMoveUp(String moveUp) { this.moveUp = moveUp; }
-
-    public void setMoveLeft(String moveLeft) { this.moveLeft = moveLeft; }
-
-    public void setMoveDown(String moveDown) { this.moveDown = moveDown; }
-
-    public void setMoveRight(String moveRight) { this.moveRight = moveRight; }
-
-    public void setFirstVisit(boolean bool) {
-        firstVisit = bool;
-    }
-
-    public boolean isFirstVisit() {
-        return firstVisit;
-    }
-
     public void setVisited() { isVisited = true; }
-
-    public boolean isVisited() { return isVisited; }
 
     public void setItems(ArrayList<Integer> items) {
         this.items = items;
     }
+
+    public boolean isVisited() {
+        return isVisited;
+    }
+
 
     public void setMonsterInRoom(int monsterInRoom) { this.monsterInRoom = monsterInRoom; }
 

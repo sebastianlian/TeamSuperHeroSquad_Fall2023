@@ -10,6 +10,7 @@ public class ItemReference implements Serializable {
     //TODO: remove Item. index (id) already matches the id of the Item and are coupled in state
     private Item item; // Reference to an Item object
 
+
     public ItemReference(int index, int position) {
         this.index = index;
         this.position = position;
@@ -47,5 +48,13 @@ public class ItemReference implements Serializable {
         //This item must be in inventory to be used
         state.consumeStats(state.indexedItems.get(index).stats);
         state.getInventory().remove(this);
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

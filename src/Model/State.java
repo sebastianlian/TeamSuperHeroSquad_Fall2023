@@ -1,11 +1,13 @@
 package Model;
 
-import java.io.IOException;
-import java.io.Serializable;
-
+import Controller.Game;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -30,8 +32,10 @@ public class State implements Serializable {
     private MODE gameMode;
     //    protected MonsterReference currentMonster = null;
     protected Room currentRoom, previousRoom;
+    private List<Map<String, Object>> characters;
 
-    //Puzzle init here
+    private Item equipped;
+    private Puzzle puzzle = new Puzzle();
 
 
     // Player Variables
@@ -42,7 +46,7 @@ public class State implements Serializable {
 
     private int position = 0; // FIXME: There must be a 0th room.
     private int characterID; //FIXME: what is character id for?
-    private double hitPoints, maxHitPoints, defense, attack;
+    private double maxHitPoints , hitPoints, defense, attack;
 
     //Aux player variables
     private ItemReference equippedItem = null;
@@ -59,14 +63,11 @@ public class State implements Serializable {
         indexedItems = populateItemIndex.call();
         System.out.println("[DEBUG] Indexed Items: " + indexedItems.size());
 
-        inventory.add(new ItemReference(indexedItems.get(10)));
-
         indexedRooms = populateRooms.call();
         System.out.println("[DEBUG] Indexed Rooms: " + indexedRooms.size());
 
         indexedMonsters = populateMonsters.call();
         System.out.println("[DEBUG] Indexed Monsters: " + indexedMonsters.size());
-
 
         for (Actor monster :
                 indexedMonsters.values()) {
@@ -86,6 +87,32 @@ public class State implements Serializable {
         }
     }
 
+    public double getMaxHitPoints() {
+        return maxHitPoints;
+    }
+
+
+    public void healPlayer(double amount) {
+        this.hitPoints += amount;
+        // Ensure that HP does not exceed maximum HP, if there's a limit
+    }
+
+
+    public Actor getMonsterInCurrentRoom() {
+        int currentRoomId = currentRoom.getRoomID();
+
+        return indexedMonsters.values().stream()
+                .filter(monster -> monster.getCurrentPosition() == currentRoomId)
+                .findFirst()
+                .orElse(null);
+    }
+    public void removeMonster() {
+        Actor monster = getMonsterInCurrentRoom();
+        if (monster != null) {
+            indexedMonsters.values().remove(monster);
+        }
+    }
+
     private void initialPlayerSetup() throws IOException {
         loadCharacterData();
 
@@ -99,6 +126,10 @@ public class State implements Serializable {
     public void setInitalRoom() {
         this.currentRoom = getRoom(position);
         this.currentRoom.setVisited();
+    }
+
+    public HashMap<Room, int[]> getIndexedRooms() {
+        return indexedRooms;
     }
 
     //Getter for Room instances (? <- State)
@@ -132,7 +163,8 @@ public class State implements Serializable {
 
     //Internal (private) method to create ItemReferences and match to Room (State -> State)
     private void createItemRefInstance(int itemId, Room selectRoom) {
-        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID());
+        Item item = indexedItems.get(itemId);
+        ItemReference itemRef = new ItemReference(itemId, indexedItems.get(itemId).getName(), selectRoom.getRoomID(),item);
         selectRoom.referredItems.put(itemId, itemRef);
     }
 
@@ -158,24 +190,20 @@ public class State implements Serializable {
         } else {
             inventory.add(itemRef);
             currentRoom.referredItems.remove(itemRef.getIndex());
+
         }
     }
 
-    //?
     public void replenishHP(double amount) {
         // Ensuring that HP does not exceed the maximum value
         hitPoints = Math.min(hitPoints + amount, 100);
         System.out.println("HP replenished. Current HP: " + hitPoints);
     }
-
-    //?
     public void replenishMaxHP() {
         // Setting HP to the maximum value
         replenishHP(100); //FIXME
         System.out.println("Max HP replenished. Current HP: " + hitPoints);
     }
-
-    //?
     public void takePlayerDamage(double damage) {
         // Ensure that the player's HP doesn't go below 0
         hitPoints = Math.max(hitPoints - damage, 0);
@@ -188,6 +216,7 @@ public class State implements Serializable {
         }
     }
 
+
     public void loadCharacterData() throws IOException {
 
         // Parses YAML file.
@@ -199,7 +228,7 @@ public class State implements Serializable {
 
         Map<String, Object> object = yaml.load(source);
 
-        int roleNum = selectCharacter() - 1 ;
+        int roleNum = selectCharacter() - 1;
 
         // Creates object mappings from YAML data.
         ArrayList<Object> characters = (ArrayList<Object>) object.get("characters");
@@ -221,29 +250,30 @@ public class State implements Serializable {
         for (Integer item :
                 startingRoleItems) {
             startingRoleItemRef.add(new ItemReference(indexedItems.get(item)));
-        }
-        //FIXME role information has not place to go
+//        }
+            //FIXME role information has not place to go
 
-        playerStats = roleStats;
-        inventory.addAll(startingRoleItemRef);
+            playerStats = roleStats;
+            inventory.addAll(startingRoleItemRef);
+        }
     }
 
     //?
-    public int selectCharacter() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Choose your character:");
-        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
-
-//        for (Map<String, Object> character : characters) {
-//            System.out.println(character.get("id") + ". " + character.get("name"));
-//        }
-
-        int selectedId = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
-
-        return selectedId;
-    }
+//    public int selectCharacter() {
+//        Scanner scanner = new Scanner(System.in);
+//
+//        System.out.println("Choose your character:");
+//        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+//
+////        for (Map<String, Object> character : characters) {
+////            System.out.println(character.get("id") + ". " + character.get("name"));
+////        }
+//
+//        int selectedId = scanner.nextInt();
+//        scanner.nextLine(); // Consume the newline character
+//
+//        return selectedId;
+//    }
 
     //Internal (private) method to equip ItemReference (State -> State)
     public void equipItem(ItemReference itemRef) {
@@ -265,33 +295,144 @@ public class State implements Serializable {
         }
     }
 
-    //FIXME: Sebastian implement populateRandomItem
+//    public void populateRandomItem(ItemReference itemRef) {
+//        if (itemRef == null) {
+//            // If itemRef or the item within it is null, place a random item in the room
+//            Random random = new Random();
+//            List<Item> allItems = new ArrayList<>(indexedItems.values());
+//            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
+//
+//            // Select a random item and room
+//            Item randomItem = allItems.get(random.nextInt(allItems.size()));
+//            Room randomRoom = rooms.get(random.nextInt(rooms.size()));
+//
+//            // Create a new ItemReference for the random item and add it to the random room
+//            ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
+//            randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
+//
+//            System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
+//        } else {
+//            // If the item is not null and its ID is less than or equal to 60, proceed as before
+//            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
+//                // Rest of the code to place the specific item
+//            }
+//        }
+//    }
+
+    //FIXME: MUST TAKE INTO ACCOUNT QUANTITY OF AN ITEM AVAILABLE.
     public void populateRandomItem(ItemReference itemRef) {
-        if (itemRef == null) {
-            // If itemRef or the item within it is null, place a random item in the room
-            Random random = new Random();
-            List<Item> allItems = new ArrayList<>(indexedItems.values());
-            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
+        Random random = new Random();
+        List<Item> allItems = new ArrayList<>(indexedItems.values());
+        List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
 
-            // Select a random item and room
-            Item randomItem = allItems.get(random.nextInt(allItems.size()));
-            Room randomRoom = rooms.get(random.nextInt(rooms.size()));
+        // Select a random item and room
+        Item randomItem = allItems.get(random.nextInt(allItems.size()));
+        Room randomRoom = rooms.get(random.nextInt(rooms.size()));
 
-            // Create a new ItemReference for the random item and add it to the random room
-            ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
-            randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
 
-            System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
-        } else {
-            // If the item is not null and its ID is less than or equal to 60, proceed as before
-            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
-                // Rest of the code to place the specific item
-            }
+        while (randomItem.getId() == 100 && !Arrays.asList(4, 9, 14, 19).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
+
+        while (randomItem.getId() == 70 && !Arrays.asList(5).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        while (randomItem.getId() == 80 && !Arrays.asList(10).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        while (randomItem.getId() == 90 && !Arrays.asList(15).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        //ensure that the item is not placed in the starting room or the final room
+        while (randomRoom.getRoomID() == 0 || randomRoom.getRoomID() == 21) {
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+        //
+        while (randomItem.getId() == 100 && !Arrays.asList(2, 3, 6, 7, 8, 11, 12, 13, 16, 17, 18, 20).contains(randomRoom.getRoomID())) {
+            randomItem = allItems.get(random.nextInt(allItems.size()));
+            randomRoom = rooms.get(random.nextInt(rooms.size()));
+        }
+
+
+
+        // Create a new ItemReference for the random item and add it to the random room
+        ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
+        randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
+
+        System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
+        System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
     }
 
+
+    public int selectCharacter() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Choose your character:");
+        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+
+//        for (Map<String, Object> character : characters) {
+//            System.out.println(character.get("id") + ". " + character.get("name"));
+//        }
+
+        int selectedId = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        return selectedId;
+    }
+    public Map<String, Object> getSelectedCharacter(int characterId) {
+        for (Map<String, Object> character : characters) {
+            if ((int) character.get("id") == characterId) {
+                return character;
+            }
+        }
+        return null; // Character not found
+    }
+//
+//    public int selectCharacter() {
+//        Scanner scanner = new Scanner(System.in);
+//
+//        System.out.println("Choose your character:");
+//        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
+//
+//        for (Map<String, Object> character : characters) {
+//            System.out.println(character.get("id") + ". " + character.get("name"));
+//        }
+//
+//        while (true) {
+//            try {
+//                String input = scanner.nextLine();
+//                int selectedId = Integer.parseInt(input); // Convert string input to integer
+//
+//                // Check if the input is a valid character ID
+//                if (selectedId >= 1 && selectedId <= characters.size()) {
+//                    return selectedId;
+//                } else {
+//                    System.out.println("Invalid input. Please enter a valid character ID.");
+//                }
+//            } catch (NumberFormatException e) {
+//                System.out.println("Invalid input. Please enter a number.");
+//            }
+//        }
+//    }
+//
+//    public Map<String, Object> getSelectedCharacter(int characterId) {
+//        for (Map<String, Object> character : characters) {
+//            if ((int) character.get("id") == characterId) {
+//                return character;
+//            }
+//        }
+//        return null; // Character not found
+//    }
     //TODO: refactor these
-    //Player Getters and setters
+    //Getters and setters
     public double getHitPoints() {
         return hitPoints;
     }
@@ -303,10 +444,22 @@ public class State implements Serializable {
     public double getAttack() {
         return attack;
     }
+    public void setHitPoints(double hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public void setDefense(double defense) {
+        this.defense = defense;
+    }
+
+    public void setAttack(double attack) {
+        this.attack = attack;
+    }
 
     public HashSet<ItemReference> getInventory() {
         return inventory;
     }
+
 
     //TODO: all my homies hate getters and setters, so we'll GET rid of these below
 
@@ -340,14 +493,14 @@ public class State implements Serializable {
 
     //(Controller <- State)
     public void displayInventory() {
-//        List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
+        //  List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
         if (inventory.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
             System.out.println("Inventory contains:");
             for (ItemReference itemRef : inventory) {
                 Item item = indexedItems.get(itemRef.getIndex());
-                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
+                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Type: " + item.getIsType() +  ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
             }
         }
     }
@@ -359,10 +512,13 @@ public class State implements Serializable {
 
     }
 
-    public HashMap<Integer, Item> getIndexOfItems() {
-        return indexedItems;
+    public Item getEquipped() {
+        return equipped;
     }
 
+    public void setEquipped(Item equipped) {
+        this.equipped = equipped;
+    }
     public Item getItem(int i) {
         return indexedItems.get(i);
     }
@@ -373,6 +529,70 @@ public class State implements Serializable {
         defense += incomingStats.def;
     }
 
+
+    public void combatMode() {
+        gameMode = MODE.BATTLE;
+
+        Actor monster = getMonsterInCurrentRoom();
+        System.out.println("You are in combat with " + monster.getName());
+        System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
+        System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
+        while (monster.getHitPoints() > 0 && getHitPoints() > 0) {
+            Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
+
+            puzzle.startPuzzleForCombat(monster, randomPuzzle);
+            System.out.println(randomPuzzle.isSolved());
+            if (randomPuzzle.isSolved()) {
+                System.out.println("You attacked the monster!");
+                monster.setHitPoints(monster.getHitPoints() - Math.abs(getAttack() - monster.getDefense()));
+            } else {
+                System.out.println("The monster attacked you");
+                setHitPoints(getHitPoints() - Math.abs(monster.getAttack() - getDefense()));
+                //TODO: implement Passive of the monsters
+            }
+            System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
+            System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
+        }
+        if (monster.getHitPoints() < 0) {
+            removeMonster(); // remove the monster so you don't fight it again
+            System.out.println("You have defeated the monster!");
+        } else if (getHitPoints() < 0) {
+            System.out.println("You will be return to where you last save ");
+            //TODO: implement the load here after they lose.
+        }
+
+
+    }
+    public void roomPuzzle(){
+        Room room = getCurrentRoom();
+        Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(room.getTopicType()));
+        int maxAttempt = room.getPuzzleAttempts();
+        if(room.isHasPuzzle()){
+            for (int i = maxAttempt; i > 0; i--){
+                puzzle.startPuzzleForRoom(room,randomPuzzle);
+                if(randomPuzzle.isSolved()){
+                    System.out.println("you answered it correct!");
+                    room.setHasPuzzle(false);
+                    break;
+                } else{
+                    System.out.println("Wrong! You have " + (i-1) + " attempts left.");
+                }
+            }
+        }
+    }
+
+    //DO NOT DELETE OR MODIFY - for list_item()
+    public HashMap<Integer, Item> getItems() {
+        return indexedItems;
+    }
+    public HashMap<Integer, Actor> getMonsterList(){
+        return indexedMonsters;
+    }
+
+    //DO NOT DELETE OR MODIFY - for populateRandomItem()
+    public HashMap<Integer, Item> getIndexOfItems() {
+        return indexedItems;
+    }
     /*
     FIXME: expected types of methods inside State include:
         Internal access methods (State -> State) [allows the state to work on itself easier]

@@ -8,6 +8,7 @@ characters:
       def: 0
     bonus items:
       - 40
+    bonusItem: Chemical
   - id: 1
     name: Business Major
     description: All rounder character with balanced stats
@@ -19,6 +20,7 @@ characters:
       - 50
       - 50
       - 50
+    bonusItem: Book
   - id: 2
     name: Nurse Major
     description: Survivor with a very high HP but low attack
@@ -28,3 +30,4 @@ characters:
       def: 5
     bonus items:
       - 60
+    bonusItem: Syringe

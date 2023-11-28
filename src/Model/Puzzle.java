@@ -9,7 +9,7 @@ import java.util.*;
 public class Puzzle {
 
     public enum topic {
-        Chemisty, History, Health, Math, IT, English, Business, Nursing, Final, All
+        Chemistry, History, Health, Math, IT, English, Business, Nursing, Final, All
     }
 
     private topic currentPuzzleTopic;
@@ -18,6 +18,9 @@ public class Puzzle {
     private HashMap<String, ArrayList<PairQA>> QAMap;
 
     public Puzzle(topic puzzletopic) throws Exception {
+        QAMap = parsePuzzle();
+    }
+    public Puzzle() throws Exception {
         QAMap = parsePuzzle();
     }
 
@@ -72,49 +75,17 @@ public class Puzzle {
     private PairQA mapToPairQA(String question, String answer) {
         return new PairQA(question, answer);
     }
-    private PairQA mapToPairQA(Object question, Object answer) {
-        return new PairQA(String.valueOf(question), String.valueOf(answer));
-    }
-
-//    private PairQA mapToPairQA(Map.Entry<String, String> entry) {
+//    private PairQA mapToPairQA(Object question, Object answer) {
+//        return new PairQA(String.valueOf(question), String.valueOf(answer));
+//    }
+//
+//        private PairQA mapToPairQA(Map.Entry<String, String> entry) {
 //        return new PairQA(entry);
 //    }
-    private PairQA mapToPairQA(Map.Entry<Object, Object> entry) {
-        Map.Entry<String, String> stringEntry = Map.Entry.class.cast(entry);
-        return new PairQA(stringEntry);
-    }
-
-//    public void randomizedPuzzle(){
-//        int random = (int) (Math.random() * 9);
-//        switch (random){
-//            case 0:
-//                this.puzzletopic = topic.CHEM;
-//                break;
-//            case 1:
-//                this.puzzletopic = topic.HIST;
-//                break;
-//            case 2:
-//                this.puzzletopic = topic.HEALTH;
-//                break;
-//            case 3:
-//                this.puzzletopic = topic.MATH;
-//                break;
-//            case 4:
-//                this.puzzletopic = topic.IT;
-//                break;
-//            case 5:
-//                this.puzzletopic = topic.ENGL;
-//                break;
-//            case 6:
-//                this.puzzletopic = topic.BUSN;
-//                break;
-//            case 7:
-//                this.puzzletopic = topic.NURS;
-//                break;
-//            case 8:
-//                this.puzzletopic = topic.FINAL;
-//                break;
-//        }
+//
+//    private PairQA mapToPairQA(Map.Entry<Object, Object> entry) {
+//        Map.Entry<String, String> stringEntry = Map.Entry.class.cast(entry);
+//        return new PairQA(stringEntry);
 //    }
 
     public class PairQA { //NOTE: could make final, probably bad idea
@@ -147,5 +118,45 @@ public class Puzzle {
         }
 
     }
+
+    public void startPuzzleForCombat(Actor monster, PairQA randomPuzzle) { // Checks the Topic for the Monster
+        topic topicType = topic.valueOf(monster.getType());
+        Scanner console = new Scanner(System.in);
+        if (validateTopic(topicType)) {
+            System.out.println(randomPuzzle.getQuestion());
+            String input = console.nextLine();
+            if (input.equalsIgnoreCase(randomPuzzle.getAnswer())){
+                randomPuzzle.setSolved(true);
+                System.out.println("Correct!");
+            } else {
+                randomPuzzle.setSolved(false);
+                System.out.println("Wrong!");
+            }
+        }
+    }
+    public void startPuzzleForRoom(Room room, PairQA randomPuzzle) { // Checks the Topic for the Monster
+        topic topicType = topic.valueOf(room.getTopicType());
+        Scanner console = new Scanner(System.in);
+        if (validateTopic(topicType)) {
+            System.out.println(randomPuzzle.getQuestion());
+            String input = console.nextLine();
+            if (input.equalsIgnoreCase(randomPuzzle.getAnswer())){
+                randomPuzzle.setSolved(true);
+            } else {
+                randomPuzzle.setSolved(false);
+            }
+        }
+    }
+
+
+    public boolean validateTopic(topic inputTopic) {
+        for (topic validTopic : topic.values()) {
+            if (validTopic == inputTopic) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

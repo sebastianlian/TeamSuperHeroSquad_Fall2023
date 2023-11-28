@@ -6,35 +6,73 @@ public class Item implements Serializable {
     private int id;
     private String name, effect, description;
     private boolean type;
-    private int quantity;
+    private int quantity, number;
     public ItemStats stats;
+    private boolean isEquipped;
 
+    // Updated constructor to match the fields from the YAML file
+    public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats) {
+        this(id, name, type, effect, description, number, stats, false);
 
-    //TODO: get rid of this constructor when parsing method is corrected
-    public Item(int id, String name, boolean type, String description) {
+    }
+
+    public Item(int id, String name, boolean type, String effect, String description, int number) {
+        this(id, name, type, effect, description, number, null, false);
+
+    }
+
+//    public Item(int id, String name, boolean type, String effect, String description, ItemStats stats) {
+//        this.id = id;
+//        this.name = name;
+//        this.effect = effect;
+//        this.description = description;
+//        this.type = type;
+//        this.stats = stats;
+//    }
+
+    public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats, boolean isEquipped) {
         this.id = id;
         this.name = name;
         this.type = type;
-        this.description = description;
-        //  this.quantity = quantity;
-    }
-
-
-    public Item(int id, String name, boolean type, String description, ItemStats stats) {
-        this.id = id;
-        this.name = name;
         this.effect = effect;
         this.description = description;
-        this.type = type;
+        this.number = number;
         this.stats = stats;
+        this.isEquipped = isEquipped;
     }
 
-    public int getId() { return id; }
+    public boolean isEquipped() {
+        return isEquipped;
+    }
 
-    public String getName() { return name; }
+    public void setEquipped(boolean equipped) {
+        isEquipped = equipped;
+    }
 
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isType() {
+        return type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     // Method to list items (assumed functionality)
     public void listItems() {
@@ -42,19 +80,21 @@ public class Item implements Serializable {
         System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
     }
 
-    public String getDescription() { return description; }
-
+//    public String getEffect() {
+//        return effect;
+//    }
+//
 //    public void setDescription(String description) { this.description = description; }
-
-    public boolean isType() {
-        if (type == true) {
-            System.out.println("Equippable");
-        } else {
-            System.out.println("Usable");
-        }
-        return type;
-    }
-
+//
+//    public boolean isType() {
+//        if (type == true) {
+//            System.out.println("Equippable");
+//        } else {
+//            System.out.println("Usable");
+//        }
+//        return type;
+//    }
+//
 //    public void getType(boolean type) {
 //        this.type = type;
 //    }
@@ -63,16 +103,47 @@ public class Item implements Serializable {
 //        this.type = type;
 //    }
 //
-//    public int getQuantity() { return quantity; }
+//    public Stats getStats() {
+//        return stats;
+//    }
+
+//    // Method to simulate picking up an item (increment quantity)
+//    public void pickUp() {
+//        quantity++;
+//    }
 //
-//    public void setQuantity(int quantity) { this.quantity = quantity; }
+//    // Method to simulate equipping an item (assumed functionality)
+//    public void equipItem() {
+//        // Logic to equip an item (details depend on how you want to handle item equipment)
+//        System.out.println("Equipping: " + name);
+//    }
 //
-    public Stats getStats() {
+//    // Method to simulate using an item (decrement quantity)
+//    public void useItem() {
+//        if (quantity > 0) {
+//            quantity--;
+//            // Logic for the item's effect (details depend on the game mechanics)
+//            System.out.println("Using: " + name);
+//        } else {
+//            System.out.println("Cannot use " + name + ". No more left.");
+//        }
+//    }
+
+    public ItemStats getStats() {
         return stats;
     }
 
-    // Additional methods for other interactions can be added here
+    public String getEffect() {
+        return effect;
+    }
 
+    public boolean getIsType() {
+        return type;
+    }
+
+    public String getQuantity() {
+        return String.valueOf(number);
+    }
 
     public static class ItemStats extends Model.Stats {
         //Assumes non-dynamic item stats
