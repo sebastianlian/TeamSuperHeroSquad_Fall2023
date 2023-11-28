@@ -354,16 +354,7 @@ public class CommandManager {
         }
     }
 
-    public void equip_item(String cmdAttr) {
 
-        ItemReference itemRef = itemFromInv(cmdAttr);
-
-        if(state.getItem(itemRef.getIndex()).isType()) {
-            //Check for equippable now set to equippedItem
-            state.equipItem(itemRef);
-            state.getInventory().remove(itemRef); //or inventory.remove(itemRef);
-        }
-    }
 
     private void useItemEffect(Item item) {
         // Check if the item has a healing effect
@@ -438,15 +429,11 @@ public class CommandManager {
         }
     }
 
-    public void equip_item() {
-        Scanner scan = new Scanner(System.in);
+    public void equip_item(String cmdAttr) {
         state.displayInventory();
-        System.out.println("Enter the name of the item to equip: ");
-        String itemName = scan.nextLine().trim();  // Trim to remove leading/trailing spaces
-
         ItemReference itemRef = state.getInventory()
                 .stream()
-                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .filter(item -> item.getName().equalsIgnoreCase(cmdAttr))
                 .findFirst()
                 .orElse(null);
 
@@ -484,7 +471,7 @@ public class CommandManager {
             state.setAttack(newAtk);
             state.setDefense(newDef);
 
-            System.out.println("Equipped " + state.getEquipped().getName() + ". New Stats - HP: " + newHp + ", ATK: " + newAtk + ", DEF: " + newDef);
+            System.out.println("Unequipped " + state.getEquipped().getName() + ". New Stats - HP: " + newHp + ", ATK: " + newAtk + ", DEF: " + newDef);
         } else {
             System.out.println("The item " + state.getEquipped().getName() + " has no equippable stats.");
         }
