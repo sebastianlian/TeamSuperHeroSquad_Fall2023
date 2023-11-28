@@ -108,6 +108,7 @@ rooms:
     attempt: 4
     topic: Chemistry
     hasPuzzle: True
+    locked: True
 
   - id: 7
     name: Science Lab 2
@@ -186,7 +187,7 @@ rooms:
       east: 15
       west: 10
     items:
-
+    locked: True
 
   - id: 12
     name: Bear's Cafe 2
@@ -202,6 +203,7 @@ rooms:
     attempt: 3
     topic: Health
     hasPuzzle: True
+
 
   - id: 13
     name: Bear's Cafe 3
@@ -289,6 +291,7 @@ rooms:
       east: 18
       west: 17
     items:
+    locked: True
 
 
   - id: 17
@@ -404,3 +407,4 @@ rooms:
     outlets:
       west: 21
     items:
+    locked: True

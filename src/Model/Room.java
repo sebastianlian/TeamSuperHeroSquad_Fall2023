@@ -21,6 +21,7 @@ public class Room implements Serializable {
     private String topicType;
     private int puzzleAttempts;
     private boolean hasPuzzle;
+    private boolean isLocked;
 
     public Room(int id, String roomName, String roomDescription) {
         this.id = id;
@@ -43,7 +44,7 @@ public class Room implements Serializable {
         this.monsterInRoom = 0;
     }
 
-    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items, int puzzleAttempts, String topicType, boolean hasPuzzle) {
+    public Room(int id, String roomName, String roomDescription, ArrayList<Integer> items, int puzzleAttempts, String topicType, boolean hasPuzzle,boolean isLocked) {
         this.id = id;
         this.roomName = roomName; // Initialize roomName
         this.roomDescription = roomDescription;
@@ -53,10 +54,18 @@ public class Room implements Serializable {
         this.puzzleAttempts = puzzleAttempts;
         this.topicType = topicType;
         this.hasPuzzle = hasPuzzle;
+        this.isLocked = isLocked;
     }
 
     public boolean isHasPuzzle(){
         return hasPuzzle;
+    }
+
+    public boolean isLocked(){
+        return isLocked;
+    }
+    public void setLocked(boolean isLocked){
+        this.isLocked = isLocked;
     }
 
     public void setHasPuzzle(boolean hasPuzzle) {

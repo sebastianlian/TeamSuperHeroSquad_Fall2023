@@ -74,6 +74,7 @@ public class CommandManager {
             if (validCommandSet.contains(input) || validCommandSet.stream().map(ValidCommand::getCommandInput).anyMatch(cmdName -> cmdName.equalsIgnoreCase(expectedCommandInput))){
                 ConsoleTUI.dotdotdot("Performing \"" + input  + "\""); // TEMP: Checks if the input is holding the command
 
+
                 runCommand(input.commandInput);
 
 //                Dead Code
@@ -116,6 +117,26 @@ public class CommandManager {
             System.out.println("You cant go that way!");
             return;
         }
+        Room nextRoom = state.getRoom(state.getCurrentOutlets()[direction]);
+        ItemReference keyItem = state.getInventory().stream().filter(itemRef -> itemRef.getName().equalsIgnoreCase("key")).findFirst().orElse(null);
+        Actor monster = state.getMonsterInCurrentRoom();
+       if(nextRoom.isLocked()){
+           if (!state.getInventory().contains(keyItem)){
+               System.out.println("This room is locked, you need to find a key.");
+
+               return;
+           } else if(monster != null){
+               System.out.println("The door is being guarded by a " + monster.getName() + ".");
+               System.out.println("Defeat the monster to get by. (explore)");
+               return;
+           } else{
+               System.out.println("Key item found, you may pass.");
+               System.out.println("Monster has been defeated!");
+               nextRoom.setLocked(false);
+               state.getInventory().remove(keyItem);
+           }
+       }
+
         System.out.print("Moving to a new room... ");
 //        TimeUnit.NANOSECONDS.sleep(1000);
         System.out.println("Arrived within " + state.getRoom(state.getCurrentOutlets()[direction]).getRoomName()); // + ((state.getCurrentRoom().isVisited) ? ". Seems familiar..." : ""));
