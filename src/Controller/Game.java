@@ -200,7 +200,6 @@ public class Game {
 //                    commandManager.list(cmdAttr);
 //                    break;
                 default:
-                    System.out.println("Please type a command.");
                     commandManager.validateCommand(console, cmdAttr);
             }
         }
@@ -303,8 +302,7 @@ public class Game {
                     (ArrayList<Integer>) mapping.get("items"),
                     (int) mapping.getOrDefault("attempt",0),
                     (String)mapping.get("topic"),
-                    (boolean) mapping.getOrDefault("hasPuzzle",false),
-                    (boolean) mapping.getOrDefault("locked",false)
+                    (boolean) mapping.getOrDefault("hasPuzzle",false)
             );
 
             Map<Object, Integer> outletMapping = (Map<Object, Integer>) mapping.get("outlets");

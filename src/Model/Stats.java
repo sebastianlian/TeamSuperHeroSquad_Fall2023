@@ -1,8 +1,6 @@
 package Model;
 
-import java.io.Serializable;
-
-public class Stats implements Serializable {
+public class Stats {
     //Assumes non-dynamic item stats
     protected double hp;
     protected double def;

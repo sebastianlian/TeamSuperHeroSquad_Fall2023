@@ -13,6 +13,7 @@ public class Item implements Serializable {
     // Updated constructor to match the fields from the YAML file
     public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats) {
         this(id, name, type, effect, description, number, stats, false);
+
     }
 
     public Item(int id, String name, boolean type, String effect, String description, int number) {
@@ -144,19 +145,11 @@ public class Item implements Serializable {
         return String.valueOf(number);
     }
 
-<<<<<<< Updated upstream
     public static class ItemStats extends Model.Stats {
         //Assumes non-dynamic item stats
         protected final double hp;
         protected final double def;
         protected final double atk;
-=======
-    // Stats inner class
-    public static class Stats implements Serializable {
-        public final double hp;
-        public  final double def;
-        public  final double atk;
->>>>>>> Stashed changes
 
         public ItemStats(double hp, double def, double atk) {
             this.hp = hp;

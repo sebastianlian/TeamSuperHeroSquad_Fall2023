@@ -2,12 +2,11 @@ package Model;
 
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class Puzzle implements Serializable {
+public class Puzzle {
 
     public enum topic {
         Chemistry, History, Health, Math, IT, English, Business, Nursing, Final, All
@@ -89,7 +88,7 @@ public class Puzzle implements Serializable {
 //        return new PairQA(stringEntry);
 //    }
 
-    public class PairQA implements Serializable { //NOTE: could make final, probably bad idea
+    public class PairQA { //NOTE: could make final, probably bad idea
         private final String question;
         private final String answer;
 
