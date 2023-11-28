@@ -450,7 +450,7 @@ public class CommandManager {
         }
     }
 
-    public void equip_item(String cmdAttr) {
+    public void equip_item() {
         Scanner scan = new Scanner(System.in);
         state.displayInventory();
         System.out.println("Enter the name of the item to equip: ");
@@ -580,7 +580,7 @@ public class CommandManager {
         }
 
         public void EQUIP() {
-            equip_item(cmdAttrEntered);
+            equip_item();
         }
 
         public void EXPLORE() {
