@@ -7,9 +7,8 @@ rooms:
       You try to escape and get hit by the debris of the meteor chunks. 
       You suddenly wake up in what seems to be a destroyed library.
     outlets:
-      north: 1
+      east: 1
     items:
-      - 70
 
   - id: 1
     name: Library 1
@@ -20,7 +19,6 @@ rooms:
       east: 5
       west: 0
     items:
-      - 80
 
   - id: 2
     name: Library 2
@@ -42,6 +40,7 @@ rooms:
       help but chuckle as you navigate the playful barricade.
     outlets:
       south: 4
+      west: 5
     items:
 
   - id: 4
@@ -92,6 +91,7 @@ rooms:
       A sign, half submerged in the ooze, reads - "Chem 101 'Glow-in-the-dark' slime experiment - Results...unexpected.
       Do not eat!"
     outlets:
+      north: 5
       west: 7
     items:
 
@@ -118,6 +118,7 @@ rooms:
       Seeing you, the zombie groans and points at an equation. "Ugh...Can't... solve...Pythagorean theorem... Need...
       BRAAAAINS... or maybe a calculator."
     outlets:
+      north: 7
       east: 10
       south: 9
     items:
@@ -190,8 +191,8 @@ rooms:
       counter tops, their contents now solidified mid-spill, creating beautiful coffee-colored ice sculptures.
     outlets:
       north: 14
+      west: 12
     items:
-      - 100
 
   - id: 14
     name: Bear's Cafe 4 (Dr. Frankizom)
@@ -349,6 +350,7 @@ rooms:
       "Ah, the intrepid student," the Dean rasps, his voice echoing through the chamber. "You've navigated the treacherous
       floors of my lair. Impressive. But did you truly think it would be that easy to confront me?"
     outlets:
+      north: 18
       east: 21
     items:
 

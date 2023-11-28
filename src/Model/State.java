@@ -2,18 +2,13 @@ package Model;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 
 import org.yaml.snakeyaml.Yaml;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.Callable;
 
 enum MODE {
     //FIXME: Temp enum to discern mode until permanent way decided
@@ -41,7 +36,8 @@ public class State implements Serializable {
 
     // Player Variables
     private Actor player; //We don't want our player to be an Actor TODO: remove and replace with a proper stats
-//    private ArrayList<ItemReference> inventory;
+    //    private ArrayList<ItemReference> inventory;
+    //TODO: consider implementing as LinkedHashSet
     private HashSet<ItemReference> inventory;
 
     private int position = 0; // FIXME: There must be a 0th room.
@@ -269,6 +265,31 @@ public class State implements Serializable {
         }
     }
 
+    //FIXME: Sebastian implement populateRandomItem
+    public void populateRandomItem(ItemReference itemRef) {
+        if (itemRef == null) {
+            // If itemRef or the item within it is null, place a random item in the room
+            Random random = new Random();
+            List<Item> allItems = new ArrayList<>(indexedItems.values());
+            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
+
+            // Select a random item and room
+            Item randomItem = allItems.get(random.nextInt(allItems.size()));
+            Room randomRoom = rooms.get(random.nextInt(rooms.size()));
+
+            // Create a new ItemReference for the random item and add it to the random room
+            ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
+            randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
+
+            System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
+        } else {
+            // If the item is not null and its ID is less than or equal to 60, proceed as before
+            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
+                // Rest of the code to place the specific item
+            }
+        }
+    }
+
     //TODO: refactor these
     //Player Getters and setters
     public double getHitPoints() {
@@ -319,12 +340,15 @@ public class State implements Serializable {
 
     //(Controller <- State)
     public void displayInventory() {
-        List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
+//        List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
         if (inventory.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
             System.out.println("Inventory contains:");
-            System.out.println(itemInInventory);
+            for (ItemReference itemRef : inventory) {
+                Item item = indexedItems.get(itemRef.getIndex());
+                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
+            }
         }
     }
 

@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
     private int id;
-    private String name;
-    private String effect;
-    private String description;
+    private String name, effect, description;
     private boolean type;
     private int quantity;
     public ItemStats stats;
@@ -33,18 +31,10 @@ public class Item implements Serializable {
 
     public int getId() { return id; }
 
-
-    public void setId(int id) { this.id = id; }
-
-
     public String getName() { return name; }
 
 
     public void setName(String name) { this.name = name; }
-
-
-
-    public boolean isType() { return type; }
 
     // Method to list items (assumed functionality)
     public void listItems() {
@@ -52,30 +42,38 @@ public class Item implements Serializable {
         System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
     }
 
-    // Method to simulate picking up an item (increment quantity)
-    public void pickUp() {
-        quantity++;
-    }
+    public String getDescription() { return description; }
 
-    // Method to simulate equipping an item (assumed functionality)
-    public void equipItem() {
-        // Logic to equip an item (details depend on how you want to handle item equipment)
-        System.out.println("Equipping: " + name);
-    }
+//    public void setDescription(String description) { this.description = description; }
 
-    // Method to simulate using an item (decrement quantity)
-    public void useItem() {
-        if (quantity > 0) {
-            quantity--;
-            // Logic for the item's effect (details depend on the game mechanics)
-            System.out.println("Using: " + name);
+    public boolean isType() {
+        if (type == true) {
+            System.out.println("Equippable");
         } else {
-            System.out.println("Cannot use " + name + ". No more left.");
+            System.out.println("Usable");
         }
+        return type;
     }
 
+//    public void getType(boolean type) {
+//        this.type = type;
+//    }
+//
+//    public void setType(boolean type) {
+//        this.type = type;
+//    }
+//
+//    public int getQuantity() { return quantity; }
+//
+//    public void setQuantity(int quantity) { this.quantity = quantity; }
+//
+    public Stats getStats() {
+        return stats;
+    }
 
     // Additional methods for other interactions can be added here
+
+
     public static class ItemStats extends Model.Stats {
         //Assumes non-dynamic item stats
         protected final double hp;

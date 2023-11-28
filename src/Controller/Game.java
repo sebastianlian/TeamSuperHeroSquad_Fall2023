@@ -1,20 +1,44 @@
 package Controller;
 
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import Model.*;
 import View.ConsoleTUI;
+import Model.Actor;
 import org.yaml.snakeyaml.Yaml;
+
+import Model.Room;
+import Model.State;
+import Model.Item;
 
 public class Game {
 
     static State state;
     static CommandManager commandManager;
+    private ArrayList<String> startingPrompts;
 
     //Moved code from console to Game class
-    public Game() {
+//    public Game () {
+//        startingPrompts = new ArrayList<>();
+//        //Add starting prompts here
+//        startingPrompts.add("-----------------------------------------");
+//        startingPrompts.add("Welcome to Grizzly Survival!");
+//        startingPrompts.add("-----------------------------------------");
+//        startingPrompts.add("You just recently got accepted by Grizzly University " +
+//                "and you're starting out your first semester as a student. ");
+//        startingPrompts.add("-----------------------------------------");
+//
+//    }
+    public void  getPlayerName() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter your character's name: ");
+        String playerName = scan.nextLine();
+        System.out.println("Hello, " + playerName + "! Let's start your adventure.");
     }
 
     public static boolean loadFromFile(Scanner scan) throws Exception {
@@ -24,6 +48,11 @@ public class Game {
 
         return (scan.nextLine().equals("1"));
     }
+//    public void displayStartingPrompts() {
+//        for (String prompt : startingPrompts) {
+//            dotdotdot(prompt, 300, 1); // Adjust the duration and number of dots as needed
+//        }
+//    }
 
 
     // Call methods from State class
@@ -70,6 +99,7 @@ public class Game {
         }
 
         while (state.isRunning()) {
+            //TODO: initial prompt
             System.out.println("Enter a command: ");
 
             String console = scan.next().toUpperCase(); //FIXME: remove toUpperCase() after all comparisons ignore caps
@@ -131,6 +161,7 @@ public class Game {
             int itemID = (int) mapping.get("id");
             String itemName = (String) mapping.get("name");
             boolean itemType = ((int) mapping.get("type") == 1); //returns true or false based on type number
+//            String itemEffect = (String) mapping.get("effect");
             String itemDescription = (String) mapping.get("description");
             Map<String, Integer> stats = (Map<String, Integer>) mapping.getOrDefault("stats", null);
 
@@ -164,6 +195,7 @@ public class Game {
 
         return itemIndex;
     }
+
 
     public static HashMap<Room, int[]> parseRooms() throws Exception {
         // List of rooms.

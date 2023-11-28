@@ -7,9 +7,7 @@ import View.ConsoleTUI;
 
 import java.io.*;
 import java.lang.reflect.Method;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import static Controller.Game.state;
 
@@ -53,7 +51,9 @@ public class CommandManager {
         }
     }
 
+
     private final static EnumSet<ValidCommand> validCommandSet = EnumSet.allOf(ValidCommand.class);
+
 
     public void validateCommand(String expectedCommandInput, String expectedCommandAttr){
         commandEntered = expectedCommandInput;
@@ -88,6 +88,7 @@ public class CommandManager {
 //    }
 
     public void runCommand(String command) throws Exception {
+        System.out.println(String.valueOf(command));
         Method method = Command.class.getMethod(String.valueOf(command).toUpperCase());
         Command command1 = new Command();
         method.invoke(command1);
@@ -114,6 +115,7 @@ public class CommandManager {
         System.out.print("Moving to a new room... ");
 //        TimeUnit.NANOSECONDS.sleep(1000);
         System.out.println("Arrived within " + state.getRoom(state.getCurrentOutlets()[direction]).getRoomName()); // + ((state.getCurrentRoom().isVisited) ? ". Seems familiar..." : ""));
+
         state.setCurrentRoom(state.getCurrentOutlets()[direction]);
 //        if (state.getCurrentRoom().isFirstVisit()) {
 //            System.out.println("The room seems vaguely familiar...");
@@ -181,7 +183,26 @@ public class CommandManager {
         FileInputStream fileInputStream = new FileInputStream(filePath);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         return (State) objectInputStream.readObject();
+    }
 
+    //TODO: Sebastian implement list_item() method
+    public void list_item() {
+        HashMap<Integer, Item> allItems = state.getIndexOfItems(); //FIXME: indexOfItems is not the items in inventory, but all items possible
+        HashSet<ItemReference> inventory = state.getInventory();
+
+        if (allItems.isEmpty()) {
+            System.out.println("No items found.");
+        } else {
+            System.out.println("__________________________________________________________");
+            System.out.println("All items:");
+            for (Item item : allItems.values()) {
+                System.out.println("Item ID: " + item.getId());
+                System.out.println("Name: " + item.getName());
+//                System.out.println("Effect: " + item.getEffect());
+                System.out.println("Description: " + item.getDescription());
+                System.out.println("__________________________________________________________");
+            }
+        }
     }
     public void drop_item(String cmdAttr){
         System.out.println("Attempting to drop item: " + cmdAttr);
@@ -196,6 +217,8 @@ public class CommandManager {
             System.out.println("The item is not in your inventory.");
         }
     }
+
+
     public void pickup_item(String cmdAttr) {
             System.out.println("Attempting to pick up item: " + cmdAttr);
 
@@ -215,7 +238,15 @@ public class CommandManager {
                 System.out.println("The item is not in the current room.");
             }
         }
+
     public void use_item(String cmdAttr) {
+//        if (itemsInInventory.isEmpty()) {
+//            System.out.println("You have no items in your inventory nothing can be used.");
+//            // return;
+//        } else {
+//            return;
+//        }
+
         ItemReference itemRef = itemFromInv(cmdAttr);
         Item selectItem = state.getItem(itemRef.getIndex());
 
@@ -243,11 +274,13 @@ public class CommandManager {
         System.out.println("Items in the Room: " + itemsInRoom);
 
     }
+
     public void examine() {
 
 
 
     }
+
     public void list_monster() {
 
     }
@@ -271,6 +304,8 @@ public class CommandManager {
 //
 //        return itemsInRoom;
 //    }
+
+
     public class Command {
         //TEMP class full of methods to pass once able
         public void MOVE() {
@@ -319,6 +354,10 @@ public class CommandManager {
 
         public void EXPLORE() {
             explore();
+        }
+
+        public void LIST() {
+            list_item();
         }
 
     }
