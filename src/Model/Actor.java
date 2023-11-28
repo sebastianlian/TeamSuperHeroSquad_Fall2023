@@ -65,13 +65,4 @@ public class Actor implements Serializable {
         return attack;
     }
 
-    public void setAttack(double attack) {
-        this.attack = attack;
-        this.startingPosition = currentPosition = startingPosition;
-    }
-
-    public void takeDamage(double damageTaken) {
-        hitPoints -= damageTaken;
-    }
-
 }

@@ -21,15 +21,6 @@ public class Item implements Serializable {
 
     }
 
-//    public Item(int id, String name, boolean type, String effect, String description, ItemStats stats) {
-//        this.id = id;
-//        this.name = name;
-//        this.effect = effect;
-//        this.description = description;
-//        this.type = type;
-//        this.stats = stats;
-//    }
-
     public Item(int id, String name, boolean type, String effect, String description, int number, ItemStats stats, boolean isEquipped) {
         this.id = id;
         this.name = name;
@@ -39,14 +30,6 @@ public class Item implements Serializable {
         this.number = number;
         this.stats = stats;
         this.isEquipped = isEquipped;
-    }
-
-    public boolean isEquipped() {
-        return isEquipped;
-    }
-
-    public void setEquipped(boolean equipped) {
-        isEquipped = equipped;
     }
 
     // Getters and setters
@@ -74,60 +57,6 @@ public class Item implements Serializable {
         this.description = description;
     }
 
-    // Method to list items (assumed functionality)
-    public void listItems() {
-        // Logic to list items (e.g., printing item details to the console)
-        System.out.println(id + ": " + name + " - " + description + " (Quantity: " + quantity + ")");
-    }
-
-//    public String getEffect() {
-//        return effect;
-//    }
-//
-//    public void setDescription(String description) { this.description = description; }
-//
-//    public boolean isType() {
-//        if (type == true) {
-//            System.out.println("Equippable");
-//        } else {
-//            System.out.println("Usable");
-//        }
-//        return type;
-//    }
-//
-//    public void getType(boolean type) {
-//        this.type = type;
-//    }
-//
-//    public void setType(boolean type) {
-//        this.type = type;
-//    }
-//
-//    public Stats getStats() {
-//        return stats;
-//    }
-
-//    // Method to simulate picking up an item (increment quantity)
-//    public void pickUp() {
-//        quantity++;
-//    }
-//
-//    // Method to simulate equipping an item (assumed functionality)
-//    public void equipItem() {
-//        // Logic to equip an item (details depend on how you want to handle item equipment)
-//        System.out.println("Equipping: " + name);
-//    }
-//
-//    // Method to simulate using an item (decrement quantity)
-//    public void useItem() {
-//        if (quantity > 0) {
-//            quantity--;
-//            // Logic for the item's effect (details depend on the game mechanics)
-//            System.out.println("Using: " + name);
-//        } else {
-//            System.out.println("Cannot use " + name + ". No more left.");
-//        }
-//    }
 
     public ItemStats getStats() {
         return stats;

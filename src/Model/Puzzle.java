@@ -50,8 +50,6 @@ public class Puzzle implements Serializable {
                 PairQA pairQA = mapToPairQA((String) puzzleMapping.get("question"),
                         (String) puzzleMapping.get("answer"));
                 puzzleEntries.add(pairQA);
-//                System.out.println(mapping.get("question"));
-//                System.out.println(mapping.get("answer"));
             }
 
             allPuzzles.put(topicString, puzzleEntries);
@@ -77,18 +75,6 @@ public class Puzzle implements Serializable {
     private PairQA mapToPairQA(String question, String answer) {
         return new PairQA(question, answer);
     }
-//    private PairQA mapToPairQA(Object question, Object answer) {
-//        return new PairQA(String.valueOf(question), String.valueOf(answer));
-//    }
-//
-//        private PairQA mapToPairQA(Map.Entry<String, String> entry) {
-//        return new PairQA(entry);
-//    }
-//
-//    private PairQA mapToPairQA(Map.Entry<Object, Object> entry) {
-//        Map.Entry<String, String> stringEntry = Map.Entry.class.cast(entry);
-//        return new PairQA(stringEntry);
-//    }
 
     public class PairQA implements Serializable { //NOTE: could make final, probably bad idea
         private final String question;
@@ -110,11 +96,6 @@ public class Puzzle implements Serializable {
         public void setSolved(boolean solved) {
             isSolved = solved;
         }
-
-        public void setSolved() {
-            isSolved = true;
-        }
-
         public boolean isSolved() {
             return isSolved;
         }

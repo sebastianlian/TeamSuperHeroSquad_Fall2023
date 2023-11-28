@@ -63,10 +63,6 @@ public class CommandManager {
         commandEntered = expectedCommandInput;
         cmdAttrEntered = expectedCommandAttr;
 
-//        Dead Code
-//        Scanner scan = new Scanner(System.in);
-//        System.out.println();
-//        String userInput = scan.nextLine().toUpperCase();
 
         try{
             ValidCommand input = ValidCommand.valueOf(expectedCommandInput);
@@ -76,9 +72,6 @@ public class CommandManager {
 
                 runCommand(input.commandInput);
 
-//                Dead Code
-//                ExecutorService executor = Executors.newCachedThreadPool();
-//                Future<Integer> task1 = executor.submit(callable1);
             }
         } catch(IllegalArgumentException e) {
             System.out.println();
@@ -87,9 +80,6 @@ public class CommandManager {
         }
     }
 
-//    public void instCommandCall(String input) {
-//        Callable callable =
-//    }
 
     public void runCommand(String command) throws Exception {
         Method method = Command.class.getMethod(String.valueOf(command).toUpperCase());
@@ -102,18 +92,28 @@ public class CommandManager {
         cmdAttrEntered = "";
     }
 
-
-    //TODO: implement checkMode() or isMode()
-//    public void checkMode() {}
-
-
-    //TODO: implement each command method/actions here
-    //TODO: match Command with mode and check
-
     public void move(int direction) {
         if (state.getCurrentOutlets()[direction] == -1) {
             System.out.println("You cant go that way!");
             return;
+        }
+        Room nextRoom = state.getRoom(state.getCurrentOutlets()[direction]);
+        ItemReference keyItem = state.getInventory().stream().filter(itemRef -> itemRef.getName().equalsIgnoreCase("key")).findFirst().orElse(null);
+        Actor monster = state.getMonsterInCurrentRoom();
+        if(nextRoom.isLocked()){
+            if (!state.getInventory().contains(keyItem)){
+                System.out.println("This room is locked, you need to find a key.");
+                return;
+            } else if(monster != null){
+                System.out.println("The door is being guarded by a " + monster.getName() + ".");
+                System.out.println("Defeat the monster to get by. (explore)");
+                return;
+            } else{
+                System.out.println("Key item found, you may pass.");
+                System.out.println("Monster has been defeated!");
+                nextRoom.setLocked(false);
+                state.getInventory().remove(keyItem);
+            }
         }
         System.out.print("Moving to a new room... ");
 //        TimeUnit.NANOSECONDS.sleep(1000);
@@ -130,9 +130,6 @@ public class CommandManager {
         System.out.println(" {Player defense} : " + (state.getDefense()));
     }
     public void open_inventory() {
-        //Print inventory if not empty - Print "You didn’t pickup any items yet" if empty
-        //List itemInventory = state.getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
-        //System.out.println("Items: " + ((itemInventory.isEmpty()) ? "You have no items in your inventory" : itemInventory));
         state.displayInventory();
     }
     public void access_map() {
@@ -164,7 +161,6 @@ public class CommandManager {
         System.out.println("\n==============================\n");
     }
     public void access_help() {
-//        System.out.println(validCommandSet);
         try {
             Path yamlFilePath = Paths.get("commands.yaml");
             InputStream input = Files.newInputStream(yamlFilePath);
@@ -208,12 +204,11 @@ public class CommandManager {
         return (State) objectInputStream.readObject();
     }
 
-    //TODO: Sebastian implement list_item() method
-    public void list_item() {
-        HashMap<Integer, Item> allItems = state.getIndexOfItems(); //FIXME: indexOfItems is not the items in inventory, but all items possible
-        HashSet<ItemReference> inventory = state.getInventory();
 
-        if (cmdAttrEntered.equalsIgnoreCase("items")) {
+    // This list logic handles both items and monster list
+    public void list(String cmdAttr) {
+        HashMap<Integer, Item> allItems = state.getIndexOfItems();
+        if (cmdAttr.equalsIgnoreCase("items")) {
             if (allItems.isEmpty()) {
                 System.out.println("No items found.");
             } else {
@@ -227,7 +222,7 @@ public class CommandManager {
                     System.out.println("__________________________________________________________");
                 }
             }
-        } else if(commandEntered.equalsIgnoreCase("monsters")) {
+        } else if(cmdAttr.equalsIgnoreCase("monsters")) {
             HashMap<Integer, Actor> allMonster = state.getMonsterList();
 
             if (allMonster.isEmpty()) {
@@ -279,10 +274,6 @@ public class CommandManager {
             Item item = state.getItem(itemReference.getIndex()); // Retrieve the Item based on the reference
             if (item != null) {
                 itemReference.setItem(item); // Associate the Item with the ItemReference
-
-                // Debug statement to check the association
-                //System.out.println("DEBUG: Picking up '" + item.getName() + "' with ID " + item.getId() + " and Type: " + item.isType());
-
                 state.moveIntoInventory(itemReference);
                 System.out.println("You picked up " + itemReference.getName());
             } else {
@@ -294,48 +285,23 @@ public class CommandManager {
     }
 
     //Issues with git merge commenting main
+
+
+
     public void use_item(String cmdAttr) {
-//        if (itemsInInventory.isEmpty()) {
-//            System.out.println("You have no items in your inventory nothing can be used.");
-//            // return;
-//        } else {
-//            return;
-//        }
 
-        ItemReference itemRef = itemFromInv(cmdAttr);
-        Item selectItem = state.getItem(itemRef.getIndex());
-
-        if(!selectItem.isType()) {
-            state.consumeStats(selectItem.stats);
-        }
-    }
-
-
-    public void use_item() {
-        Scanner scan = new Scanner(System.in);
         state.displayInventory();
-        System.out.println("Enter the name of the item to use: ");
-        String itemName = scan.nextLine();
 
         ItemReference itemRef = state.getInventory()
                 .stream()
-                .filter(item -> item.getName().equalsIgnoreCase(itemName))
+                .filter(item -> item.getName().equalsIgnoreCase(cmdAttr))
                 .findFirst()
                 .orElse(null);
 
         if (itemRef != null) {
             Item item = itemRef.getItem();
 
-            // Add a null check for the item here
-//            if (item == null) {
-//                System.out.println("DEBUG: No item object associated with the item reference for " + itemName);
-//                return; // Early return to avoid NullPointerException
-//            }
-
-            if (!item.isType()) { // Check if the item is consumable
-                // Existing debug statement and logic
-                // System.out.println("DEBUG: Item details - Name: " + item.getName() + ", Type: " + item.isType() + ", Stats: " + (item.getStats() != null ? item.getStats().toString() : "null"));
-
+            if (!item.isType()) {
                 // Apply the effect of the item
                 useItemEffect(item);
                 if (item.getStats() != null && item.getStats().getHp() > 0) {
@@ -349,7 +315,7 @@ public class CommandManager {
                 System.out.println("The item " + item.getName() + " is not usable. It might be an equippable item.");
             }
         } else {
-            System.out.println("The item " + itemName + " is not in your inventory.");
+            System.out.println("The item " + cmdAttr + " is not in your inventory.");
         }
     }
 
@@ -391,17 +357,6 @@ public class CommandManager {
     }
 
 
-//Git merge
-//    public void explore() {
-//        List itemsInRoom = state.getCurrentRoom()
-//                .getReferredItems()
-//                .values()
-//                .stream()
-//                .map(ItemReference::getName)
-//                .collect(Collectors.toList());
-//        System.out.println("Items in the Room: " + itemsInRoom);
-//
-//    }
 
     public void explore() {
         List itemsInRoom = state.getCurrentRoom().getReferredItems().values().stream().map(ItemReference::getName).collect(Collectors.toList());
@@ -440,7 +395,6 @@ public class CommandManager {
             Item item = itemRef.getItem();
             if (item != null && item.isType()) { // Check if item is equippable and not null
                 equipItemEffect(item); // Assuming this method sets the equipped item in the player state
-//                System.out.println("Equipped " + item.getName() + ": " + item.getEffect());
                 state.setEquipped(item);
                 state.getInventory().remove(itemRef);
             } else if (item != null) {
@@ -501,16 +455,6 @@ public class CommandManager {
         return itemReference;
     }
 
-//    private ArrayList<ItemReference> itemsInRoom(String itemName) {
-//        ArrayList itemsInRoom = state.getCurrentRoom()
-//                .getReferredItems()
-//                .values()
-//                .stream().;
-//
-//        return itemsInRoom;
-//    }
-
-
     public class Command {
         //TEMP class full of methods to pass once able
         public void MOVE() {
@@ -553,9 +497,7 @@ public class CommandManager {
             use_item(cmdAttrEntered);
         }
 
-        public void EQUIP() {
-            equip_item(cmdAttrEntered);
-        }
+        public void EQUIP() {equip_item(cmdAttrEntered);}
 
         public void EXPLORE() {
             explore();
@@ -564,12 +506,8 @@ public class CommandManager {
         public void UNEQUIP() {
             unequip();
         }
-        public void LIST(String cmdAttr) {
-            if (cmdAttr.equalsIgnoreCase("monsters")) {
-                list_monster();
-            } else if(cmdAttr.equalsIgnoreCase("items")) {
-                list_item();
-            }
+        public void LIST() {
+           list(cmdAttrEntered);
         }
 
     }

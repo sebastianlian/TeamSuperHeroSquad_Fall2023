@@ -39,13 +39,10 @@ public class State implements Serializable {
 
 
     // Player Variables
-    private Actor player; //We don't want our player to be an Actor TODO: remove and replace with a proper stats
-    //    private ArrayList<ItemReference> inventory;
-    //TODO: consider implementing as LinkedHashSet
+    private Actor player;
     private HashSet<ItemReference> inventory;
-
-    private int position = 0; // FIXME: There must be a 0th room.
-    private int characterID; //FIXME: what is character id for?
+    private int position = 0;
+    private int characterID;
     private double maxHitPoints , hitPoints, defense, attack;
 
     //Aux player variables
@@ -81,9 +78,6 @@ public class State implements Serializable {
         for (Room room : indexedRooms.keySet()) {
             //TODO: replace foreach with iterators and create references for each object related to rooms
             room.getItems().forEach((itemInput) -> createItemRefInstance(itemInput, room));
-//            room.getMonsters().forEach((monsterInput) -> createMonsterRefInstance(monsterInput, room, indexedMonsters.values().stream().filter(e -> e.getId() == monsterInput).reduce((mon, mon2) -> {
-//                throw new IllegalStateException("Multiple elements: " + mon + ", " + mon2);
-//            }).get()));
         }
     }
 
@@ -94,7 +88,6 @@ public class State implements Serializable {
 
     public void healPlayer(double amount) {
         this.hitPoints += amount;
-        // Ensure that HP does not exceed maximum HP, if there's a limit
     }
 
 
@@ -258,22 +251,6 @@ public class State implements Serializable {
         }
     }
 
-    //?
-//    public int selectCharacter() {
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.println("Choose your character:");
-//        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
-//
-////        for (Map<String, Object> character : characters) {
-////            System.out.println(character.get("id") + ". " + character.get("name"));
-////        }
-//
-//        int selectedId = scanner.nextInt();
-//        scanner.nextLine(); // Consume the newline character
-//
-//        return selectedId;
-//    }
 
     //Internal (private) method to equip ItemReference (State -> State)
     public void equipItem(ItemReference itemRef) {
@@ -295,29 +272,6 @@ public class State implements Serializable {
         }
     }
 
-//    public void populateRandomItem(ItemReference itemRef) {
-//        if (itemRef == null) {
-//            // If itemRef or the item within it is null, place a random item in the room
-//            Random random = new Random();
-//            List<Item> allItems = new ArrayList<>(indexedItems.values());
-//            List<Room> rooms = new ArrayList<>(indexedRooms.keySet());
-//
-//            // Select a random item and room
-//            Item randomItem = allItems.get(random.nextInt(allItems.size()));
-//            Room randomRoom = rooms.get(random.nextInt(rooms.size()));
-//
-//            // Create a new ItemReference for the random item and add it to the random room
-//            ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
-//            randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
-//
-//            System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
-//        } else {
-//            // If the item is not null and its ID is less than or equal to 60, proceed as before
-//            if (indexedItems.get(itemRef.getIndex()).getId() <= 60) {
-//                // Rest of the code to place the specific item
-//            }
-//        }
-//    }
 
     //FIXME: MUST TAKE INTO ACCOUNT QUANTITY OF AN ITEM AVAILABLE.
     public void populateRandomItem(ItemReference itemRef) {
@@ -361,14 +315,9 @@ public class State implements Serializable {
             randomRoom = rooms.get(random.nextInt(rooms.size()));
         }
 
-
-
         // Create a new ItemReference for the random item and add it to the random room
         ItemReference randomItemRef = new ItemReference(randomItem.getId(), randomItem.getName(), randomRoom.getRoomID());
         randomRoom.referredItems.put(randomItem.getId(), randomItemRef);
-
-        System.out.println("Placed a random item (" + randomItem.getName() + ") in room: " + randomRoom.getRoomID());
-        System.out.println("Item ID: " + randomItem.getId() + ", Name: " + randomItem.getName() + ", Quantity: " + randomItem.getQuantity());
     }
 
 
@@ -378,9 +327,6 @@ public class State implements Serializable {
         System.out.println("Choose your character:");
         System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
 
-//        for (Map<String, Object> character : characters) {
-//            System.out.println(character.get("id") + ". " + character.get("name"));
-//        }
 
         int selectedId = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
@@ -395,43 +341,7 @@ public class State implements Serializable {
         }
         return null; // Character not found
     }
-    //
-//    public int selectCharacter() {
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.println("Choose your character:");
-//        System.out.println("For IT majors, type '1'. For Business Majors, type '2'. For Nursing Majors, type '3'.");
-//
-//        for (Map<String, Object> character : characters) {
-//            System.out.println(character.get("id") + ". " + character.get("name"));
-//        }
-//
-//        while (true) {
-//            try {
-//                String input = scanner.nextLine();
-//                int selectedId = Integer.parseInt(input); // Convert string input to integer
-//
-//                // Check if the input is a valid character ID
-//                if (selectedId >= 1 && selectedId <= characters.size()) {
-//                    return selectedId;
-//                } else {
-//                    System.out.println("Invalid input. Please enter a valid character ID.");
-//                }
-//            } catch (NumberFormatException e) {
-//                System.out.println("Invalid input. Please enter a number.");
-//            }
-//        }
-//    }
-//
-//    public Map<String, Object> getSelectedCharacter(int characterId) {
-//        for (Map<String, Object> character : characters) {
-//            if ((int) character.get("id") == characterId) {
-//                return character;
-//            }
-//        }
-//        return null; // Character not found
-//    }
-    //TODO: refactor these
+
     //Getters and setters
     public double getHitPoints() {
         return hitPoints;
@@ -467,13 +377,6 @@ public class State implements Serializable {
     public boolean setCurrentRoom(Room currentRoom) {
         this.previousRoom = this.currentRoom;
         this.currentRoom = currentRoom;
-
-//        if (!currentRoom.isFirstVisit()) {
-//            currentRoom.setFirstVisit(true);
-//            return;
-//        } else if (currentRoom.isFirstVisit()) {
-//            currentRoom.setFirstVisit(false);
-//        }
         this.previousRoom.setVisited();
         return true;
     }
@@ -493,24 +396,17 @@ public class State implements Serializable {
 
     //(Controller <- State)
     public void displayInventory() {
-        //  List itemInInventory = getInventory().stream().map(ItemReference::getName).collect(Collectors.toList());
         if (inventory.isEmpty()) {
             System.out.println("Inventory is empty.");
         } else {
             System.out.println("Inventory contains:");
             for (ItemReference itemRef : inventory) {
                 Item item = indexedItems.get(itemRef.getIndex());
-                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Type: " + item.getIsType() +  ", Description: " + item.getDescription()); // + ", Quantity: " + item.getQuantity()); //FIXME: cannot use getQuantity because would return redundant items
+                System.out.println("Item ID: " + item.getId() + ", Name: " + item.getName() + ", Type: " + item.getIsType() +  ", Description: " + item.getDescription());
             }
         }
     }
 
-    public void accessMap() {
-        int[] test = indexedRooms.get(currentRoom);
-
-        System.out.println(test);
-
-    }
 
     public Item getEquipped() {
         return equipped;
@@ -539,7 +435,6 @@ public class State implements Serializable {
         System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
         while (monster.getHitPoints() > 0 && getHitPoints() > 0) {
             Puzzle.PairQA randomPuzzle = puzzle.getRandomPuzzle(Puzzle.topic.valueOf(monster.getType()));
-
             puzzle.startPuzzleForCombat(monster, randomPuzzle);
             System.out.println(randomPuzzle.isSolved());
             if (randomPuzzle.isSolved()) {
@@ -548,7 +443,6 @@ public class State implements Serializable {
             } else {
                 System.out.println("The monster attacked you");
                 setHitPoints(getHitPoints() - Math.abs(monster.getAttack() - getDefense()));
-                //TODO: implement Passive of the monsters
             }
             System.out.println("Your HP: " + getHitPoints() + "/" + getMaxHitPoints());
             System.out.println("Monster's HP:" + monster.getHitPoints() + "/" + monster.getMaxHitPoints());
@@ -558,7 +452,6 @@ public class State implements Serializable {
             System.out.println("You have defeated the monster!");
         } else if (getHitPoints() < 0) {
             System.out.println("You will be return to where you last save ");
-            //TODO: implement the load here after they lose.
         }
 
 
@@ -593,11 +486,4 @@ public class State implements Serializable {
     public HashMap<Integer, Item> getIndexOfItems() {
         return indexedItems;
     }
-    /*
-    FIXME: expected types of methods inside State include:
-        Internal access methods (State -> State) [allows the state to work on itself easier]
-        Referencable getters that are finalized on init and not manipulated
-        MINIMAL External methods for necessary access
-     */
-
 }

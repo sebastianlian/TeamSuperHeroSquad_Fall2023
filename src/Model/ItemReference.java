@@ -6,8 +6,6 @@ public class ItemReference implements Serializable {
     private int index;
     private String name;
     private int position;
-
-    //TODO: remove Item. index (id) already matches the id of the Item and are coupled in state
     private Item item; // Reference to an Item object
 
 
