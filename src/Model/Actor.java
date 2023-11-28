@@ -1,11 +1,13 @@
 package Model;
 
-public class Actor {
+import java.io.Serializable;
+
+public class Actor implements Serializable {
     //Class for holding relevant information of every actor in game including the player
     String name, description, type;
 
     //Stats of actor
-    double maxHitPoints,hitPoints, defense, attack;
+    double maxHitPoints, hitPoints, defense, attack;
 
     //TODO: implement by declaration possible innates (special passives) for the application of each monster
 
@@ -65,6 +67,7 @@ public class Actor {
 
     public void setAttack(double attack) {
         this.attack = attack;
+        this.startingPosition = currentPosition = startingPosition;
     }
 
     public void takeDamage(double damageTaken) {
