@@ -330,7 +330,7 @@ public class CommandManager {
             // Ensure HP does not exceed maximum HP, assuming 100 is max HP
             newHp = Math.min(newHp, state.getMaxHitPoints());
             // Set the new HP
-            state.setHitPoints(newHp);
+
             System.out.println("Healed " + healingAmount + " HP. Current HP: " + newHp);
         }
     }

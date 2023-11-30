@@ -452,6 +452,7 @@ public class State implements Serializable {
             System.out.println("You have defeated the monster!");
         } else if (getHitPoints() < 0) {
             System.out.println("You will be return to where you last save ");
+            
         }
 
 

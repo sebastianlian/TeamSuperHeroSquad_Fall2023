@@ -127,5 +127,5 @@ monsters:
       def: 50
       atk: 50
     passive:
-    location: 20
-    type:
+    location: 2
+    type: Final
